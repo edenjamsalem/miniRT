@@ -56,8 +56,9 @@ typedef struct s_light
 
 typedef struct s_camera
 {
-	t_coord		pos;
-
+	t_coord	pos;
+    t_coord	oriention;
+	int		fov;
 } 				t_camera;
 
 typedef struct s_scene
