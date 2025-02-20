@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/20 15:56:55 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/20 17:51:35 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,5 @@ int main(int argc, char **argv)
 	scene.objs = init_arrlst(4);
 	if (!parse_file(argv[1], &scene))
 		return (1);
-	
-	print_scene(&scene);
+	free_arrlst(scene.objs, free);
 }
