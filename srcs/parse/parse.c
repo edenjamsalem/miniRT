@@ -28,6 +28,35 @@ void	extract_data(t_scene *scene, char **data, int line_nbr)
 		get_cylinder_data(scene, data, line_nbr);
 }
 
+bool	check_line(t_scene *scene, char **data, int line_nbr)
+{
+	static bool ambient_light;
+	static bool camera;
+	static bool light_src;
+
+	if (!data || !(*data))
+		return (0);
+	else if(ft_match(data[0], "A"))
+	{
+		if (ambient_light)
+			perror_exit(DUPLICATE, line_nbr, data, 0, scene);
+		ambient_light = true;
+	}
+	else if(ft_match(data[0], "C"))
+	{
+		if (camera)
+			perror_exit(DUPLICATE, line_nbr, data, 0, scene);
+		camera = true;
+	}
+	else if(ft_match(data[0], "L")) // rem this check for bonus
+	{
+		if (light_src)
+			perror_exit(DUPLICATE, line_nbr, data, 0, scene);
+		light_src = true;
+	}
+	return (1);
+}
+
 bool parse_file(char *file, t_scene *scene)
 {
 	int		fd;
@@ -40,9 +69,10 @@ bool parse_file(char *file, t_scene *scene)
 	line_nbr = 1;
 	while (line)
 	{
-		data = ft_split_set(line, " \t");
+		data = ft_split_set(line, " \t\n");
 		free(line);
-		extract_data(scene, data, line_nbr);
+		if (check_line(scene, data, line_nbr))
+			extract_data(scene, data, line_nbr);
 		free_2darr((void **)data, ft_2darr_len((void **)data));
 		line = get_next_line(fd);
 		line_nbr++;
