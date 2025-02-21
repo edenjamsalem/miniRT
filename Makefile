@@ -6,7 +6,7 @@
 #    By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 14:04:43 by eamsalem          #+#    #+#              #
-#    Updated: 2025/02/20 15:17:48 by eamsalem         ###   ########.fr        #
+#    Updated: 2025/02/21 15:21:24 by eamsalem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCDIR = ./srcs
 PARSEDIR = $(SRCDIR)/parse
 SRCS =	$(SRCDIR)/main.c \
 		$(SRCDIR)/utils.c \
+		$(SRCDIR)/events.c \
 		$(PARSEDIR)/parse.c \
 		$(PARSEDIR)/parse_utils.c \
 		$(PARSEDIR)/parse_scene.c \

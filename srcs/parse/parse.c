@@ -57,7 +57,7 @@ bool	check_line(t_scene *scene, char **data, int line_nbr)
 	return (1);
 }
 
-bool parse_file(char *file, t_scene *scene)
+bool parse(char *file, t_scene *scene)
 {
 	int		fd;
 	char	*line;

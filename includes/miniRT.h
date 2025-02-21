@@ -110,15 +110,21 @@ typedef struct s_cylinder
     t_rgb		colour;
 }				t_cylinder;
 
-typedef struct s_parse
+typedef struct s_img
 {
-    int     line_nbr;
-    char    **data;
-    char    *err_arg;
-    bool    ambient_data_collected;
-    bool    camera_data_collected;
-    bool    light_src_data_collected;
-}               t_parse;
+	void	*ptr;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}				t_img;
+
+typedef struct s_mlx
+{
+	void		*ptr;
+	void		*win;
+	t_img		img;
+}				t_mlx;
 
 //	PARSE
 
@@ -130,7 +136,7 @@ void	get_light_src_data(t_scene *scene, char **data, int line_nbr);
 
 void	extract_data(t_scene *scene, char **data, int line_nbr);
 
-bool    parse_file(char *file, t_scene *scene);
+bool    parse(char *file, t_scene *scene);
 
 void	perror_exit(t_err err, int line_nbr, char **data, int i, t_scene *scene);
 
@@ -147,3 +153,12 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr);
 void	get_plane_data(t_scene *scene, char **data, int line_nbr);
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr);
+
+
+// MLX
+
+int     key_event(int keysym, t_mlx *mlx);
+
+int	    close_window(t_mlx *mlx);
+
+void	free_mem(t_mlx *mlx);
