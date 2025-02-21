@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/21 15:26:06 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:39:51 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,6 @@ void	print_scene(t_scene *scene)
 }
 */
 
-void	init_mlx_data(t_mlx *mlx)
-{
-	mlx->ptr = mlx_init();
-	if (!mlx->ptr)
-		exit(EXIT_FAILURE);
-	mlx->win = mlx_new_window(mlx->ptr, WIN_LEN, WIN_HEIGHT, "FdF");
-	if (!mlx->win)
-	{
-		mlx_destroy_display(mlx->ptr);
-		free(mlx->ptr);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	init_img_data(t_img *img, t_mlx *mlx)
-{
-	img->ptr = mlx_new_image(mlx->ptr, WIN_LEN, WIN_HEIGHT);
-	if (!img->ptr)
-	{
-		mlx_destroy_window(mlx->ptr, mlx->win);
-		mlx_destroy_display(mlx->ptr);
-		free(mlx->ptr);
-		exit(EXIT_FAILURE);
-	}
-	img->addr = mlx_get_data_addr(mlx->img.ptr, &mlx->img.bpp, \
-							&mlx->img.line_len, &mlx->img.endian);
-	if (!img->addr)
-	{
-		mlx_destroy_window(mlx->ptr, mlx->win);
-		mlx_destroy_display(mlx->ptr);
-		free(mlx->img.ptr);
-		free(mlx->ptr);
-		exit(EXIT_FAILURE);
-	}
-}
-
 void	free_mem(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->ptr, mlx->img.ptr);
@@ -78,9 +42,7 @@ int main(int argc, char **argv)
 	if (argc != 2)
 		return (1);
 	mlx.scene.objs = init_arrlst(4);
-	if (!parse(argv[1], &mlx.scene))
-		return (1);
-	
+	parse(argv[1], &mlx.scene);
 	init_mlx_data(&mlx);
 	init_img_data(&mlx.img, &mlx);
 	

@@ -6,7 +6,7 @@
 #include <math.h>
 
 //      WINDOW SIZE
-#define WIN_LEN         1200
+#define WIN_WIDTH        1200
 #define WIN_HEIGHT      800
 
 //      EVENT MACROS
@@ -137,7 +137,7 @@ void	get_light_src_data(t_scene *scene, char **data, int line_nbr);
 
 void	extract_data(t_scene *scene, char **data, int line_nbr);
 
-bool    parse(char *file, t_scene *scene);
+void    parse(char *file, t_scene *scene);
 
 void	perror_exit(t_err err, int line_nbr, char **data, int i, t_scene *scene);
 
@@ -163,3 +163,7 @@ int     key_event(int keysym, t_mlx *mlx);
 int	    close_window(t_mlx *mlx);
 
 void	free_mem(t_mlx *mlx);
+
+void	init_mlx_data(t_mlx *mlx);
+
+void	init_img_data(t_img *img, t_mlx *mlx);
