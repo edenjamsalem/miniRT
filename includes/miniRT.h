@@ -124,6 +124,7 @@ typedef struct s_mlx
 	void		*ptr;
 	void		*win;
 	t_img		img;
+    t_scene     scene;
 }				t_mlx;
 
 //	PARSE

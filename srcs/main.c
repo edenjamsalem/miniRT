@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/21 15:22:21 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:26:06 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ void	free_mem(t_mlx *mlx)
 	mlx_destroy_image(mlx->ptr, mlx->img.ptr);
 	mlx_destroy_window(mlx->ptr, mlx->win);
 	mlx_destroy_display(mlx->ptr);
+	free_arrlst(mlx->scene.objs, free);
 	free(mlx->ptr);
 }
 
 int main(int argc, char **argv)
 {
-	t_scene scene;
 	t_mlx	mlx;
 	
 	if (argc != 2)
 		return (1);
-	scene.objs = init_arrlst(4);
-	if (!parse(argv[1], &scene))
+	mlx.scene.objs = init_arrlst(4);
+	if (!parse(argv[1], &mlx.scene))
 		return (1);
 	
 	init_mlx_data(&mlx);
@@ -88,6 +88,4 @@ int main(int argc, char **argv)
 //	mlx_hook(mlx.win, BTN_PRS_EVT, 1L << 2, mouse_event, &mlx);
 	mlx_hook(mlx.win, DESTROY_EVT, 1L << 17, close_window, &mlx);
 	mlx_loop(mlx.ptr);
-
-	free_arrlst(scene.objs, free);
 }
