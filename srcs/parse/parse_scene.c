@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:40:51 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/21 13:32:39 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:02:17 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	get_camera_data(t_scene *scene, char **data, int line_nbr)
 		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
 
 	assign_vector(&scene->camera.pos, data[1]);
-	assign_vector(&scene->camera.oriention, data[2]);
+	assign_vector(&scene->camera.forward, data[2]);
 	scene->camera.fov = ft_atoi(data[3]);
 	
-	if (!vector_in_range(&scene->camera.oriention, -1.0, 1.0))
+	if (!vector_in_range(&scene->camera.forward, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);
 	if (!in_range(scene->camera.fov, 0, 180))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);

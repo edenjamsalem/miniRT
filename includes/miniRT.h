@@ -31,6 +31,8 @@
 #define SCROLL_UP               4
 #define SCROLL_DOWN             5
 
+#define PI 3.14159265358979323846
+
 typedef enum e_err
 {
     LINE_ARG_COUNT,
@@ -72,7 +74,9 @@ typedef struct s_light
 typedef struct s_camera
 {
 	t_vector3	pos;
-    t_vector3	oriention;
+    t_vector3	forward;
+    t_vector3	up;
+    t_vector3	right;
 	int		    fov;
 } 				t_camera;
 
@@ -155,7 +159,6 @@ void	get_plane_data(t_scene *scene, char **data, int line_nbr);
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr);
 
-
 // MLX
 
 int     key_event(int keysym, t_mlx *mlx);
@@ -167,3 +170,13 @@ void	free_mem(t_mlx *mlx);
 void	init_mlx_data(t_mlx *mlx);
 
 void	init_img_data(t_img *img, t_mlx *mlx);
+
+// VECTOR
+
+t_vector3	*cross(t_vector3 *a, t_vector3 *b);
+
+void	    normalize(t_vector3 *a);
+
+bool    	check_equal(t_vector3 *a, t_vector3 *b);
+
+bool	    set_equal(t_vector3 *a, t_vector3 *b);
