@@ -23,21 +23,21 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_coord_sys *camera)
 	return (world_dir);
 }
 
-void	calc_camera_coord_sys(t_camera *camera)
+void	calc_camera_coord_sys(t_vec3 *orientation, t_coord_sys *camera)
 {
 	t_vec3 world_up;
 	
 	world_up.x = 0;
 	world_up.y = 1;
 	world_up.z = 0;
-	if (check_equal(&world_up, &camera->coord_sys.forward))
+	if (check_equal(&world_up, &camera->forward))
 	{
 		world_up.y = 0;
 		world_up.z = 1;
 	}
-	camera->coord_sys.right = normalize(cross(world_up, camera->coord_sys.forward));
-	camera->coord_sys.up = normalize(cross(camera->coord_sys.right, camera->coord_sys.forward));
-	camera->coord_sys.forward = camera->orientation;
+	camera->right = normalize(cross(world_up, camera->forward));
+	camera->up = normalize(cross(camera->right, camera->forward));
+	camera->forward = *orientation;
 }
 
 t_vec3	get_ray_dir(t_camera *camera, int x, int y)
@@ -47,14 +47,14 @@ t_vec3	get_ray_dir(t_camera *camera, int x, int y)
 	double	aspect_ratio;
 
 	aspect_ratio = WIN_WIDTH / WIN_HEIGHT;
-	ndc_dir.x = ((((x + 0.5) / WIN_WIDTH) * 2) - 1) * aspect_ratio;
-	ndc_dir.y = 1 - (((y + 0.5) / WIN_HEIGHT) * 2);
+	ndc_dir.x = (((x + 0.5) / WIN_WIDTH * 2) - 1) * aspect_ratio;
+	ndc_dir.y = 1 - ((y + 0.5) / WIN_HEIGHT * 2);
 
 	ndc_dir.x *= tan(camera->fov / 2 * PI / 180);
 	ndc_dir.y *= tan(camera->fov / 2 * PI / 180);
 	ndc_dir.z = -1;
 
-	calc_camera_coord_sys(camera);
+	calc_camera_coord_sys(&camera->orientation, &camera->coord_sys);
 	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->coord_sys);
 
 	return (world_dir);
@@ -62,9 +62,9 @@ t_vec3	get_ray_dir(t_camera *camera, int x, int y)
 
 void	raytrace(t_scene *scene)
 {
-	t_ray	ray;
-	int		i;
-	int		j;
+	t_ray		ray;
+	int			i;
+	int			j;
 
 	i = 0;
 	while (i < WIN_WIDTH)
@@ -74,6 +74,7 @@ void	raytrace(t_scene *scene)
 		{
 			ray.origin = scene->camera.pos;
 			ray.direction = get_ray_dir(&scene->camera, i, j);
+			ray.intersection = find_intersection(&ray, &scene->objs->content);
 		}
 	}
 }

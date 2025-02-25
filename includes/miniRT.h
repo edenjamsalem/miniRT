@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
+/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:36:20 by muabdi            #+#    #+#             */
-/*   Updated: 2025/02/25 16:02:04 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/02/25 17:29:54 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct s_scene
 typedef struct s_sphere
 {
     t_shape     shape;
-    t_vec3	center;
+    t_vec3	    center;
     double		diameter;
     t_rgb		colour;
 }				t_sphere;
@@ -117,16 +117,16 @@ typedef struct s_sphere
 typedef struct s_plane
 {
     t_shape     shape;
-    t_vec3	point;
-    t_vec3	normal;
+    t_vec3	    point;
+    t_vec3	    normal;
     t_rgb		colour;
 }				t_plane;
 
 typedef struct s_cylinder
 {
     t_shape     shape;
-    t_vec3	center;
-    t_vec3	normal;
+    t_vec3	    center;
+    t_vec3	    normal;
     double		diameter;
     double		height;
     t_rgb		colour;
@@ -134,9 +134,18 @@ typedef struct s_cylinder
 
 typedef struct s_ray
 {
-    t_vec3  origin;
-    t_vec3  direction;
+    t_vec3      origin;
+    t_vec3      direction;
+    t_intsec    intersection;
 }           t_ray;
+
+typedef struct s_intersection
+{
+    t_vec3  pos;
+    t_rgb   colour;
+    t_shape shape;
+}              t_intsec;
+
 
 typedef struct s_img
 {
