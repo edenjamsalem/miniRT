@@ -3,63 +3,72 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+         #
+#    By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 14:04:43 by eamsalem          #+#    #+#              #
-#    Updated: 2025/02/21 15:40:50 by eamsalem         ###   ########.fr        #
+#    Updated: 2025/02/25 15:29:26 by muabdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =	miniRT
 
-CFLAGS = -Wall -Werror -Wextra -g3
+INCLUDES = ./includes
+SRC_DIR = ./srcs
+OBJ_DIR = ./bin
+LIBS = ./libs
 
-SRCDIR = ./srcs
-PARSEDIR = $(SRCDIR)/parse
-SRCS =	$(SRCDIR)/main.c \
-		$(SRCDIR)/utils.c \
-		$(SRCDIR)/events.c \
-		$(SRCDIR)/init.c \
-		$(PARSEDIR)/parse.c \
-		$(PARSEDIR)/parse_utils.c \
-		$(PARSEDIR)/parse_scene.c \
-		$(PARSEDIR)/parse_objects.c
+LIBFT = $(LIBS)/libft
+MLX = $(LIBS)/minilibx-linux
 
-OBJDIR = ./build
-OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+CC = cc
+CFLAGS = -Wall -Werror -Wextra -g3 #! Remember to remove -g3 flag
 
-MLXDIR = ./includes/mlx_linux
-MLXLIB = $(MLXDIR)/libmlx_Linux.a
+INCLUDEFLAGS = -I$(INCLUDES) -I$(MLX) -I$(LIBFT)/includes
+LINKFLAGS = -lmlx -lXext -lX11 -lm -lft
 
-LIBFTDIR = ../libft
-LIBFT = $(LIBFTDIR)/libft.a
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+NC = \033[0m
 
-all: $(OBJDIR) $(NAME) $(MLXLIB) $(LIBFT)
+SRCS = $(shell find $(SRC_DIR) -name '*.c') #! Remember to explicity define src
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	mkdir -p $(@D)
-	cc $(CFLAGS) -I/usr/include -I$(MLXDIR) -I$(SRCDIR) -c $< -o $@
+all: $(NAME) $(OBJ_DIR)
 
-$(NAME): $(MLXLIB) $(LIBFT) $(OBJDIR) $(OBJS)
-	cc $(CFLAGS) $(OBJS) $(MLXLIB) $(LIBFT) -lXext -lX11 -lm -lz -o $@
+$(OBJ_DIR):
+	@echo "${YELLOW}Creating object directory $(OBJ_DIR)...${NC}"
+	@mkdir -p $(OBJ_DIR)
+	@echo "${GREEN}Object directory $(OBJ_DIR) created.${NC}"
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) $(INCLUDEFLAGS) -c $< -o $@
 
-$(MLXLIB):
-	make -C $(MLXDIR) all
-
-$(LIBFT):
-	make -C $(LIBFTDIR) all
+${NAME}: $(OBJS)
+	@make -C $(MLX)
+	@make -C $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -L$(MLX) $(LINKFLAGS) -o $(NAME)
+	@echo "${GREEN}$(NAME) created.${NC}"
 
 clean:
-	make -C $(LIBFTDIR) clean
-	rm -fr $(OBJDIR)
+	@make clean -C $(MLX)
+	@make clean -C $(LIBFT)
+	@rm -rf $(OBJ_DIR)
 
-fclean: clean
-	make -C $(LIBFTDIR) fclean
-	rm -fr $(NAME)
+fclean:
+	@make clean -C $(MLX)
+	@make fclean -C $(LIBFT)
+	@rm -rf $(OBJ_DIR)
+	@rm -f $(NAME)
+	@echo "${GREEN}$(NAME) cleaned.${NC}"
 
 re: fclean all
+	@echo "${GREEN}Target 're' completed.${NC}"
 
-.PHONY: all clean fclean re
+libs:
+	@echo "${YELLOW}Updating submodules...${NC}"
+	@git submodule update --init --recursive --remote
+	@echo "${GREEN}Submodules updated.${NC}"
+
+.PHONY: all clean fclean re libs
