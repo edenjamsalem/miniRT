@@ -6,7 +6,7 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:36:20 by muabdi            #+#    #+#             */
-/*   Updated: 2025/02/25 16:02:04 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/02/25 17:24:47 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,10 +197,12 @@ void	init_img_data(t_img *img, t_mlx *mlx);
 
 // VECTOR
 
+double	dot(t_vec3 a, t_vec3 b);
+
+double	magnatude(t_vec3 a);
+
 t_vec3	cross(t_vec3 a, t_vec3 b);
 
 t_vec3	normalize(t_vec3 a);
 
 bool    	check_equal(t_vec3 *a, t_vec3 *b);
-
-bool	    set_equal(t_vec3 *a, t_vec3 *b);
