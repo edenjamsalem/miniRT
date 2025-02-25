@@ -44,7 +44,7 @@ bool	within_screen(int x, int y)
 	return (x > 0 && x < WIN_WIDTH && y > 0 && y < WIN_HEIGHT);
 }
 
-void	put_pixel(t_img *img, t_vector3 *pos, t_rgb *colour)
+void	put_pixel(t_img *img, t_vec3 *pos, t_rgb *colour)
 {
 	char	*dst;
 

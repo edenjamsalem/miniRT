@@ -47,7 +47,7 @@ bool	in_range(double value, double lower, double higher)
 	return (value >= lower || value <= higher);
 }
 
-bool	vector_in_range(t_vector3 *vector, double lower, double upper)
+bool	vector_in_range(t_vec3 *vector, double lower, double upper)
 {
 	if (!in_range(vector->x, lower, upper))
 		return(0);
@@ -58,7 +58,7 @@ bool	vector_in_range(t_vector3 *vector, double lower, double upper)
 	return (1);
 }
 
-void	assign_vector(t_vector3 *vector, char *data)
+void	assign_vector(t_vec3 *vector, char *data)
 {
 	char	**coords;
 

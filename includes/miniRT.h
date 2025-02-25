@@ -44,6 +44,8 @@
 #define SCROLL_UP               4
 #define SCROLL_DOWN             5
 
+#define PI 3.14159265358979323846
+
 typedef enum e_err
 {
     LINE_ARG_COUNT,
@@ -67,26 +69,33 @@ typedef struct s_rgb
     unsigned char   b;
 }				t_rgb;
 
-typedef struct s_vector3
+typedef struct s_vec3
 {
     double          x;
     double          y;
     double          z;
-//    t_rgb        colour;
-}				t_vector3;
+}				t_vec3;
+
+typedef struct s_coord_sys
+{
+    t_vec3  right;
+    t_vec3  up;
+    t_vec3  forward;
+}           t_coord_sys;
 
 typedef struct s_light
 {
-	t_vector3	pos;
+	t_vec3	    pos;
 	float		brightness;
 	t_rgb	    colour;
 } 				t_light;
 
 typedef struct s_camera
 {
-	t_vector3	pos;
-    t_vector3	oriention;
-	int		    fov;
+	t_vec3	    pos;
+	t_vec3	    orientation;
+	t_coord_sys coord_sys;
+    int		    fov;
 } 				t_camera;
 
 typedef struct s_scene
@@ -100,7 +109,7 @@ typedef struct s_scene
 typedef struct s_sphere
 {
     t_shape     shape;
-    t_vector3	center;
+    t_vec3	center;
     double		diameter;
     t_rgb		colour;
 }				t_sphere;
@@ -108,20 +117,26 @@ typedef struct s_sphere
 typedef struct s_plane
 {
     t_shape     shape;
-    t_vector3	point;
-    t_vector3	normal;
+    t_vec3	point;
+    t_vec3	normal;
     t_rgb		colour;
 }				t_plane;
 
 typedef struct s_cylinder
 {
     t_shape     shape;
-    t_vector3	center;
-    t_vector3	normal;
+    t_vec3	center;
+    t_vec3	normal;
     double		diameter;
     double		height;
     t_rgb		colour;
 }				t_cylinder;
+
+typedef struct s_ray
+{
+    t_vec3  origin;
+    t_vec3  direction;
+}           t_ray;
 
 typedef struct s_img
 {
@@ -154,20 +169,19 @@ void    parse(char *file, t_scene *scene);
 
 void	perror_exit(t_err err, int line_nbr, char **data, int i, t_scene *scene);
 
-void	assign_vector(t_vector3 *vector, char *data);
+void	assign_vector(t_vec3 *vector, char *data);
 
 bool	in_range(double value, double lower, double higher);
 
 bool	assign_rgb(t_rgb *rgb, char *data);
 
-bool	vector_in_range(t_vector3 *vector, double lower, double upper);
+bool	vector_in_range(t_vec3 *vector, double lower, double upper);
 
 void	get_sphere_data(t_scene *scene, char **data, int line_nbr);
 
 void	get_plane_data(t_scene *scene, char **data, int line_nbr);
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr);
-
 
 // MLX
 
@@ -180,3 +194,13 @@ void	free_mem(t_mlx *mlx);
 void	init_mlx_data(t_mlx *mlx);
 
 void	init_img_data(t_img *img, t_mlx *mlx);
+
+// VECTOR
+
+t_vec3	cross(t_vec3 a, t_vec3 b);
+
+t_vec3	normalize(t_vec3 a);
+
+bool    	check_equal(t_vec3 *a, t_vec3 *b);
+
+bool	    set_equal(t_vec3 *a, t_vec3 *b);

@@ -6,7 +6,11 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:26:57 by eamsalem          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/02/25 15:39:02 by muabdi           ###   ########.fr       */
+=======
+/*   Updated: 2025/02/24 13:34:48 by eamsalem         ###   ########.fr       */
+>>>>>>> 425b374e70e650be43f9faf10d693366e9fedb32
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +18,8 @@
 
 int	key_event(int keysym, t_mlx *mlx)
 {
-//	clear_img(mlx);
 	if (keysym == ESC_KEY)
 		close_window(mlx);
-	// else if (keysym == A_KEY)
-	// 	rotate('z', -2, &mlx->grid);
-	// else if (keysym == D_KEY)
-	// 	rotate('z', 2, &mlx->grid);
-	// else if (keysym == W_KEY)
-	// 	rotate('x', 2, &mlx->grid);
-	// else if (keysym == S_KEY)
-	// 	rotate('x', -2, &mlx->grid);
-	// else if (keysym == Q_KEY)
-	// 	rotate('y', -2, &mlx->grid);
-	// else if (keysym == E_KEY)
-	// 	rotate('y', 2, &mlx->grid);
-	// else if (keysym == RIGHT_KEY)
-	// 	shift_x(4, &mlx->grid);
-	// else if (keysym == LEFT_KEY)
-	// 	shift_x(-4, &mlx->grid);
-	// else if (keysym == UP_KEY)
-	// 	shift_y(-4, &mlx->grid);
-	// else if (keysym == DOWN_KEY)
-	// 	shift_y(4, &mlx->grid);
 	return (0);
 }
 
