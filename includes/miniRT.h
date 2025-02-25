@@ -6,12 +6,12 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:36:20 by muabdi            #+#    #+#             */
-/*   Updated: 2025/02/25 15:38:07 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/02/25 16:02:04 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libs/minilibx-linux/mlx.h"
-#include "../libs/Libft/includes/libft.h"
+#include "../libs/Libft/libft.h"
 
 #include <unistd.h>
 #include <stdio.h>

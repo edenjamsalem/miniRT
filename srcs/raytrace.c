@@ -67,8 +67,6 @@ void	raytrace(t_scene *scene)
 	int		i;
 	int		j;
 
-	calculate_image_plane(scene);
-	aspect_ratio = WIN_WIDTH / WIN_HEIGHT;
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
