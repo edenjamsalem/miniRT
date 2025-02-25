@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:36:20 by muabdi            #+#    #+#             */
-/*   Updated: 2025/02/25 17:32:32 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:50:59 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef enum e_shape
     SPHERE,
     PLANE,
     CYLINDER,
+    NONE,
 }				t_shape;
 
 typedef struct s_rgb
@@ -205,6 +206,10 @@ void	init_mlx_data(t_mlx *mlx);
 void	init_img_data(t_img *img, t_mlx *mlx);
 
 // VECTOR
+
+t_vec3    add(t_vec3 a, t_vec3 b);
+
+t_vec3    sub(t_vec3 a, t_vec3 b);
 
 double	dot(t_vec3 a, t_vec3 b);
 
