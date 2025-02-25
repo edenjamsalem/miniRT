@@ -6,7 +6,7 @@
 #    By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 14:04:43 by eamsalem          #+#    #+#              #
-#    Updated: 2025/02/25 15:29:26 by muabdi           ###   ########.fr        #
+#    Updated: 2025/02/25 15:45:21 by muabdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC_DIR = ./srcs
 OBJ_DIR = ./bin
 LIBS = ./libs
 
-LIBFT = $(LIBS)/libft
+LIBFT = $(LIBS)/Libft
 MLX = $(LIBS)/minilibx-linux
 
 CC = cc
