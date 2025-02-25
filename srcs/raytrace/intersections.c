@@ -6,11 +6,20 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/25 17:31:20 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:38:39 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
+
+
+t_intsec	check_sphere_intersection(t_ray *ray, t_sphere *sphere)
+{
+	t_intsec	intersection;
+
+	
+	
+}
 
 t_intsec	find_intersection(t_ray *ray, void **objs)
 {

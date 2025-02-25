@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:36:20 by muabdi            #+#    #+#             */
-/*   Updated: 2025/02/25 17:32:32 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:45:46 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ typedef struct s_ray
 typedef struct s_intersection
 {
     t_vec3  pos;
+    t_vec3  normal;
     t_rgb   colour;
     t_shape shape;
 }              t_intsec;
@@ -215,3 +216,7 @@ t_vec3	cross(t_vec3 a, t_vec3 b);
 t_vec3	normalize(t_vec3 a);
 
 bool    	check_equal(t_vec3 *a, t_vec3 *b);
+
+// RAY TRACE
+
+t_intsec	find_intersection(t_ray *ray, void **objs);
