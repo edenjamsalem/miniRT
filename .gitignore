@@ -8,6 +8,7 @@
 *.out
 *.exe
 *.a
+miniRT
 
 # Temp files
 *.swp
