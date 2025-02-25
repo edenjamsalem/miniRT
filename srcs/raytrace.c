@@ -12,7 +12,6 @@
 
 #include "../includes/miniRT.h"
 
-
 t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_coord_sys *camera)
 {
 	t_vec3	world_dir;
@@ -23,6 +22,7 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_coord_sys *camera)
 	normalize(world_dir);
 	return (world_dir);
 }
+
 void	calc_camera_coord_sys(t_camera *camera)
 {
 	t_vec3 world_up;
