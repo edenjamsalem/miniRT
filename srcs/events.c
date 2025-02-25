@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 10:26:57 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/21 15:23:38 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:39:02 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+#include "../includes/miniRT.h"
 
 int	key_event(int keysym, t_mlx *mlx)
 {

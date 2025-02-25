@@ -1,0 +1,20 @@
+# System files
+.DS_Store
+
+# Object files
+*.o
+
+# Executables files
+*.out
+*.exe
+
+# Libaries files
+*.a
+
+# Temp files
+*.swp
+
+# Environment files
+.vscode
+test
+bin
