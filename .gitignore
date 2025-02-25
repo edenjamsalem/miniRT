@@ -1,0 +1,22 @@
+# System files
+.DS_Store
+
+# Object files
+*.o
+
+# Compiled files
+*.out
+*.exe
+*.a
+
+# Temp files
+*.swp
+bin
+bin_bonus
+.vscode
+test
+logs
+*.log
+
+# Environment files
+.env
