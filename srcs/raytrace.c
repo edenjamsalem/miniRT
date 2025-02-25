@@ -62,7 +62,6 @@ t_vec3	get_ray_dir(t_camera *camera, int x, int y)
 
 void	raytrace(t_scene *scene)
 {
-	double	aspect_ratio;
 	t_ray	ray;
 	int		i;
 	int		j;
