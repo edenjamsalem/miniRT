@@ -65,12 +65,12 @@ typedef struct s_vec3
     double          z;
 }				t_vec3;
 
-typedef struct s_coord_sys
+typedef struct s_basis
 {
     t_vec3  right;
     t_vec3  up;
     t_vec3  forward;
-}           t_coord_sys;
+}           t_basis;
 
 typedef struct s_light
 {
@@ -83,7 +83,7 @@ typedef struct s_camera
 {
 	t_vec3	    pos;
 	t_vec3	    orientation;
-	t_coord_sys coord_sys;
+	t_basis     basis;
     int		    fov;
 } 				t_camera;
 
@@ -93,6 +93,7 @@ typedef struct s_scene
 	t_light		light_src;
 	t_camera	camera;
     t_arrlst    *objs;
+	t_basis     world;
 }				t_scene;
 
 typedef struct s_sphere
@@ -121,13 +122,6 @@ typedef struct s_cylinder
     t_rgb		colour;
 }				t_cylinder;
 
-typedef struct s_ray
-{
-    t_vec3      origin;
-    t_vec3      direction;
-    t_intsec    intersection;
-}           t_ray;
-
 typedef struct s_intersection
 {
     t_vec3  pos;
@@ -136,6 +130,12 @@ typedef struct s_intersection
     t_shape shape;
 }              t_intsec;
 
+typedef struct s_ray
+{
+    t_vec3      origin;
+    t_vec3      direction;
+    t_intsec    intersection;
+}           t_ray;
 
 typedef struct s_img
 {
@@ -181,6 +181,10 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr);
 void	get_plane_data(t_scene *scene, char **data, int line_nbr);
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr);
+
+void	init_scene_basis(t_scene *scene);
+
+void	init_camera_basis(t_camera *camera, t_basis *world);
 
 // MLX
 

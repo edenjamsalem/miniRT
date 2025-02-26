@@ -12,7 +12,7 @@
 
 #include "../includes/miniRT.h"
 
-t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_coord_sys *camera)
+t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *camera)
 {
 	t_vec3	world_dir;
 
@@ -21,23 +21,6 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_coord_sys *camera)
 	world_dir.z = ndc->x * camera->right.z + ndc->y * camera->up.z + ndc->z * camera->forward.z;
 	normalize(world_dir);
 	return (world_dir);
-}
-
-void	calc_camera_coord_sys(t_vec3 *orientation, t_coord_sys *camera)
-{
-	t_vec3 world_up;
-	
-	world_up.x = 0;
-	world_up.y = 1;
-	world_up.z = 0;
-	if (check_equal(&world_up, &camera->forward))
-	{
-		world_up.y = 0;
-		world_up.z = 1;
-	}
-	camera->right = normalize(cross(world_up, camera->forward));
-	camera->up = normalize(cross(camera->right, camera->forward));
-	camera->forward = *orientation;
 }
 
 t_vec3	get_ray_dir(t_camera *camera, int x, int y)
@@ -54,8 +37,7 @@ t_vec3	get_ray_dir(t_camera *camera, int x, int y)
 	ndc_dir.y *= tan(camera->fov / 2 * PI / 180);
 	ndc_dir.z = -1;
 
-	calc_camera_coord_sys(&camera->orientation, &camera->coord_sys);
-	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->coord_sys);
+	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
 
 	return (world_dir);
 }
@@ -74,7 +56,7 @@ void	raytrace(t_scene *scene)
 		{
 			ray.origin = scene->camera.pos;
 			ray.direction = get_ray_dir(&scene->camera, i, j);
-			ray.intersection = find_intersection(&ray, &scene->objs->content);
+//			ray.intersection = find_intersection(&ray, scene->objs->content);
 		}
 	}
 }
