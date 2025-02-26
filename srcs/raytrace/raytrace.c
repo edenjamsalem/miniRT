@@ -19,8 +19,7 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *camera)
 	world_dir.x = ndc->x * camera->right.x + ndc->y * camera->up.x + ndc->z * camera->forward.x;
 	world_dir.y = ndc->x * camera->right.y + ndc->y * camera->up.y + ndc->z * camera->forward.y;
 	world_dir.z = ndc->x * camera->right.z + ndc->y * camera->up.z + ndc->z * camera->forward.z;
-	normalize(world_dir);
-	return (world_dir);
+	return(normalize(world_dir));
 }
 
 t_vec3	get_ray_dir(t_camera *camera, int x, int y)

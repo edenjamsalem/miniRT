@@ -1,0 +1,23 @@
+
+Parsing	==> E
+
+Set up 16/32 threads for different screen sections
+
+Ray Casting:
+	- primary rays ==> E
+	- shadow rays
+
+intersections:
+	- sphere
+	- plane ==> M
+	- cylinder
+	- find closest intersection
+
+Phong Shading Model:
+	- 
+
+Texture Mapping:
+	-
+
+ 
+
