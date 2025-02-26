@@ -6,7 +6,7 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/25 17:51:57 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:21:26 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane)
 	return (intsec);
 }
 
+/*
+t_intsec	check_sphere_intersection(t_ray *ray, t_sphere *sphere)
+{
+	t_intsec	intersection;
+
+	
+	
+}
+
 t_intsec	find_intersection(t_ray *ray, void **objs)
 {
 	int			i;
@@ -59,3 +68,4 @@ t_intsec	find_intersection(t_ray *ray, void **objs)
 	return (nearest);
 }
 
+*/
