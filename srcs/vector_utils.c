@@ -6,7 +6,7 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:36:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/26 17:27:56 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/02/26 19:24:22 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,9 @@ t_vec3	normalize(t_vec3 a)
 bool	check_equal(t_vec3 *a, t_vec3 *b)
 {
 	return (a->x == b->x && a->y == b->y && a->z == b->z);
+}
+
+void	print_vector(t_vec3 a)
+{
+	printf("x: %f, y: %f, z: %f\n", a.x, a.y, a.z);
 }
