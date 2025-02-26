@@ -198,6 +198,8 @@ void	init_mlx_data(t_mlx *mlx);
 
 void	init_img_data(t_img *img, t_mlx *mlx);
 
+void	put_pixel(t_img *img, t_vec3 *pos, t_rgb *colour);
+
 // VECTOR
 
 t_vec3    add(t_vec3 a, t_vec3 b);
@@ -218,4 +220,7 @@ bool    	check_equal(t_vec3 *a, t_vec3 *b);
 
 t_intsec	find_intersection(t_ray *ray, void **objs);
 
-t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane);
+// t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane);
+bool	check_plane_intersection(t_ray *ray, t_plane *plane);
+
+void	raytrace(t_scene *scene, t_mlx *mlx);

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/26 14:09:48 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:50:36 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	init_img_data(&mlx.img, &mlx);
 	init_scene_basis(&mlx.scene);
 	init_camera_basis(&mlx.scene.camera, &mlx.scene.world);
-//	ray_tracer();
+	raytrace(&mlx.scene, &mlx);
 //	phong();
 //	generate_img();
 	mlx_hook(mlx.win, KEY_PRS_EVT, 1L << 0, key_event, &mlx);

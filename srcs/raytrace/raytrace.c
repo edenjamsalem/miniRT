@@ -41,7 +41,7 @@ t_vec3	get_ray_dir(t_camera *camera, int x, int y)
 	return (world_dir);
 }
 
-void	raytrace(t_scene *scene)
+void	raytrace(t_scene *scene, t_mlx *mlx)
 {
 	t_ray		ray;
 	int			i;
@@ -55,7 +55,13 @@ void	raytrace(t_scene *scene)
 		{
 			ray.origin = scene->camera.pos;
 			ray.direction = get_ray_dir(&scene->camera, i, j);
-//			ray.intersection = find_intersection(&ray, scene->objs->content);
+			if (check_plane_intersection(&ray, (t_plane *)scene->objs->content[0]))
+				put_pixel(&mlx->img, &(t_vec3){i, j, 0}, &(t_rgb){255, 255, 255});
+			j++;
 		}
-	}
+		i++;
+	}	
+	// put_pixel(&mlx->img, &(t_vec3){5, 5, 0}, &(t_rgb){255, 255, 255});
+	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
+	printf("FINISHED RAYTRACE\n");
 }
