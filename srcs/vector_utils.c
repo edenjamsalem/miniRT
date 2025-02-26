@@ -6,7 +6,7 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:36:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/25 17:49:07 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/02/26 17:27:56 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ t_vec3	sub(t_vec3 a, t_vec3 b)
 	c.x = a.x - b.x;
 	c.y = a.y - b.y;
 	c.z = a.z - b.z;
+	return (c);
+}
+
+t_vec3	mult(t_vec3 a, double t)
+{
+	t_vec3	c;
+
+	c.x = a.x * t;
+	c.y = a.y * t;
+	c.z = a.z * t;
 	return (c);
 }
 

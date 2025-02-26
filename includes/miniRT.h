@@ -206,6 +206,8 @@ t_vec3    add(t_vec3 a, t_vec3 b);
 
 t_vec3    sub(t_vec3 a, t_vec3 b);
 
+t_vec3    mult(t_vec3 a, double t);
+
 double	dot(t_vec3 a, t_vec3 b);
 
 double	magnatude(t_vec3 a);
