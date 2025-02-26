@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
+#include <time.h>
 
 t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *camera)
 {
@@ -20,6 +21,10 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *camera)
 	// print_vector(camera->up);
 	// print_vector(camera->right);
 	// print_vector(camera->forward);
+
+	// printf("\n");
+
+	// sleep(1);
 
 
 	world_dir.x = ndc->x * camera->right.x + ndc->y * camera->up.x + ndc->z * camera->forward.x;
@@ -42,7 +47,7 @@ t_vec3	get_ray_dir(t_camera *camera, int x, int y)
 	ndc_dir.y *= tan(camera->fov / 2 * PI / 180);
 	ndc_dir.z = -1;
 
-	print_vector(ndc_dir);
+	// print_vector(ndc_dir);
 
 	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
 
@@ -65,9 +70,7 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		{
 			ray.direction = get_ray_dir(&scene->camera, i, j);
 			intsec = check_plane_intersection(&ray, (t_plane *)scene->objs->content[0]);
-			if (intsec.colour.r != 0 && intsec.colour.b != 0 && intsec.colour.g != 0)
-				printf("rgb: %i, %i, %i\n", intsec.colour.r, intsec.colour.g, intsec.colour.b);
-			put_pixel(&mlx->img, &intsec.pos, &intsec.colour);
+			put_pixel(&mlx->img, &(t_vec3){i, j, 0}, &intsec.colour);
 			j++;
 		}
 		i++;

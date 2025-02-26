@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/26 15:56:31 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:40:50 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	init_img_data(t_img *img, t_mlx *mlx)
 void	init_scene_basis(t_scene *scene)
 {
 	scene->world.right = (t_vec3){1, 0, 0};
-	scene->world.right = (t_vec3){0, 1, 0};
-	scene->world.right = (t_vec3){0, 0, 1};
+	scene->world.up = (t_vec3){0, 1, 0};
+	scene->world.forward = (t_vec3){0, 0, 1};
 }
 
 void	init_camera_basis(t_camera *camera, t_basis *world)

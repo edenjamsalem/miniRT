@@ -48,6 +48,9 @@ void	put_pixel(t_img *img, t_vec3 *pos, t_rgb *colour)
 {
 	char	*dst;
 
+	if (!within_screen(pos->x, pos->y))
+		return ;
+
 	dst = find_offset(pos->x, pos->y, img);
 	*((unsigned int *)dst) = rgb_to_int(colour);
 }
