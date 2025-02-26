@@ -3,29 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/26 18:10:54 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:27:28 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
-/*
+
 t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane)
 {
-	t_intsec intsec;
-	double	t;
+	t_intsec	intsec;
+	double		t;
 
-	t = dot(plane->normal, sub(plane->point, ray->origin)) / dot(plane->normal,
-			ray->direction);
+	t = dot(plane->normal, ray->direction);
+	// printf("dot product: %f\n", t);
+	if (t == 0)
+	{
+		intsec.pos = (t_vec3){0, 0, 0};
+		intsec.colour = (t_rgb){0, 0, 0};
+		intsec.shape = NONE;
+		return (intsec);
+	}
+	t = dot(plane->normal, sub(plane->point, ray->origin)) / t;
 	if (t > 0)
 	{
 		intsec.pos = add(ray->origin,
-			(t_vec3){
-				ray->direction.x * t, ray->direction.y * t, ray->direction.z * t
-			}
-		);
+							(t_vec3){
+								ray->direction.x * t, ray->direction.y * t,
+									ray->direction.z * t});
 		intsec.colour = plane->colour;
 		intsec.shape = PLANE;
 	}
@@ -37,7 +44,7 @@ t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane)
 	}
 	return (intsec);
 }
-*/
+
 /*
 t_intsec	check_sphere_intersection(t_ray *ray, t_sphere *sphere)
 {
@@ -47,16 +54,6 @@ t_intsec	check_sphere_intersection(t_ray *ray, t_sphere *sphere)
 	
 }
 */
-bool	check_plane_intersection(t_ray *ray, t_plane *plane)
-{
-	double	t;
-
-	t = dot(plane->normal, sub(plane->point, ray->origin)) / dot(plane->normal,
-			ray->direction);
-	if (t > 0)
-		return (true);
-	return (false);
-}
 /*
 t_intsec	find_intersection(t_ray *ray, void **objs)
 {
