@@ -63,6 +63,7 @@ void	calc_world_step(t_scene *scene, t_camera *camera)
 void	raytrace(t_scene *scene, t_mlx *mlx)
 {
 	t_ray		initial_ray;
+//	t_ray		shadow_ray;
 	t_ray		ray;
 	t_intsec	intsec;
 	int			i;
@@ -76,7 +77,7 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 	
 	calc_world_step(scene, &scene->camera);
 	ray = initial_ray;
-	
+
 	i = 0;
 	while (i < WIN_HEIGHT - 1)
 	{

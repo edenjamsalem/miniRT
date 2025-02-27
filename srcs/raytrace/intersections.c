@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 10:35:39 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:00:18 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,18 @@ t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane)
 	t_intsec	intsec;
 	double		t;
 
+	intsec.pos = (t_vec3){0, 0, 0};
+	intsec.colour = (t_rgb){0, 0, 0};
+	intsec.shape = NONE;
 	t = dot(plane->normal, ray->direction);
-	// printf("dot product: %f\n", t);
 	if (t == 0)
-	{
-		intsec.pos = (t_vec3){0, 0, 0};
-		intsec.colour = (t_rgb){0, 0, 0};
-		intsec.shape = NONE;
 		return (intsec);
-	}
 	t = dot(plane->normal, sub(plane->point, ray->origin)) / t;
 	if (t > 0)
 	{
 		intsec.pos = add(ray->origin, mult(ray->direction, t));
 		intsec.colour = plane->colour;
 		intsec.shape = PLANE;
-	}
-	else
-	{
-		intsec.pos = (t_vec3){0, 0, 0};
-		intsec.colour = (t_rgb){0, 0, 0};
-		intsec.shape = NONE;
 	}
 	return (intsec);
 }
