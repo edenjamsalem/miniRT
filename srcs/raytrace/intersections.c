@@ -6,13 +6,13 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 12:00:18 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:28:32 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane)
+t_intsec	get_pl_intersection_data(t_ray *ray, t_plane *plane)
 {
 	t_intsec	intsec;
 	double		t;
@@ -33,6 +33,19 @@ t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane)
 	return (intsec);
 }
 
+bool	pl_intersects(t_ray *ray, t_plane *plane)
+{
+	double		t;
+
+	t = dot(plane->normal, ray->direction);
+	if (t == 0)
+		return (false);
+	t = dot(plane->normal, sub(plane->point, ray->origin)) / t;
+	if (t > 0)
+		return (true);
+	return (false);
+}
+
 /*
 t_intsec	check_sphere_intersection(t_ray *ray, t_sphere *sphere)
 {
@@ -42,6 +55,25 @@ t_intsec	check_sphere_intersection(t_ray *ray, t_sphere *sphere)
 	
 }
 */
+
+bool	shadow_ray_intersects(t_ray *ray, void **objs)
+{
+	int			i;
+
+	i = 0;
+	while (objs[i])
+	{
+		// if (((t_sphere *)objs[i])->shape == SPHERE && sp_intersects(ray, objs[i]))
+		//	return (true);
+		if (((t_plane *)objs[i])->shape == PLANE && pl_intersects(ray, objs[i]))
+			return (true);
+		// else if (((t_cylinder *)objs[i])->shape == CYLINDER && cy_intersects(ray, objs[i]))
+		//	return (true);
+		// if (is_closer(current, nearest))
+		i++;
+	}
+	return (false);
+}
 
 t_intsec	find_intersection(t_ray *ray, void **objs)
 {
@@ -56,7 +88,7 @@ t_intsec	find_intersection(t_ray *ray, void **objs)
 		// if (((t_sphere *)objs[i])->shape == SPHERE)
 		// 	current = check_sphere_intersection(ray, objs[i]);
 		if (((t_plane *)objs[i])->shape == PLANE)
-			current = check_plane_intersection(ray, objs[i]);
+			current = get_pl_intersection_data(ray, objs[i]);
 		// else if (((t_cylinder *)objs[i])->shape == CYLINDER)
 		// 	current = check_cylinder_intersection(ray, objs[i]);
 		// if (is_closer(current, nearest))
