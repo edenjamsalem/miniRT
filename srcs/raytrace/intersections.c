@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
+/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/26 19:27:28 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/02/27 10:35:39 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ t_intsec	check_plane_intersection(t_ray *ray, t_plane *plane)
 	t = dot(plane->normal, sub(plane->point, ray->origin)) / t;
 	if (t > 0)
 	{
-		intsec.pos = add(ray->origin,
-							(t_vec3){
-								ray->direction.x * t, ray->direction.y * t,
-									ray->direction.z * t});
+		intsec.pos = add(ray->origin, mult(ray->direction, t));
 		intsec.colour = plane->colour;
 		intsec.shape = PLANE;
 	}
@@ -54,7 +51,7 @@ t_intsec	check_sphere_intersection(t_ray *ray, t_sphere *sphere)
 	
 }
 */
-/*
+
 t_intsec	find_intersection(t_ray *ray, void **objs)
 {
 	int			i;
@@ -77,4 +74,3 @@ t_intsec	find_intersection(t_ray *ray, void **objs)
 	}
 	return (nearest);
 }
-*/

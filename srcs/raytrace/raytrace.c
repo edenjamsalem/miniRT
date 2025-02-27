@@ -69,7 +69,7 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		while (j < WIN_HEIGHT)
 		{
 			ray.direction = get_ray_dir(&scene->camera, i, j);
-			intsec = check_plane_intersection(&ray, (t_plane *)scene->objs->content[0]);
+			intsec = find_intersection(&ray, scene->objs->content);
 			put_pixel(&mlx->img, &(t_vec3){i, j, 0}, &intsec.colour);
 			j++;
 		}
