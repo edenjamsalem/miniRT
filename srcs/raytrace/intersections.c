@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 15:25:48 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:42:34 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_intsec	get_pl_intsec_data(t_ray *ray, t_plane *plane)
 		intersection.pos = add(ray->origin, mult(ray->direction, t));
 		intersection.colour = plane->colour;
 		intersection.shape = PLANE;
+		intersection.normal = plane->normal;
+		intersection.intersected = true;
 	}
 
 	return (intersection);
@@ -78,8 +80,8 @@ t_intsec	get_sp_intsec_data(t_ray *ray, t_sphere *sphere)
 	B = 2.0 * dot(ray->direction, O_sub_C);
 	C = dot(O_sub_C, O_sub_C) - (sphere->radius * sphere->radius);
 
-	t[0] = (-B + sqrt((B * B) - (4 * A * C))) / (2.0 * A);
-	t[1] = (-B - sqrt((B * B) - (4 * A * C))) / (2.0 * A);
+	t[0] = (-B + sqrt((B * B) - (4 * A * C))) / (2 * A);
+	t[1] = (-B - sqrt((B * B) - (4 * A * C))) / (2 * A);
 
 	init_intsec(&intersection);
 	if (t[0] < 0 && t[1] < 0) // no intersection
@@ -93,13 +95,15 @@ t_intsec	get_sp_intsec_data(t_ray *ray, t_sphere *sphere)
 		
 	intersection.colour = sphere->colour;
 	intersection.shape = SPHERE;
+	intersection.normal = normalize(sub(intersection.pos, sphere->center));
+	intersection.intersected = true;
 	return (intersection);
 }
 
 
 bool	shadow_ray_intersects(t_ray *ray, void **objs)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (objs[i])

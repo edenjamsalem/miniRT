@@ -80,12 +80,8 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 	int			i;
 	int			j;
 	
-	scene->camera.fov_tan = tan(scene->camera.fov / 2 * PI / 180);
-	scene->camera.aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
-	
 	initial_ray.origin = scene->camera.pos;
 	initial_ray.direction = calc_initial_ray_dir(&scene->camera);
-	
 	calc_world_step(scene, &scene->camera);
 	ray = initial_ray;
 
@@ -96,9 +92,10 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		while (j < WIN_WIDTH - 1)
 		{ 
 			intersection = find_intersection(&ray, scene->objs->content);
-			intersection.in_shadow = cast_shadow_ray(&intersection, scene);
-			if (!intersection.in_shadow)
-				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intersection.colour);
+			if (intersection.intersected)
+				intersection.in_shadow = cast_shadow_ray(&intersection, scene);
+			//if (!intersection.in_shadow)
+			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intersection.colour);
 			
 			ray.direction = normalize(add(ray.direction, scene->world_step_x));
 			j++;

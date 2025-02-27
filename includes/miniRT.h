@@ -134,6 +134,7 @@ typedef struct s_intersection
     t_rgb   colour;
     t_shape shape;
 	bool	in_shadow;
+    bool    intersected;
 }              t_intsec;
 
 typedef struct s_ray
