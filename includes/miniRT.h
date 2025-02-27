@@ -96,6 +96,8 @@ typedef struct s_scene
 	t_camera	camera;
     t_arrlst    *objs;
 	t_basis     world;
+	t_vec3		world_step_x;
+	t_vec3		world_step_y;
 }				t_scene;
 
 typedef struct s_sphere

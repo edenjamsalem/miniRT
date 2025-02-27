@@ -48,7 +48,7 @@ t_vec3	calc_initial_ray_dir(t_camera *camera)
 	return (world_dir);
 }
 
-void	calc_world_step(t_vec3 *step_x, t_vec3 *step_y, t_camera *camera)
+void	calc_world_step(t_scene *scene, t_camera *camera)
 {
 	double ndc_step_x;	
 	double ndc_step_y;	
@@ -56,8 +56,8 @@ void	calc_world_step(t_vec3 *step_x, t_vec3 *step_y, t_camera *camera)
 	ndc_step_x = (2.0 / WIN_WIDTH) * camera->aspect_ratio * camera->fov_tan;
 	ndc_step_y = -(2.0 / WIN_HEIGHT) * camera->fov_tan;
 
-	*step_x = mult(camera->basis.right, ndc_step_x);
-	*step_y = mult(camera->basis.up, ndc_step_y);
+	scene->world_step_x = mult(camera->basis.right, ndc_step_x);
+	scene->world_step_y = mult(camera->basis.up, ndc_step_y);
 }
 
 void	raytrace(t_scene *scene, t_mlx *mlx)
@@ -67,8 +67,6 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 	t_intsec	intsec;
 	int			i;
 	int			j;
-	t_vec3		world_step_x;
-	t_vec3		world_step_y;
 	
 	scene->camera.fov_tan = tan(scene->camera.fov / 2 * PI / 180);
 	scene->camera.aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
@@ -76,8 +74,9 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 	initial_ray.origin = scene->camera.pos;
 	initial_ray.direction = calc_initial_ray_dir(&scene->camera);
 	
-	calc_world_step(&world_step_x, &world_step_y, &scene->camera);
+	calc_world_step(scene, &scene->camera);
 	ray = initial_ray;
+	
 	i = 0;
 	while (i < WIN_HEIGHT - 1)
 	{
@@ -86,11 +85,11 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		{ 
 			intsec = find_intersection(&ray, scene->objs->content);
 			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intsec.colour);
-			ray.direction = normalize(add(ray.direction, world_step_x));
+			ray.direction = normalize(add(ray.direction, scene->world_step_x));
 			j++;
 		}
 		ray.direction.x = initial_ray.direction.x;
-		ray.direction = normalize(add(ray.direction, world_step_y));
+		ray.direction = normalize(add(ray.direction, scene->world_step_y));
 		i++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
