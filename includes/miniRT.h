@@ -211,9 +211,9 @@ t_vec3    add(t_vec3 a, t_vec3 b);
 
 t_vec3    sub(t_vec3 a, t_vec3 b);
 
-t_vec3    mult(t_vec3 a, double t);
+t_vec3      mult(t_vec3 a, double t);
 
-double	dot(t_vec3 a, t_vec3 b);
+double     dot(t_vec3 a, t_vec3 b);
 
 double	magnitude(t_vec3 a);
 
@@ -225,6 +225,7 @@ bool    check_equal(t_vec3 *a, t_vec3 *b);
 
 void	print_vector(t_vec3 a);
 
+double	sqr_magnitude(t_vec3 a);
 
 // RAY TRACE
 

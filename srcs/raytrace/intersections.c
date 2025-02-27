@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 15:00:00 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:04:09 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ bool	shadow_ray_intersects(t_ray *ray, void **objs)
 
 bool	is_closer(t_vec3 *current, t_vec3 *nearest, t_vec3 *origin)
 {
-	return (magnitude(sub(*current, *origin)) < magnitude(sub(*nearest, *origin)));
+	return (sqr_magnitude(sub(*current, *origin)) < sqr_magnitude(sub(*nearest, *origin)));
 }
 
 t_intsec	find_intersection(t_ray *ray, void **objs)
