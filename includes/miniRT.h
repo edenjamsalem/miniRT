@@ -86,6 +86,7 @@ typedef struct s_camera
 	t_basis     basis;
     int		    fov;
     double		fov_tan; // to optimise ray trace
+	double		aspect_ratio;
 } 				t_camera;
 
 typedef struct s_scene

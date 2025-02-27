@@ -33,46 +33,65 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *camera)
 	return(normalize(world_dir));
 }
 
-t_vec3	get_ray_dir(t_camera *camera, int x, int y)
+t_vec3	calc_initial_ray_dir(t_camera *camera)
 {
 	t_vec3	ndc_dir;
 	t_vec3	world_dir;
-	double	aspect_ratio;
 
-	aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
-	ndc_dir.x = (((x + 0.5) / (double)WIN_WIDTH * 2) - 1) * aspect_ratio;
-	ndc_dir.y = 1 - ((y + 0.5) / (double)WIN_HEIGHT * 2);
-
+	ndc_dir.x = (((0.5) / (double)WIN_WIDTH * 2) - 1) * camera->aspect_ratio;
+	ndc_dir.y = 1 - ((0.5) / (double)WIN_HEIGHT * 2);
+	
 	ndc_dir.x *= camera->fov_tan;
 	ndc_dir.y *= camera->fov_tan;
 	ndc_dir.z = -1;
-
-	// print_vector(ndc_dir);
-
+	
 	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
 	return (world_dir);
 }
 
+void	calc_world_step(t_vec3 *step_x, t_vec3 *step_y, t_camera *camera)
+{
+	double ndc_step_x;	
+	double ndc_step_y;	
+	
+	ndc_step_x = (2.0 / WIN_WIDTH) * camera->aspect_ratio * camera->fov_tan;
+	ndc_step_y = -(2.0 / WIN_HEIGHT) * camera->fov_tan;
+
+	*step_x = mult(camera->basis.right, ndc_step_x);
+	*step_y = mult(camera->basis.up, ndc_step_y);
+}
+
 void	raytrace(t_scene *scene, t_mlx *mlx)
 {
+	t_ray		initial_ray;
 	t_ray		ray;
 	t_intsec	intsec;
 	int			i;
 	int			j;
-
-	i = 0;
-	ray.origin = scene->camera.pos;
+	t_vec3		world_step_x;
+	t_vec3		world_step_y;
+	
 	scene->camera.fov_tan = tan(scene->camera.fov / 2 * PI / 180);
-	while (i < WIN_WIDTH)
+	scene->camera.aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
+	
+	initial_ray.origin = scene->camera.pos;
+	initial_ray.direction = calc_initial_ray_dir(&scene->camera);
+	
+	calc_world_step(&world_step_x, &world_step_y, &scene->camera);
+	ray = initial_ray;
+	i = 0;
+	while (i < WIN_HEIGHT - 1)
 	{
 		j = 0;
-		while (j < WIN_HEIGHT)
-		{
-			ray.direction = get_ray_dir(&scene->camera, i, j);
+		while (j < WIN_WIDTH - 1)
+		{ 
 			intsec = find_intersection(&ray, scene->objs->content);
-			put_pixel(&mlx->img, &(t_vec3){i, j, 0}, &intsec.colour);
+			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intsec.colour);
+			ray.direction = normalize(add(ray.direction, world_step_x));
 			j++;
 		}
+		ray.direction.x = initial_ray.direction.x;
+		ray.direction = normalize(add(ray.direction, world_step_y));
 		i++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
