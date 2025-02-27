@@ -108,5 +108,5 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		i++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
-//	printf("FINISHED RAYTRACE\n");
+	printf("FINISHED RAYTRACE\n");
 }

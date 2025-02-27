@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 15:04:09 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:25:48 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,13 @@ bool	sp_intersects(t_ray *ray, t_sphere *sphere)
 	double		B;
 	double		C;
 	double		det;
+	t_vec3		O_sub_C;
 
+	O_sub_C = sub(ray->origin, sphere->center);
 	A = dot(ray->direction, ray->direction);
-	B = 2.0 * dot(ray->direction, sub(ray->origin, sphere->center));
-	C = dot(sub(ray->origin, sphere->center), sub(ray->origin, sphere->center)) - pow(sphere->diameter / 2, 2);
-	
+	B = 2.0 * dot(ray->direction, O_sub_C);
+	C = dot(O_sub_C, O_sub_C) - (sphere->radius * sphere->radius);
+
 	det = B * B - (4 * A * C);
 	if (det < 0) // no intersection
 		return (false);
@@ -69,13 +71,15 @@ t_intsec	get_sp_intsec_data(t_ray *ray, t_sphere *sphere)
 	double		B;
 	double		C;
 	t_intsec	intersection;
+	t_vec3		O_sub_C;
 
+	O_sub_C = sub(ray->origin, sphere->center);
 	A = dot(ray->direction, ray->direction);
-	B = 2.0 * dot(ray->direction, sub(ray->origin, sphere->center));
-	C = dot(sub(ray->origin, sphere->center), sub(ray->origin, sphere->center)) - pow(sphere->diameter / 2, 2);
+	B = 2.0 * dot(ray->direction, O_sub_C);
+	C = dot(O_sub_C, O_sub_C) - (sphere->radius * sphere->radius);
 
-	t[0] = (-B + sqrt((B * B) - (4 * A * C))) / 2.0;
-	t[1] = (-B - sqrt((B * B) - (4 * A * C))) / 2.0;
+	t[0] = (-B + sqrt((B * B) - (4 * A * C))) / (2.0 * A);
+	t[1] = (-B - sqrt((B * B) - (4 * A * C))) / (2.0 * A);
 
 	init_intsec(&intersection);
 	if (t[0] < 0 && t[1] < 0) // no intersection
@@ -123,13 +127,14 @@ t_intsec	find_intersection(t_ray *ray, void **objs)
 	t_intsec	current;
 	t_intsec	nearest;
 
-	i = 0;
 	init_intsec(&nearest);
+	init_intsec(&current);
+	i = 0;
 	while (objs[i])
 	{
 		if (((t_sphere *)objs[i])->shape == SPHERE)
 		 	current = get_sp_intsec_data(ray, objs[i]);
-		if (((t_plane *)objs[i])->shape == PLANE)
+		else if (((t_plane *)objs[i])->shape == PLANE)
 			current = get_pl_intsec_data(ray, objs[i]);
 		// else if (((t_cylinder *)objs[i])->shape == CYLINDER)
 		// 	current = check_cylinder_intersection(ray, objs[i]);

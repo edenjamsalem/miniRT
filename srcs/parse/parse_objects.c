@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:47:43 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/21 13:37:17 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:09:23 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 	sphere->shape = SPHERE;
 	assign_vector(&sphere->center, data[1]);
 	sphere->diameter = ft_atof(data[2]);
+	sphere->radius = sphere->diameter / 2.0;
 	
 	if (!assign_rgb(&sphere->colour, data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
