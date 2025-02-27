@@ -212,7 +212,7 @@ t_vec3    mult(t_vec3 a, double t);
 
 double	dot(t_vec3 a, t_vec3 b);
 
-double	magnatude(t_vec3 a);
+double	magnitude(t_vec3 a);
 
 t_vec3	cross(t_vec3 a, t_vec3 b);
 

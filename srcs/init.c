@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
+/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/26 19:40:50 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/02/27 11:33:41 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	init_scene_basis(t_scene *scene)
 void	init_camera_basis(t_camera *camera, t_basis *world)
 {
 	camera->basis.forward = camera->orientation;
-	if (check_equal(&world->up, &camera->basis.forward))
+	if (check_equal(&world->up, &camera->basis.forward)) // need better check for parallelism
 		camera->basis.right = normalize(cross(world->forward, camera->basis.forward));
 	else
 		camera->basis.right = normalize(cross(world->up, camera->basis.forward));
