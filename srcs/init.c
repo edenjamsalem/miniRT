@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 11:33:41 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:59:53 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,12 @@ void	init_camera_basis(t_camera *camera, t_basis *world)
 		camera->basis.right = normalize(cross(world->up, camera->basis.forward));
 
 	camera->basis.up = normalize(cross(camera->basis.forward, camera->basis.right));
+}
+
+void init_intsec(t_intsec *intersection)
+{
+	intersection->pos = (t_vec3){INFINITY, INFINITY, INFINITY};
+	intersection->colour = (t_rgb){0, 0, 0};
+	intersection->shape = NONE;
+	intersection->in_shadow = false;
 }

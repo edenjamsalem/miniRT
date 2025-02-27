@@ -230,9 +230,10 @@ void	print_vector(t_vec3 a);
 
 t_intsec	find_intersection(t_ray *ray, void **objs);
 
-t_intsec	get_pl_intersection_data(t_ray *ray, t_plane *plane);
+t_intsec	get_pl_intsec_data(t_ray *ray, t_plane *plane);
 
 void	raytrace(t_scene *scene, t_mlx *mlx);
 
 bool	shadow_ray_intersects(t_ray *ray, void **objs);
 
+void	init_intsec(t_intsec *intersection);

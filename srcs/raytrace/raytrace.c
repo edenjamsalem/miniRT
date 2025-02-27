@@ -61,9 +61,14 @@ void	calc_world_step(t_scene *scene, t_camera *camera)
 bool	cast_shadow_ray(t_intsec *intersection, t_scene *scene)
 {
 	t_ray	shadow;
+	t_vec3	epsilon;
+	
+	// prevents intsec calc from counting intsec point as blocking shadow ray
+	epsilon = mult(intersection->normal, 0.001);
+	
+	shadow.origin = normalize(add(intersection->pos, epsilon));
+	shadow.direction = sub(scene->light_src.pos, shadow.origin);
 
-	shadow.origin = intersection->pos;
-	shadow.direction = sub(scene->light_src.pos, intersection->pos);
 	return (shadow_ray_intersects(&shadow, scene->objs->content));
 }
 
@@ -92,7 +97,9 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		{ 
 			intersection = find_intersection(&ray, scene->objs->content);
 			intersection.in_shadow = cast_shadow_ray(&intersection, scene);
-			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intersection.colour);
+			if (!intersection.in_shadow)
+				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intersection.colour);
+			
 			ray.direction = normalize(add(ray.direction, scene->world_step_x));
 			j++;
 		}
