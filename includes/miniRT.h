@@ -85,6 +85,7 @@ typedef struct s_camera
 	t_vec3	    orientation;
 	t_basis     basis;
     int		    fov;
+    double		fov_tan; // to optimise ray trace
 } 				t_camera;
 
 typedef struct s_scene

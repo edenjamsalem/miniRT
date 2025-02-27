@@ -43,14 +43,13 @@ t_vec3	get_ray_dir(t_camera *camera, int x, int y)
 	ndc_dir.x = (((x + 0.5) / (double)WIN_WIDTH * 2) - 1) * aspect_ratio;
 	ndc_dir.y = 1 - ((y + 0.5) / (double)WIN_HEIGHT * 2);
 
-	ndc_dir.x *= tan(camera->fov / 2 * PI / 180);
-	ndc_dir.y *= tan(camera->fov / 2 * PI / 180);
+	ndc_dir.x *= camera->fov_tan;
+	ndc_dir.y *= camera->fov_tan;
 	ndc_dir.z = -1;
 
 	// print_vector(ndc_dir);
 
 	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
-
 	return (world_dir);
 }
 
@@ -63,6 +62,7 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 
 	i = 0;
 	ray.origin = scene->camera.pos;
+	scene->camera.fov_tan = tan(scene->camera.fov / 2 * PI / 180);
 	while (i < WIN_WIDTH)
 	{
 		j = 0;
