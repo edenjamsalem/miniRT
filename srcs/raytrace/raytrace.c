@@ -73,8 +73,6 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 			intersection = find_intersection(&ray, scene->objs->content);
 			if (intersection.obj)
 			  	intersection.in_shadow = cast_shadow_ray(&intersection, scene);
-			// printf("exists = %d\n", intersection.exists);	
-			// printf("in shadow = %d\n", intersection.in_shadow);	
 			if (!intersection.in_shadow)
 				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intersection.colour);
 			
