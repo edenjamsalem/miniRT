@@ -6,23 +6,11 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 11:18:16 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:24:50 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
-
-void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec)
-{
-	if (intsec->t >= 0)
-	{
-		intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
-		intsec->colour = plane->colour;
-		intsec->shape = PLANE;
-		intsec->normal = plane->normal;
-		intsec->exists = true;
-	}	
-}
 
 double	get_pl_t(t_ray *ray, t_plane *plane)
 {
@@ -35,16 +23,17 @@ double	get_pl_t(t_ray *ray, t_plane *plane)
 	return (t);
 }
 
-void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
+void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec)
 {
+	intsec->t = get_pl_t(ray, plane);
 	if (intsec->t >= 0)
 	{
 		intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
-		intsec->colour = sphere->colour;
-		intsec->shape = SPHERE;
-		intsec->normal = normalize(sub(intsec->pos, sphere->center));
+		intsec->colour = plane->colour;
+		intsec->shape = PLANE;
+		intsec->normal = plane->normal;
 		intsec->exists = true;
-	}
+	}	
 }
 
 double	get_sp_t(t_ray *ray, t_sphere *sphere)
@@ -80,6 +69,19 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 		return (-1);
 }
 
+void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
+{
+	intsec->t = get_sp_t(ray, sphere);
+	if (intsec->t >= 0)
+	{
+		intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
+		intsec->colour = sphere->colour;
+		intsec->shape = SPHERE;
+		intsec->normal = normalize(sub(intsec->pos, sphere->center));
+		intsec->exists = true;
+	}
+}
+
 /*
 bool	shadow_ray_intersects(t_ray *ray, void **objs)
 {
@@ -113,15 +115,9 @@ t_intsec	find_intersection(t_ray *ray, void **objs)
 	{
 		init_intsec(&current);
 		if (((t_sphere *)objs[i])->shape == SPHERE)
-		{
-			current.t = get_sp_t(ray, objs[i]);
 			get_sp_intsec_data(ray, objs[i], &current);
-		}
 		else if (((t_plane *)objs[i])->shape == PLANE)
-		{
-			current.t = get_pl_t(ray, objs[i]);
 			get_pl_intsec_data(ray, objs[i], &current);
-		}
 		if (current.t >= 0 && current.t < nearest.t)
 			nearest = current;
 		i++;
