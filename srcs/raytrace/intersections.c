@@ -6,89 +6,80 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 10:24:20 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:18:16 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-t_intsec	get_pl_intsec_data(t_ray *ray, t_plane *plane, double t)
+void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec)
 {
-	t_intsec	intersection;
-
-	intersection.pos = add(ray->origin, scale(ray->direction, t));
-	intersection.colour = plane->colour;
-	intersection.shape = PLANE;
-	intersection.normal = plane->normal;
-	intersection.exists = true;
-	return (intersection);
+	if (intsec->t >= 0)
+	{
+		intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
+		intsec->colour = plane->colour;
+		intsec->shape = PLANE;
+		intsec->normal = plane->normal;
+		intsec->exists = true;
+	}	
 }
 
-double	get_t_pl(t_ray *ray, t_plane *plane)
+double	get_pl_t(t_ray *ray, t_plane *plane)
 {
 	double		t;
 
 	t = dot(plane->normal, ray->direction);
 	if (t == 0)
-		return (INFINITY);
+		return (-1);
 	t = dot(plane->normal, sub(plane->point, ray->origin)) / t;
-	if (t < 0)
-		return (INFINITY);
 	return (t);
 }
 
-bool	sp_intersects(t_ray *ray, t_sphere *sphere)
+void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
 {
-	double		A;
-	double		B;
-	double		C;
-	double		det;
-	t_vec3		O_sub_C;
-
-	O_sub_C = sub(ray->origin, sphere->center);
-	A = dot(ray->direction, ray->direction);
-	B = 2.0 * dot(ray->direction, O_sub_C);
-	C = dot(O_sub_C, O_sub_C) - (sphere->radius * sphere->radius);
-
-	det = B * B - (4 * A * C);
-	if (det < 0) // no intersection
-		return (false);
-	return (true);
+	if (intsec->t >= 0)
+	{
+		intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
+		intsec->colour = sphere->colour;
+		intsec->shape = SPHERE;
+		intsec->normal = normalize(sub(intsec->pos, sphere->center));
+		intsec->exists = true;
+	}
 }
 
-t_intsec	get_sp_intsec_data(t_ray *ray, t_sphere *sphere)
+double	get_sp_t(t_ray *ray, t_sphere *sphere)
 {
+	double		a;
+	double		b;
+	double		c;
 	double		t[2];
-	double		A;
-	double		B;
-	double		C;
-	t_intsec	intersection;
-	t_vec3		O_sub_C;
+	double		det;
+	t_vec3		o_sub_c;
 
-	O_sub_C = sub(ray->origin, sphere->center);
-	A = dot(ray->direction, ray->direction);
-	B = 2.0 * dot(ray->direction, O_sub_C);
-	C = dot(O_sub_C, O_sub_C) - (sphere->radius * sphere->radius);
+	o_sub_c = sub(ray->origin, sphere->center);
+	a = dot(ray->direction, ray->direction);
+	b = 2.0 * dot(ray->direction, o_sub_c);
+	c = dot(o_sub_c, o_sub_c) - (sphere->radius * sphere->radius);
 
-	t[0] = (-B + sqrt((B * B) - (4 * A * C))) / (2 * A);
-	t[1] = (-B - sqrt((B * B) - (4 * A * C))) / (2 * A);
+	det = b * b - (4 * a * c);
+	if (det < 0)
+		return (-1);
+	if (det == 0)
+		return (-b / 2 * a);
+	
+	t[0] = (-b + det) / (2 * a);
+	t[1] = (-b - det) / (2 * a);
 
-	init_intsec(&intersection);
 	if (t[0] > 0 && t[1] > 0)
-		intersection.pos = add(ray->origin, scale(ray->direction, fmin(t[0], t[1])));
+		return (fmin(t[0], t[1]));
 	else if (t[0] > 0)
-		intersection.pos = add(ray->origin, scale(ray->direction, t[0]));
+		return (t[0]);
 	else if (t[1] > 0)
-		intersection.pos = add(ray->origin, scale(ray->direction, t[1]));
-	else
-		return (intersection);
-		
-	intersection.colour = sphere->colour;
-	intersection.shape = SPHERE;
-	intersection.normal = normalize(sub(intersection.pos, sphere->center));
-	intersection.exists = true;
-	return (intersection);
+		return (t[1]);
+	else	
+		return (-1);
 }
+
 /*
 bool	shadow_ray_intersects(t_ray *ray, void **objs)
 {
@@ -109,34 +100,29 @@ bool	shadow_ray_intersects(t_ray *ray, void **objs)
 	return (false);
 }
 */
-bool	is_closer(t_vec3 *current, t_vec3 *nearest, t_vec3 *origin)
-{
-	return (sqr_magnitude(sub(*current, *origin)) < sqr_magnitude(sub(*nearest, *origin)));
-}
 
 t_intsec	find_intersection(t_ray *ray, void **objs)
 {
 	int			i;
 	t_intsec	current;
 	t_intsec	nearest;
-	double		t;
 
 	init_intsec(&nearest);
-	init_intsec(&current);
 	i = 0;
 	while (objs[i])
 	{
+		init_intsec(&current);
 		if (((t_sphere *)objs[i])->shape == SPHERE)
-		 	current = get_sp_intsec_data(ray, objs[i]);
+		{
+			current.t = get_sp_t(ray, objs[i]);
+			get_sp_intsec_data(ray, objs[i], &current);
+		}
 		else if (((t_plane *)objs[i])->shape == PLANE)
 		{
-			t = get_t_pl(ray, objs[i]);
-			if (t != INFINITY)
-				current = get_pl_intsec_data(ray, objs[i], t);
+			current.t = get_pl_t(ray, objs[i]);
+			get_pl_intsec_data(ray, objs[i], &current);
 		}
-		// else if (((t_cylinder *)objs[i])->shape == CYLINDER)
-		// 	current = check_cylinder_intersection(ray, objs[i]);
-		if (is_closer(&current.pos, &nearest.pos, &ray->origin))
+		if (current.t >= 0 && current.t < nearest.t)
 			nearest = current;
 		i++;
 	}

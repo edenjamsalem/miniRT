@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 15:48:16 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:19:02 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,5 @@ void init_intsec(t_intsec *intersection)
 	intersection->shape = NONE;
 	intersection->in_shadow = false;
 	intersection->exists = false;
+	intersection->t = INFINITY;
 }

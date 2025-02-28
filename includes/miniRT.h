@@ -133,6 +133,7 @@ typedef struct s_intersection
     t_vec3  normal;
     t_rgb   colour;
     t_shape shape;
+    double  t;
 	bool	in_shadow;
     bool    exists;
 }              t_intsec;
@@ -233,7 +234,9 @@ double	sqr_magnitude(t_vec3 a);
 
 t_intsec	find_intersection(t_ray *ray, void **objs);
 
-t_intsec	get_pl_intsec_data(t_ray *ray, t_plane *plane, double t);
+void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec);
+
+void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec);
 
 void	raytrace(t_scene *scene, t_mlx *mlx);
 
