@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 11:43:05 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:26:44 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ double	get_pl_t(t_ray *ray, t_plane *plane)
 	double		t;
 
 	t = dot(plane->normal, ray->direction);
-	if (t == 0)
+	if (fabs(t) < 0.000001) // checks if parallel
 		return (-1);
 	t = dot(plane->normal, sub(plane->point, ray->origin)) / t;
 	return (t);
@@ -32,7 +32,7 @@ void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec)
 		intsec->colour = plane->colour;
 		intsec->shape = PLANE;
 		intsec->normal = plane->normal;
-		intsec->exists = true;
+		intsec->obj = (void *)plane;
 	}	
 }
 
@@ -54,7 +54,7 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 	if (det < 0)
 		return (-1);
 	if (det == 0)
-		return (-b / 2 * a);
+		return (-b / (2 * a));
 	
 	t[0] = (-b + det) / (2 * a);
 	t[1] = (-b - det) / (2 * a);
@@ -78,7 +78,7 @@ void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
 		intsec->colour = sphere->colour;
 		intsec->shape = SPHERE;
 		intsec->normal = normalize(sub(intsec->pos, sphere->center));
-		intsec->exists = true;
+		intsec->obj = (void *)sphere;
 	}
 }
 

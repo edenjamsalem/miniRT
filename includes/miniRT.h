@@ -133,9 +133,9 @@ typedef struct s_intersection
     t_vec3  normal;
     t_rgb   colour;
     t_shape shape;
+    void    *obj;
     double  t;
 	bool	in_shadow;
-    bool    exists;
 }              t_intsec;
 
 typedef struct s_ray
