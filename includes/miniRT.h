@@ -232,14 +232,20 @@ double	sqr_magnitude(t_vec3 a);
 
 // RAY TRACE
 
-t_intsec	find_intersection(t_ray *ray, void **objs);
+void	raytrace(t_scene *scene, t_mlx *mlx);
+
+void	init_intsec(t_intsec *intersection);
+
+bool	cast_shadow_ray(t_intsec *intersection, t_scene *scene);
+
+// INTERSECTIONS
+
+double	get_pl_t(t_ray *ray, t_plane *plane);
 
 void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec);
 
+double	get_sp_t(t_ray *ray, t_sphere *sphere);
+
 void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec);
 
-void	raytrace(t_scene *scene, t_mlx *mlx);
-
-bool	shadow_ray_intersects(t_ray *ray, void **objs);
-
-void	init_intsec(t_intsec *intersection);
+t_intsec	find_intersection(t_ray *ray, void **objs);

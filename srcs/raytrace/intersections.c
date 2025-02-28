@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 11:24:50 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:43:05 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,27 +81,6 @@ void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
 		intsec->exists = true;
 	}
 }
-
-/*
-bool	shadow_ray_intersects(t_ray *ray, void **objs)
-{
-	int	i;
-
-	i = 0;
-	while (objs[i])
-	{
-		if (((t_sphere *)objs[i])->shape == SPHERE && sp_intersects(ray, objs[i]))
-			return (true);
-		if (((t_plane *)objs[i])->shape == PLANE && pl_intersects(ray, objs[i]))
-			return (true);
-		// else if (((t_cylinder *)objs[i])->shape == CYLINDER && cy_intersects(ray, objs[i]))
-		//	return (true);
-		// if (is_closer(current, nearest))
-		i++;
-	}
-	return (false);
-}
-*/
 
 t_intsec	find_intersection(t_ray *ray, void **objs)
 {
