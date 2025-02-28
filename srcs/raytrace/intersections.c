@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 14:26:44 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:29:54 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 	if (det == 0)
 		return (-b / (2 * a));
 	
-	t[0] = (-b + det) / (2 * a);
-	t[1] = (-b - det) / (2 * a);
+	t[0] = (-b + sqrt(det)) / (2 * a);
+	t[1] = (-b - sqrt(det)) / (2 * a);
 
 	if (t[0] > 0 && t[1] > 0)
 		return (fmin(t[0], t[1]));
