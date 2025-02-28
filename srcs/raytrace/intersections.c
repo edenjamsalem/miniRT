@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 14:29:54 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:36:14 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,25 @@ void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec)
 
 double	get_sp_t(t_ray *ray, t_sphere *sphere)
 {
-	double		a;
 	double		b;
 	double		c;
 	double		t[2];
 	double		det;
-	t_vec3		o_sub_c;
+	t_vec3		l;
 
-	o_sub_c = sub(ray->origin, sphere->center);
-	a = dot(ray->direction, ray->direction);
-	b = 2.0 * dot(ray->direction, o_sub_c);
-	c = dot(o_sub_c, o_sub_c) - (sphere->radius * sphere->radius);
+	l = sub(ray->origin, sphere->center);
+	//a == dot(ray.direction, ray.direction) == 1 as ray.direction is normalized
+	b = 2.0 * dot(ray->direction, l);
+	c = dot(l, l) - (sphere->radius * sphere->radius);
 
-	det = b * b - (4 * a * c);
+	det = b * b - (4 * c);
 	if (det < 0)
 		return (-1);
 	if (det == 0)
-		return (-b / (2 * a));
+		return (-b / 2);
 	
-	t[0] = (-b + sqrt(det)) / (2 * a);
-	t[1] = (-b - sqrt(det)) / (2 * a);
+	t[0] = (-b + sqrt(det)) / 2;
+	t[1] = (-b - sqrt(det)) / 2;
 
 	if (t[0] > 0 && t[1] > 0)
 		return (fmin(t[0], t[1]));

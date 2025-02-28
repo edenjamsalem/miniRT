@@ -17,17 +17,10 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *cam)
 {
 	t_vec3	world_dir;
 
-	// print_vector(*ndc);
-	// print_vector(camera->up);
-	// print_vector(camera->right);
-	// print_vector(camera->forward);
-	// printf("\n");
-	// sleep(1);
-
 	world_dir.x = ndc->x * cam->right.x + ndc->y * cam->up.x + ndc->z * cam->forward.x;
 	world_dir.y = ndc->x * cam->right.y + ndc->y * cam->up.y + ndc->z * cam->forward.y;
 	world_dir.z = ndc->x * cam->right.z + ndc->y * cam->up.z + ndc->z * cam->forward.z;
-	return(normalize(world_dir));
+	return(world_dir);
 }
 
 t_vec3	calc_initial_ray_dir(t_camera *camera)
@@ -35,15 +28,15 @@ t_vec3	calc_initial_ray_dir(t_camera *camera)
 	t_vec3	ndc_dir;
 	t_vec3	world_dir;
 
-	ndc_dir.x = ((1 / WIN_WIDTH * 4.0) - 1) * camera->aspect_ratio;
-	ndc_dir.y = 1 - (1 / WIN_HEIGHT * 4.0);
+	ndc_dir.x = ((1.0 / WIN_WIDTH * 4.0) - 1) * camera->aspect_ratio;
+	ndc_dir.y = 1 - (1.0 / WIN_HEIGHT * 4.0);
 	
 	ndc_dir.x *= camera->fov_tan;
 	ndc_dir.y *= camera->fov_tan;
 	ndc_dir.z = -1;
-	
+
 	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
-	return (world_dir);
+	return (normalize(world_dir));
 }
 
 void	calc_world_step(t_scene *scene, t_camera *camera)
