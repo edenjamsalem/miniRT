@@ -28,13 +28,14 @@ t_vec3	calc_initial_ray_dir(t_camera *camera)
 	t_vec3	ndc_dir;
 	t_vec3	world_dir;
 
-	ndc_dir.x = ((1.0 / WIN_WIDTH * 4.0) - 1) * camera->aspect_ratio;
-	ndc_dir.y = 1 - (1.0 / WIN_HEIGHT * 4.0);
+	ndc_dir.x = ((1.0 / WIN_WIDTH) - 1) * camera->aspect_ratio;
+	ndc_dir.y = (1 - (1.0 / WIN_HEIGHT));
 	
 	ndc_dir.x *= camera->fov_tan;
 	ndc_dir.y *= camera->fov_tan;
 	ndc_dir.z = -1;
 
+	normalize(ndc_dir);
 	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
 	return (normalize(world_dir));
 }
@@ -49,6 +50,8 @@ void	calc_world_step(t_scene *scene, t_camera *camera)
 
 	scene->world_step_x = scale(camera->basis.right, ndc_step_x);
 	scene->world_step_y = scale(camera->basis.up, ndc_step_y);
+	print_vector(scene->world_step_x);
+	print_vector(scene->world_step_y);
 }
 
 void	raytrace(t_scene *scene, t_mlx *mlx)
@@ -86,3 +89,4 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
 	printf("FINISHED RAYTRACE\n");
 }
+

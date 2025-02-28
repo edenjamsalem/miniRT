@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:40:51 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 15:29:28 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:42:37 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	get_camera_data(t_scene *scene, char **data, int line_nbr)
 	assign_vector(&scene->camera.pos, data[1]);
 	assign_vector(&scene->camera.orientation, data[2]);
 	scene->camera.fov = ft_atoi(data[3]);
-	scene->camera.fov_tan = tan(scene->camera.fov / 2 * PI / 180);
+	scene->camera.fov_tan = tan((scene->camera.fov / 2.0) * (PI / 180));
 	scene->camera.aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
 	
 	if (!vector_in_range(&scene->camera.orientation, -1.0, 1.0))
