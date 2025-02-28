@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:36:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 15:03:52 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:17:18 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_vec3	sub(t_vec3 a, t_vec3 b)
 	return (c);
 }
 
-t_vec3	mult(t_vec3 a, double t)
+t_vec3	scale(t_vec3 a, double t)
 {
 	t_vec3	c;
 
@@ -47,16 +47,15 @@ double	dot(t_vec3 a, t_vec3 b)
 	return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 }
 
-double	sqr_magnitude(t_vec3 a)
-{
-	return ((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
-}
-
 double	magnitude(t_vec3 a)
 {
 	return (sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z)));
 }
 
+double	sqr_magnitude(t_vec3 a)
+{
+	return ((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
+}
 // returns an orthogonal vector to a and b
 t_vec3	cross(t_vec3 a, t_vec3 b)
 {

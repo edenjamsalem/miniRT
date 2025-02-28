@@ -13,7 +13,7 @@
 #include "../includes/miniRT.h"
 #include <time.h>
 
-t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *camera)
+t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *cam)
 {
 	t_vec3	world_dir;
 
@@ -24,9 +24,9 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *camera)
 	// printf("\n");
 	// sleep(1);
 
-	world_dir.x = ndc->x * camera->right.x + ndc->y * camera->up.x + ndc->z * camera->forward.x;
-	world_dir.y = ndc->x * camera->right.y + ndc->y * camera->up.y + ndc->z * camera->forward.y;
-	world_dir.z = ndc->x * camera->right.z + ndc->y * camera->up.z + ndc->z * camera->forward.z;
+	world_dir.x = ndc->x * cam->right.x + ndc->y * cam->up.x + ndc->z * cam->forward.x;
+	world_dir.y = ndc->x * cam->right.y + ndc->y * cam->up.y + ndc->z * cam->forward.y;
+	world_dir.z = ndc->x * cam->right.z + ndc->y * cam->up.z + ndc->z * cam->forward.z;
 	return(normalize(world_dir));
 }
 
@@ -54,24 +54,24 @@ void	calc_world_step(t_scene *scene, t_camera *camera)
 	ndc_step_x = (2.0 / WIN_WIDTH) * camera->aspect_ratio * camera->fov_tan;
 	ndc_step_y = -(2.0 / WIN_HEIGHT) * camera->fov_tan;
 
-	scene->world_step_x = mult(camera->basis.right, ndc_step_x);
-	scene->world_step_y = mult(camera->basis.up, ndc_step_y);
+	scene->world_step_x = scale(camera->basis.right, ndc_step_x);
+	scene->world_step_y = scale(camera->basis.up, ndc_step_y);
 }
-
+/*
 bool	cast_shadow_ray(t_intsec *intersection, t_scene *scene)
 {
 	t_ray	shadow;
 	t_vec3	epsilon;
 	
-	// prevents intsec calc from counting intsec point as blocking shadow ray
-	epsilon = mult(intersection->normal, 0.001);
+	// prevents shadowray intsec calc from counting intsec point as blocking shadow ray
+	epsilon = scale(intersection->normal, 0.001);
 	
-	shadow.origin = normalize(add(intersection->pos, epsilon));
-	shadow.direction = sub(scene->light_src.pos, shadow.origin);
+	shadow.origin = add(intersection->pos, epsilon);
+	shadow.direction = normalize(sub(scene->light_src.pos, shadow.origin));
 
 	return (shadow_ray_intersects(&shadow, scene->objs->content));
 }
-
+*/
 void	raytrace(t_scene *scene, t_mlx *mlx)
 {
 	t_ray		initial_ray;
@@ -92,10 +92,10 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		while (j < WIN_WIDTH - 1)
 		{ 
 			intersection = find_intersection(&ray, scene->objs->content);
-			if (intersection.intersected)
-				intersection.in_shadow = cast_shadow_ray(&intersection, scene);
-			//if (!intersection.in_shadow)
-			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intersection.colour);
+			// if (intersection.exists)
+			// 	intersection.in_shadow = cast_shadow_ray(&intersection, scene);
+			if (!intersection.in_shadow)
+				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intersection.colour);
 			
 			ray.direction = normalize(add(ray.direction, scene->world_step_x));
 			j++;
