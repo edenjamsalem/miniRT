@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:46:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 18:47:06 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:54:07 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 	b = 2.0 * dot(ray->direction, l);
 	c = dot(l, l) - (sphere->radius * sphere->radius);
 
-	det = b * b - (4 * c);
+	det = (b * b) - (4 * c);
 	if (det < 0)
 		return (-1);
 	if (det == 0)

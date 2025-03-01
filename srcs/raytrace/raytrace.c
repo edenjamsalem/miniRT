@@ -45,8 +45,8 @@ void	calc_world_step(t_scene *scene, t_camera *camera)
 	double ndc_step_x;	
 	double ndc_step_y;	
 	
-	ndc_step_x = (2.0 / WIN_WIDTH) * camera->aspect_ratio * camera->fov_tan;
-	ndc_step_y = -(2.0 / WIN_HEIGHT) * camera->fov_tan;
+	ndc_step_x = 2.0 / WIN_WIDTH;
+	ndc_step_y = -2.0 / WIN_HEIGHT;
 
 	scene->world_step_x = scale(camera->basis.right, ndc_step_x);
 	scene->world_step_y = scale(camera->basis.up, ndc_step_y);
@@ -58,7 +58,6 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 {
 	t_ray		initial_ray;
 	t_ray		ray;
-	t_intsec	intersection;
 	int			i;
 	int			j;
 	
@@ -73,11 +72,11 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		j = 0;
 		while (j < WIN_WIDTH - 1)
 		{ 
-			intersection = find_intersection(&ray, scene->objs->content);
-			if (intersection.obj)
-			  	intersection.in_shadow = cast_shadow_ray(&intersection, scene);
-			if (!intersection.in_shadow)
-				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &intersection.colour);
+			ray.intersection = find_intersection(&ray, scene->objs->content);
+			if (ray.intersection.obj)
+			  	ray.intersection.in_shadow = cast_shadow_ray(&ray.intersection, scene);
+			if (!ray.intersection.in_shadow)
+				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &ray.intersection.colour);
 			
 			ray.direction = normalize(add(ray.direction, scene->world_step_x));
 			j++;
