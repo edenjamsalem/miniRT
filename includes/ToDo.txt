@@ -5,13 +5,13 @@ Set up 16/32 threads for different screen sections
 
 Ray Casting:
 	- primary rays ==> E
-	- shadow rays
+	- shadow rays ==> E
 
 intersections:
-	- sphere
+	- sphere ==> E
 	- plane ==> M
 	- cylinder
-	- find closest intersection
+	- find closest intersection ==> E
 
 Phong Shading Model:
 	- 

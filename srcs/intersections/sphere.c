@@ -6,11 +6,23 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:46:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 18:54:07 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/03 14:07:03 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
+
+static double get_t(double t[2])
+{
+	if (t[0] > 0 && t[1] > 0)
+		return (fmin(t[0], t[1]));
+	else if (t[0] > 0)
+		return (t[0]);
+	else if (t[1] > 0)
+		return (t[1]);
+	else	
+		return (-1);
+}
 
 double	get_sp_t(t_ray *ray, t_sphere *sphere)
 {
@@ -31,17 +43,11 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 	if (det == 0)
 		return (-b / 2);
 	
-	t[0] = (-b + sqrt(det)) / 2;
-	t[1] = (-b - sqrt(det)) / 2;
+	det = sqrt(det);
+	t[0] = (-b + det) / 2;
+	t[1] = (-b - det) / 2;
+	return (get_t(t));
 
-	if (t[0] > 0 && t[1] > 0)
-		return (fmin(t[0], t[1]));
-	else if (t[0] > 0)
-		return (t[0]);
-	else if (t[1] > 0)
-		return (t[1]);
-	else	
-		return (-1);
 }
 
 void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)

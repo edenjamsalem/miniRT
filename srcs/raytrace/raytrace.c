@@ -22,38 +22,6 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *cam)
 	world_dir.z = ndc->x * cam->right.z + ndc->y * cam->up.z + ndc->z * cam->forward.z;
 	return(world_dir);
 }
-/*
-t_vec3	calc_initial_ray_dir(t_camera *camera)
-{
-	t_vec3	ndc_dir;
-	t_vec3	world_dir;
-
-	ndc_dir.x = ((1.0 / WIN_WIDTH) - 1) * camera->aspect_ratio;
-	ndc_dir.y = (1 - (1.0 / WIN_HEIGHT));
-	
-	ndc_dir.x *= camera->fov_tan;
-	ndc_dir.y *= camera->fov_tan;
-	ndc_dir.z = -1;
-
-	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
-	return (normalize(world_dir));
-}
-
-void	calc_world_step(t_scene *scene, t_camera *camera)
-{
-	double ndc_step_x;	
-	double ndc_step_y;	
-
-	ndc_step_x = 2.0 / WIN_WIDTH;
-	ndc_step_y = -2.0 / WIN_HEIGHT;
-
-	scene->world_step_x = scale(camera->basis.right, ndc_step_x);
-	scene->world_step_y = scale(camera->basis.up, ndc_step_y);
-
-	// print_vector(scene->world_step_x);
-	// print_vector(scene->world_step_y);
-}
-*/
 
 t_vec3	calc_ray_dir(t_camera *camera, int x, int y)
 {
