@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:28:39 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/03 19:33:05 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/03 19:41:30 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_rgb	get_Ia(t_light *ambient)
 
 t_rgb	get_Id(t_light *light, t_intsec *intsec)
 {
-	double	Kd = 0.3;
+	double	Kd = 0.9;
 	double	diffuse_reflection;
 	double	intensity;
 	t_vec3	light_direction;
@@ -60,7 +60,9 @@ t_rgb	phong(t_scene *scene, t_intsec *intsec)
 {
 	t_rgb	Ia;
 	t_rgb	Id;
+	t_rgb	I;
 //	t_rgb	Is;
+	t_rgb	colour;
 
 	Ia = get_Ia(&scene->ambient_light);
 	if (intsec->in_shadow)
@@ -68,9 +70,9 @@ t_rgb	phong(t_scene *scene, t_intsec *intsec)
 	Id = get_Id(&scene->light_src, intsec);
 //	Is = get_Is(&scene->light_src, intsec);
 
-	// print_rgb(Ia);
-	// print_rgb(Id);
-	// print_rgb(rgb_add(Ia, Id));
-	// write(1, "\n", 1);
-	return (rgb_add(Ia, Id));
+	I = rgb_add(Ia, Id);
+	colour.r = min(((intsec->colour.r * I.r) / 255.0), 255);
+	colour.g = min(((intsec->colour.g * I.g) / 255.0), 255);
+	colour.b = min(((intsec->colour.b * I.b) / 255.0), 255);
+	return (colour);
 }
