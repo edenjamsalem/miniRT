@@ -52,7 +52,6 @@ typedef enum e_shape
 
 typedef struct s_rgb
 {
-//    unsigned char   t;
     unsigned char   r;
     unsigned char   g;
     unsigned char   b;
@@ -136,6 +135,9 @@ typedef struct s_intersection
     void    *obj;
     double  t;
 	bool	in_shadow;
+    double  k_ambient;
+    double  k_diffuse;
+    double  k_specular;
 }              t_intsec;
 
 typedef struct s_ray
@@ -238,6 +240,8 @@ void	init_intsec(t_intsec *intersection);
 
 bool	cast_shadow_ray(t_intsec *intersection, t_scene *scene);
 
+t_rgb	phong(t_scene *scene, t_intsec *intsec);
+
 // INTERSECTIONS
 
 double	get_pl_t(t_ray *ray, t_plane *plane);
@@ -249,3 +253,17 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere);
 void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec);
 
 t_intsec	find_intersection(t_ray *ray, void **objs);
+
+// UTILS
+
+unsigned int	rgb_to_int(t_rgb *rgb);
+
+t_rgb	        rgb_add(t_rgb a, t_rgb b);
+
+t_rgb	        rgb_sub(t_rgb a, t_rgb b);
+
+t_rgb	        rgb_scale(t_rgb a, double t);
+
+int	            max(int a, int b);
+
+int	            min(int a, int b);

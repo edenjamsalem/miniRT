@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:36:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 18:17:18 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:33:04 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,17 @@
 
 t_vec3	add(t_vec3 a, t_vec3 b)
 {
-	t_vec3	c;
-
-	c.x = a.x + b.x;
-	c.y = a.y + b.y;
-	c.z = a.z + b.z;
-	return (c);
+	return ((t_vec3){a.x + b.x, a.y + b.y, a.z + b.z});
 }
 
 t_vec3	sub(t_vec3 a, t_vec3 b)
 {
-	t_vec3	c;
-
-	c.x = a.x - b.x;
-	c.y = a.y - b.y;
-	c.z = a.z - b.z;
-	return (c);
+	return ((t_vec3){a.x - b.x, a.y - b.y, a.z - b.z});
 }
 
 t_vec3	scale(t_vec3 a, double t)
 {
-	t_vec3	c;
-
-	c.x = a.x * t;
-	c.y = a.y * t;
-	c.z = a.z * t;
-	return (c);
+	return ((t_vec3){a.x * t, a.y * t, a.z * t});
 }
 
 double	dot(t_vec3 a, t_vec3 b)
@@ -72,10 +57,7 @@ t_vec3	normalize(t_vec3 a)
 	double magn;
 
 	magn = magnitude(a);
-	a.x /= magn;
-	a.y /= magn;
-	a.z /= magn;
-	return (a);
+	return (scale(a, 1 / magn));
 }
 
 bool	check_equal(t_vec3 *a, t_vec3 *b)

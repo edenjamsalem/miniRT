@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:47:17 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/28 18:47:31 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:12:03 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec)
 	if (intsec->t >= 0)
 	{
 		intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
-		intsec->colour = plane->colour;
 		intsec->shape = PLANE;
+		intsec->colour = plane->colour;
 		intsec->normal = plane->normal;
 		intsec->obj = (void *)plane;
 	}	
