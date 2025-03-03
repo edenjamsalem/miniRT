@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 16:28:39 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/03 18:22:14 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/03 19:33:05 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,14 @@ t_rgb	get_Id(t_light *light, t_intsec *intsec)
 	
 	light_direction = normalize(sub(light->pos, intsec->pos));
 	diffuse_reflection = dot(light_direction, intsec->normal);
+	// printf("diffuse reflection = %f\n", diffuse_reflection);
 	if (diffuse_reflection <= 0.0)
+	{
 		return ((t_rgb){0, 0, 0});
-
+	}
 	intensity = light->brightness * Kd * diffuse_reflection;
+	// printf("intensity = %f\n", intensity);
+	// print_rgb(light->colour);
 	return (rgb_scale(light->colour, intensity));
 }
 /*
@@ -64,5 +68,9 @@ t_rgb	phong(t_scene *scene, t_intsec *intsec)
 	Id = get_Id(&scene->light_src, intsec);
 //	Is = get_Is(&scene->light_src, intsec);
 
+	// print_rgb(Ia);
+	// print_rgb(Id);
+	// print_rgb(rgb_add(Ia, Id));
+	// write(1, "\n", 1);
 	return (rgb_add(Ia, Id));
 }

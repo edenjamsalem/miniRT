@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:36:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/03 18:37:25 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:38:18 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,6 @@ double	dot(t_vec3 a, t_vec3 b)
 double	magnitude(t_vec3 a)
 {
 	return (sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z)));
-}
-
-double	sqr_magnitude(t_vec3 a)
-{
-	return ((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
 }
 
 // returns an orthogonal vector to a and b

@@ -230,8 +230,6 @@ bool    check_equal(t_vec3 *a, t_vec3 *b);
 
 void	print_vector(t_vec3 a);
 
-double	sqr_magnitude(t_vec3 a);
-
 // RAY TRACE
 
 void	raytrace(t_scene *scene, t_mlx *mlx);
@@ -267,3 +265,5 @@ t_rgb	        rgb_scale(t_rgb a, double t);
 int	            max(int a, int b);
 
 int	            min(int a, int b);
+
+void	        print_rgb(t_rgb rgb);
