@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:36:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/03 18:34:26 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:36:34 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 t_vec3	add(t_vec3 a, t_vec3 b)
 {
 	return ((t_vec3){a.x + b.x, a.y + b.y, a.z + b.z});
+	return ((t_vec3){a.x + b.x, a.y + b.y, a.z + b.z});
 }
 
 t_vec3	sub(t_vec3 a, t_vec3 b)
 {
 	return ((t_vec3){a.x - b.x, a.y - b.y, a.z - b.z});
+	return ((t_vec3){a.x - b.x, a.y - b.y, a.z - b.z});
 }
 
 t_vec3	scale(t_vec3 a, double t)
 {
+	return ((t_vec3){a.x * t, a.y * t, a.z * t});
 	return ((t_vec3){a.x * t, a.y * t, a.z * t});
 }
 
