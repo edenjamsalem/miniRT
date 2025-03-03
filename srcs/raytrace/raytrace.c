@@ -35,7 +35,6 @@ t_vec3	calc_initial_ray_dir(t_camera *camera)
 	ndc_dir.y *= camera->fov_tan;
 	ndc_dir.z = -1;
 
-	normalize(ndc_dir);
 	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
 	return (normalize(world_dir));
 }
