@@ -44,6 +44,7 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 	t_ray		ray;
 	int			i;
 	int			j;
+//	t_rgb		colour;
 	
 	ray.origin = scene->camera.pos;
 
@@ -57,8 +58,12 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 			ray.intersection = find_intersection(&ray, scene->objs->content);
 			if (ray.intersection.obj)
 			  	ray.intersection.in_shadow = cast_shadow_ray(&ray.intersection, scene);
+			//	colour = phong(scene, &ray.intersection);
+			//	put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &colour);
 			if (!ray.intersection.in_shadow)
 				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &ray.intersection.colour);
+			else
+				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &scene->ambient_light.colour);
 			
 			j++;
 		}

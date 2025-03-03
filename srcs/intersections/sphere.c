@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:46:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/03 14:07:03 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/03 18:12:03 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 	b = 2.0 * dot(ray->direction, l);
 	c = dot(l, l) - (sphere->radius * sphere->radius);
 
-	det = (b * b) - (4 * c);
+	det = (b * b) - (4.0 * c);
 	if (det < 0)
 		return (-1);
 	if (det == 0)
@@ -47,7 +47,6 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 	t[0] = (-b + det) / 2;
 	t[1] = (-b - det) / 2;
 	return (get_t(t));
-
 }
 
 void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
