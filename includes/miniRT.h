@@ -239,7 +239,8 @@ void	init_intsec(t_intsec *intersection);
 
 bool	cast_shadow_ray(t_intsec *intersection, t_scene *scene);
 
-t_rgb	phong(t_scene *scene, t_intsec *intsec);
+t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir);
+
 
 // INTERSECTIONS
 
