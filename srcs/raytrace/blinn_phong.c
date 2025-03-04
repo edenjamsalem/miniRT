@@ -14,37 +14,34 @@
 
 t_rgb	get_Ia(t_light *ambient, double Ka)
 {
-	double	intensity;
-
-	intensity = ambient->brightness * Ka;
-	return (rgb_scale(ambient->colour, intensity));
+	return (rgb_scale(ambient->colour, ambient->brightness * Ka));
 }
 
 t_rgb	get_Id(t_light *light, t_intsec *intsec, double Kd)
 {
-	double	diffuse_reflection;
+	double	diffuse;
 	double	intensity;
 
-	diffuse_reflection = dot(light->dir, intsec->normal);
-	if (diffuse_reflection <= 0.0)
+	diffuse = dot(light->dir, intsec->normal);
+	if (diffuse <= 0.0)
 		return ((t_rgb){0, 0, 0});
 
-	intensity = light->brightness * Kd * diffuse_reflection;
+	intensity = light->brightness * Kd * diffuse;
 	return (rgb_scale(light->colour, intensity));
 }
 
 t_rgb	get_Is(t_light *light, t_intsec *intsec, t_vec3 view_dir, double Ks, double n)
 {
 	t_vec3	H;
+	double	specular;
 	double	intensity;
-	double	spec;
 	
 	H = normalize(add(light->dir, view_dir));
-	spec = fmax(0, dot(intsec->normal, H));
-	if (spec == 0)
+	specular = dot(intsec->normal, H);
+	if (specular <= 0)
 		return ((t_rgb){0, 0, 0});
 
-	intensity = light->brightness * Ks * pow(spec, n);
+	intensity = light->brightness * Ks * pow(specular, n);
 	return (rgb_scale(light->colour, intensity));
 }
 
