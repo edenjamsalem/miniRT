@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <sys/time.h>
 
 //      WINDOW SIZE
 #define WIN_WIDTH        1200
@@ -267,3 +268,5 @@ int	            max(int a, int b);
 int	            min(int a, int b);
 
 void	        print_rgb(t_rgb rgb);
+
+double	        calc_time_diff(struct timeval *start, struct timeval *end);
