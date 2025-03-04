@@ -77,6 +77,7 @@ typedef struct s_light
 	t_vec3	    pos;
 	float		brightness;
 	t_rgb	    colour;
+    t_vec3      dir;
 } 				t_light;
 
 typedef struct s_camera
@@ -92,7 +93,7 @@ typedef struct s_camera
 typedef struct s_scene
 {
 	t_light		ambient_light;
-	t_light		light_src;
+	t_light		light;
 	t_camera	camera;
     t_arrlst    *objs;
 	t_basis     world;

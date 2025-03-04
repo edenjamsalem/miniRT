@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 15:00:40 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:46:15 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	print_scene(t_scene *scene)
 	printf("camera orientation = %f,%f,%f\n", scene->camera.forward.x, scene->camera.forward.y, scene->camera.forward.z);
 	printf("camera FOV = %d\n", scene->camera.fov);
 	
-	printf("light source pos = %f,%f,%f\n", scene->light_src.pos.x, scene->light_src.pos.y, scene->light_src.pos.z);
-	printf("light brightness ratio %f\n", scene->light_src.brightness);	
+	printf("light source pos = %f,%f,%f\n", scene->light.pos.x, scene->light.pos.y, scene->light.pos.z);
+	printf("light brightness ratio %f\n", scene->light.brightness);	
 }
 */
 

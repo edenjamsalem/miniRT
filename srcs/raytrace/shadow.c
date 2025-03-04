@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:37:45 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/03 18:11:58 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:46:15 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	cast_shadow_ray(t_intsec *intersection, t_scene *scene)
     double  light_distance;
 	
 	shadow.origin = intersection->pos;
-	shadow.direction = normalize(sub(scene->light_src.pos, shadow.origin));
-    light_distance = magnitude(sub(scene->light_src.pos, shadow.origin));
+	shadow.direction = normalize(sub(scene->light.pos, shadow.origin));
+    light_distance = magnitude(sub(scene->light.pos, shadow.origin));
 	return (shadow_ray_intersects(&shadow, scene->objs->content, light_distance, intersection->obj));
 }

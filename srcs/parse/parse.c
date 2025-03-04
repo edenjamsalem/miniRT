@@ -32,7 +32,7 @@ bool	check_line(t_scene *scene, char **data, int line_nbr)
 {
 	static bool ambient_light;
 	static bool camera;
-	static bool light_src;
+	static bool light;
 
 	if (!data || !(*data))
 		return (0);
@@ -50,9 +50,9 @@ bool	check_line(t_scene *scene, char **data, int line_nbr)
 	}
 	else if(ft_match(data[0], "L")) // rem this check for bonus
 	{
-		if (light_src)
+		if (light)
 			perror_exit(DUPLICATE, line_nbr, data, 0, scene);
-		light_src = true;
+		light = true;
 	}
 	return (1);
 }
