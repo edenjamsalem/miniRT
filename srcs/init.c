@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/04 16:00:35 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:43:15 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,12 @@ void init_intsec(t_intsec *intersection)
 	intersection->in_shadow = false;
 	intersection->t = INFINITY;
 	intersection->obj = NULL;
+}
+
+void	assign_default(t_material *properties)
+{
+	properties->Ka = 0.2;
+	properties->Kd = 0.7;
+	properties->Ks = 0.3;
+	properties->n = 50;
 }

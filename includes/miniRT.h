@@ -208,6 +208,8 @@ void	init_scene_basis(t_scene *scene);
 
 void	init_camera_basis(t_camera *camera, t_basis *world);
 
+void	assign_default(t_material *properties);
+
 // MLX
 
 int     key_event(int keysym, t_mlx *mlx);
