@@ -30,49 +30,49 @@ t_rgb	get_Id(t_light *light, t_intsec *intsec)
 	
 	light_direction = normalize(sub(light->pos, intsec->pos));
 	diffuse_reflection = dot(light_direction, intsec->normal);
-	// printf("diffuse reflection = %f\n", diffuse_reflection);
+
 	if (diffuse_reflection <= 0.0)
-	{
 		return ((t_rgb){0, 0, 0});
-	}
+
 	intensity = light->brightness * Kd * diffuse_reflection;
-	// printf("intensity = %f\n", intensity);
-	// print_rgb(light->colour);
 	return (rgb_scale(light->colour, intensity));
 }
-/*
-double	get_Is(t_light *light, t_intsec *intsec)
+
+t_rgb	get_Is(t_light *light, t_intsec *intsec)
 {
 	double	Ks = 0.3;
-	double	light_on_surface;
+	double	a = 200;
+	double	specular_reflection;
 	t_vec3	reflection;
+	double	intensity;
 
 	reflection = normalize(sub(light->pos, intsec->pos));
-	light_on_surface = dot(light_direction, intsec->normal);
-	if (light_on_surface <= 0.0)
-		return (0.0);
-	else
-		return (light->brightness * Ks * light_on_surface);
+	specular_reflection = dot(reflection, intsec->normal);
+	
+	if (specular_reflection <= 0.0)
+		return ((t_rgb){0, 0, 0});
+
+	specular_reflection = pow(specular_reflection, a);
+	intensity = light->brightness * Ks * specular_reflection;
+	return (rgb_scale(light->colour, intensity));
 }
-*/
+
 
 t_rgb	phong(t_scene *scene, t_intsec *intsec)
 {
 	t_rgb	Ia;
 	t_rgb	Id;
+	t_rgb	Is;
 	t_rgb	I;
-//	t_rgb	Is;
-	t_rgb	colour;
 
 	Ia = get_Ia(&scene->ambient_light);
 	if (intsec->in_shadow)
-		return (Ia);
-	Id = get_Id(&scene->light_src, intsec);
-//	Is = get_Is(&scene->light_src, intsec);
+		return (rgb_mult(intsec->colour, Ia));
 
+	Id = get_Id(&scene->light_src, intsec);
+	Is = get_Is(&scene->light_src, intsec);
 	I = rgb_add(Ia, Id);
-	colour.r = min(((intsec->colour.r * I.r) / 255.0), 255);
-	colour.g = min(((intsec->colour.g * I.g) / 255.0), 255);
-	colour.b = min(((intsec->colour.b * I.b) / 255.0), 255);
-	return (colour);
+	I = rgb_add(I, Is);
+
+	return (rgb_mult(intsec->colour, I));
 }

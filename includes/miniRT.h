@@ -263,6 +263,8 @@ t_rgb	        rgb_sub(t_rgb a, t_rgb b);
 
 t_rgb	        rgb_scale(t_rgb a, double t);
 
+t_rgb           rgb_mult(t_rgb a, t_rgb b);
+
 int	            max(int a, int b);
 
 int	            min(int a, int b);
