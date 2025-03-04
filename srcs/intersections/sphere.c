@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:46:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/03 18:12:03 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:00:24 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
 	{
 		intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
 		intsec->colour = sphere->colour;
-		intsec->shape = SPHERE;
 		intsec->normal = normalize(sub(intsec->pos, sphere->center));
 		intsec->obj = (void *)sphere;
 	}

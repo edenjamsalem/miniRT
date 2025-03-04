@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:47:43 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/02/27 15:09:23 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:17:43 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 {
 	t_sphere	*sphere;
+	int			no_elems;
 
-	if (ft_2darr_len((void **)data) != 4)
+	no_elems = ft_2darr_len((void **)data);
+	if (no_elems < 4 || no_elems > 5)
 		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
+	
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
 		perror_exit(MALLOC, 0, data, 0, scene);
@@ -30,13 +33,17 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 	
 	if (!assign_rgb(&sphere->colour, data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
+	if (no_elems == 5 && !assign_material(&sphere->properties, data[4]))
+		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
 }
 
 void	get_plane_data(t_scene *scene, char **data, int line_nbr)
 {
 	t_plane	*plane;
+	int		no_elems;
 
-	if (ft_2darr_len((void **)data) != 4)
+	no_elems = ft_2darr_len((void **)data);
+	if (no_elems < 4 || no_elems > 5)
 		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
 	plane = malloc(sizeof(t_plane));
 	if (!plane)
@@ -51,14 +58,19 @@ void	get_plane_data(t_scene *scene, char **data, int line_nbr)
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);	
 	if (!assign_rgb(&plane->colour, data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
+	if (no_elems == 5 && !assign_material(&plane->properties, data[4]))
+		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
 }
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
 {
-	t_cylinder		*cylinder;
+	t_cylinder	*cylinder;
+	int			no_elems;
 
-	if (ft_2darr_len((void **)data) != 6)
+	no_elems = ft_2darr_len((void **)data);
+	if (no_elems < 6 || no_elems > 7)
 		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
+
 	cylinder = malloc(sizeof(t_cylinder));
 	if (!cylinder)
 		perror_exit(MALLOC, 0, data, 0, scene);
@@ -74,4 +86,6 @@ void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);
 	if (!assign_rgb(&cylinder->colour, data[5]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 5, scene);
+	if (no_elems == 7 && !assign_material(&cylinder->properties, data[6]))
+		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
 }

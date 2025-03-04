@@ -92,7 +92,7 @@ typedef struct s_camera
 
 typedef struct s_scene
 {
-	t_light		ambient_light;
+    t_light		ambient_light;
 	t_light		light;
 	t_camera	camera;
     t_arrlst    *objs;
@@ -101,6 +101,14 @@ typedef struct s_scene
 	t_vec3		world_step_y;
 }				t_scene;
 
+typedef struct s_material
+{
+    double  Ka;
+    double  Kd;
+    double  Ks;
+    double  n;
+}           t_material;
+
 typedef struct s_sphere
 {
     t_shape     shape;
@@ -108,6 +116,7 @@ typedef struct s_sphere
     double		diameter;
     double		radius;
     t_rgb		colour;
+    t_material  properties;
 }				t_sphere;
 
 typedef struct s_plane
@@ -116,30 +125,29 @@ typedef struct s_plane
     t_vec3	    point;
     t_vec3	    normal;
     t_rgb		colour;
+    t_material  properties;
 }				t_plane;
 
 typedef struct s_cylinder
 {
-    t_shape     shape;
-    t_vec3	    center;
-    t_vec3	    normal;
-    double		diameter;
-    double		height;
-    t_rgb		colour;
+    t_shape	shape;
+    t_vec3	center;
+    t_vec3	normal;
+    double	diameter;
+    double	height;
+    t_rgb	colour;
+    t_material  properties;
 }				t_cylinder;
 
 typedef struct s_intersection
 {
-    t_vec3  pos;
-    t_vec3  normal;
-    t_rgb   colour;
-    t_shape shape;
-    void    *obj;
-    double  t;
-	bool	in_shadow;
-    double  k_ambient;
-    double  k_diffuse;
-    double  k_specular;
+    t_vec3      pos;
+    t_vec3      normal;
+    t_rgb       colour;
+    void        *obj;
+    double      t;
+	bool	    in_shadow;
+    t_material  properties;
 }              t_intsec;
 
 typedef struct s_ray
@@ -181,6 +189,8 @@ void    parse(char *file, t_scene *scene);
 void	perror_exit(t_err err, int line_nbr, char **data, int i, t_scene *scene);
 
 void	assign_vector(t_vec3 *vector, char *data);
+
+bool	assign_material(t_material *material, char *data);
 
 bool	in_range(double value, double lower, double higher);
 

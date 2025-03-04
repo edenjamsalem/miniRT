@@ -68,3 +68,24 @@ void	assign_vector(t_vec3 *vector, char *data)
 	vector->z = ft_atof(coords[2]);
 	free_2darr((void **)coords, 3);
 }
+
+bool	assign_material(t_material *material, char *data)
+{
+	char	**properties;
+
+	properties = ft_split(data, ',');
+	material->Ka = ft_atof(properties[0]);
+	material->Kd = ft_atof(properties[1]);
+	material->Ks = ft_atof(properties[2]);
+	material->n = ft_atof(properties[3]);
+
+	if (!in_range(material->Ka, 0.0, 1.0))
+		return (0);
+	if (!in_range(material->Kd, 0.0, 1.0))
+		return (0);
+	if (!in_range(material->Ks, 0.0, 1.0))
+		return (0);
+	if (!in_range(material->n, 0.0, 300.0))
+		return (0);
+	return (1);
+}
