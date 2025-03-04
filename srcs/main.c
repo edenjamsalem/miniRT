@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/04 15:46:15 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/04 17:05:55 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,11 @@ void	free_mem(t_mlx *mlx)
 int main(int argc, char **argv)
 {
 	t_mlx	mlx;
+	struct timeval	start; // for testing only
+	struct timeval	end;
 	
+	gettimeofday(&start, NULL);
+
 	if (argc != 2)
 		return (1);
 	mlx.scene.objs = init_arrlst(4);
@@ -50,6 +54,9 @@ int main(int argc, char **argv)
 	init_camera_basis(&mlx.scene.camera, &mlx.scene.world);
 	
 	raytrace(&mlx.scene, &mlx);
+
+	gettimeofday(&end, NULL);
+	printf("time = %f\n", calc_time_diff(&start, &end) / 1000);
 	
 	mlx_hook(mlx.win, KEY_PRS_EVT, 1L << 0, key_event, &mlx);
 //	mlx_hook(mlx.win, BTN_PRS_EVT, 1L << 2, mouse_event, &mlx);

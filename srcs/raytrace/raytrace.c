@@ -45,10 +45,7 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 	int			i;
 	int			j;
 	t_rgb		colour;
-	struct timeval	start;
-	struct timeval	end;
-	
-	gettimeofday(&start, NULL);
+
 	ray.origin = scene->camera.pos;
 	i = 0;
 	while (i < WIN_HEIGHT - 1)
@@ -68,9 +65,6 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		}
 		i++;
 	}
-	gettimeofday(&end, NULL);
-	printf("time = %f\n", calc_time_diff(&start, &end) / 1000);
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
 	printf("FINISHED RAYTRACE\n");
 }
-

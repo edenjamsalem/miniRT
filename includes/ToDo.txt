@@ -13,11 +13,9 @@ intersections:
 	- cylinder
 	- find closest intersection ==> E
 
-Phong Shading Model:
+Phong Shading Model ==> E
 	- 
 
 Texture Mapping:
 	-
-
- 
-
+	
