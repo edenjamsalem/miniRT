@@ -59,10 +59,11 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 			ray.direction = calc_ray_dir(&scene->camera, j, i);
 			ray.intersection = find_intersection(&ray, scene->objs->content);
 			if (ray.intersection.obj)
+			{
 			  	ray.intersection.in_shadow = cast_shadow_ray(&ray.intersection, scene);
-			
-			colour = blinn_phong(scene, &ray.intersection, scale(ray.direction, -1));
-			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &colour);
+				colour = blinn_phong(scene, &ray.intersection, scale(ray.direction, -1));
+				put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &colour);
+			}	
 			j++;
 		}
 		i++;

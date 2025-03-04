@@ -57,7 +57,7 @@ t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir)
 
 	Ia = get_Ia(&scene->ambient_light, intsec->properties.Ka);
 	if (intsec->in_shadow)
-	return (rgb_mult(intsec->colour, Ia));
+		return (rgb_mult(intsec->colour, Ia));
 	
 	scene->light.dir = normalize(sub(scene->light.pos, intsec->pos));
 	Id = get_Id(&scene->light, intsec, intsec->properties.Kd);

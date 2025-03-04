@@ -45,10 +45,10 @@ typedef enum e_err
 
 typedef enum e_shape
 {
+    NONE,
     SPHERE,
     PLANE,
     CYLINDER,
-    NONE,
 }				t_shape;
 
 typedef struct s_rgb
