@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:47:43 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/04 16:17:43 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:29:11 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 	if (!assign_rgb(&sphere->colour, data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
 	if (no_elems == 5 && !assign_material(&sphere->properties, data[4]))
-		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
+		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 4, scene);
 }
 
 void	get_plane_data(t_scene *scene, char **data, int line_nbr)
@@ -59,7 +59,7 @@ void	get_plane_data(t_scene *scene, char **data, int line_nbr)
 	if (!assign_rgb(&plane->colour, data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
 	if (no_elems == 5 && !assign_material(&plane->properties, data[4]))
-		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
+		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 4, scene);
 }
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
@@ -87,5 +87,5 @@ void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
 	if (!assign_rgb(&cylinder->colour, data[5]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 5, scene);
 	if (no_elems == 7 && !assign_material(&cylinder->properties, data[6]))
-		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
+		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 6, scene);
 }

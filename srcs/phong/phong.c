@@ -12,18 +12,16 @@
 
 #include "../includes/miniRT.h"
 
-t_rgb	get_Ia(t_light *ambient)
+t_rgb	get_Ia(t_light *ambient, double Ka)
 {
-	double	Ka = 0.3;
 	double	intensity;
 
 	intensity = ambient->brightness * Ka;
 	return (rgb_scale(ambient->colour, intensity));
 }
 
-t_rgb	get_Id(t_light *light, t_intsec *intsec)
+t_rgb	get_Id(t_light *light, t_intsec *intsec, double Kd)
 {
-	double	Kd = 0.9;
 	double	diffuse_reflection;
 	double	intensity;
 
@@ -35,10 +33,8 @@ t_rgb	get_Id(t_light *light, t_intsec *intsec)
 	return (rgb_scale(light->colour, intensity));
 }
 
-t_rgb	get_Is(t_light *light, t_intsec *intsec, t_vec3 view_dir)
+t_rgb	get_Is(t_light *light, t_intsec *intsec, t_vec3 view_dir, double Ks, double n)
 {
-	double	Ks = 0.3;
-	double	n = 200;
 	t_vec3	H;
 	double	intensity;
 	double	spec;
@@ -59,13 +55,13 @@ t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir)
 	t_rgb	Is;
 	t_rgb	I;
 
-	Ia = get_Ia(&scene->ambient_light);
+	Ia = get_Ia(&scene->ambient_light, intsec->properties.Ka);
 	if (intsec->in_shadow)
 	return (rgb_mult(intsec->colour, Ia));
 	
 	scene->light.dir = normalize(sub(scene->light.pos, intsec->pos));
-	Id = get_Id(&scene->light, intsec);
-	Is = get_Is(&scene->light, intsec, view_dir);
+	Id = get_Id(&scene->light, intsec, intsec->properties.Kd);
+	Is = get_Is(&scene->light, intsec, view_dir, intsec->properties.Ks, intsec->properties.n);
 	I = rgb_add(Ia, Id);
 	I = rgb_add(I, Is);
 

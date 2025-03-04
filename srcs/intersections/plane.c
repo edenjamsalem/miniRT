@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:47:17 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/04 16:00:19 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:23:16 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec)
 		intsec->colour = plane->colour;
 		intsec->normal = plane->normal;
 		intsec->obj = (void *)plane;
+		intsec->properties = plane->properties;
 	}	
 }
