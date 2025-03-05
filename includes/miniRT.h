@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <sys/time.h>
+#include <pthread.h>
 
 //      WINDOW SIZE
 #define WIN_WIDTH        1200
@@ -207,7 +208,7 @@ void	init_scene_basis(t_scene *scene);
 
 void	init_camera_basis(t_camera *camera, t_basis *world);
 
-void	assign_default(t_material *properties);
+void	assign_default_material(t_material *properties);
 
 // MLX
 

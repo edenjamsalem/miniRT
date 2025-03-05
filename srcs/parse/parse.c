@@ -57,6 +57,8 @@ void parse(char *file, t_scene *scene)
 	char	**data;
 	int		line_nbr;
 
+	scene->objs = init_arrlst(4);
+	scene->lights = init_arrlst(4);
 	fd = open(file, O_RDONLY);
 	line = get_next_line(fd);
 	line_nbr = 1;

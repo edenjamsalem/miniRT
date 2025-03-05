@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/05 14:41:35 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:45:42 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,29 @@ void	free_mem(t_mlx *mlx)
 	free(mlx->ptr);
 }
 
+void	init_project(t_mlx *mlx)
+{
+	init_mlx_data(mlx);
+	init_img_data(&mlx->img, mlx);
+	init_scene_basis(&mlx->scene);
+	init_camera_basis(&mlx->scene.camera, &mlx->scene.world);
+}
+
 int main(int argc, char **argv)
 {
 	t_mlx	mlx;
 	struct timeval	start; // for testing only
 	struct timeval	end;
+	int		nbr_cores;
 	
 	gettimeofday(&start, NULL);
-
+	
 	if (argc != 2)
 		return (1);
-	mlx.scene.objs = init_arrlst(4);
-	mlx.scene.lights = init_arrlst(4);
 	parse(argv[1], &mlx.scene);
+	init_project(&mlx);
 	
-	init_mlx_data(&mlx);
-	init_img_data(&mlx.img, &mlx);
-	init_scene_basis(&mlx.scene);
-	init_camera_basis(&mlx.scene.camera, &mlx.scene.world);
+	nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	
 	raytrace(&mlx.scene, &mlx);
 

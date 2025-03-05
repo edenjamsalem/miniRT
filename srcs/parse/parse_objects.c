@@ -6,11 +6,19 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:47:43 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/04 16:43:31 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:47:03 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
+
+void	assign_default_material(t_material *properties)
+{
+	properties->Ka = 0.2;
+	properties->Kd = 0.7;
+	properties->Ks = 0.3;
+	properties->n = 50;
+}
 
 void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 {
@@ -30,7 +38,7 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 	assign_vector(&sphere->center, data[1]);
 	sphere->diameter = ft_atof(data[2]);
 	sphere->radius = sphere->diameter / 2.0;
-	assign_default(&sphere->properties);
+	assign_default_material(&sphere->properties);
 	
 	if (!assign_rgb(&sphere->colour, data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
@@ -54,7 +62,7 @@ void	get_plane_data(t_scene *scene, char **data, int line_nbr)
 	plane->shape = PLANE;
 	assign_vector(&plane->point, data[1]);
 	assign_vector(&plane->normal, data[2]);
-	assign_default(&plane->properties);
+	assign_default_material(&plane->properties);
 	
 	if (!vector_in_range(&plane->normal, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);	
@@ -83,7 +91,7 @@ void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
 	assign_vector(&cylinder->normal, data[2]);
 	cylinder->diameter = ft_atof(data[3]);
 	cylinder->height = ft_atof(data[4]);
-	assign_default(&cylinder->properties);
+	assign_default_material(&cylinder->properties);
 
 	if (!vector_in_range(&cylinder->normal, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);
