@@ -66,6 +66,13 @@ typedef struct s_vec3
     double          z;
 }				t_vec3;
 
+
+typedef struct s_vec2
+{
+    double          x;
+    double          y;
+}				t_vec2;
+
 typedef struct s_basis
 {
     t_vec3  right;

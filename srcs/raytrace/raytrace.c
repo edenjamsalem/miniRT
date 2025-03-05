@@ -23,7 +23,7 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *cam)
 	return(world_dir);
 }
 
-t_vec3	calc_ray_dir(t_camera *camera, int x, int y)
+t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 *offset)
 {
 	t_vec3	ndc_dir;
 	t_vec3	world_dir;
@@ -39,27 +39,51 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y)
 	return (normalize(world_dir));
 }
 
-void	render_pixel(t_ray *ray, int x, int y, t_mlx *mlx)
+void	init_offset(t_vec2 *offset)
 {
-	t_rgb		colour;
+	int	i;
+	int	j;
 
-	ray->direction = calc_ray_dir(&mlx->scene.camera, x, y);
-	ray->intersection = find_intersection(ray, mlx->scene.objs->content);
-	if (ray->intersection.obj)
+	i = 0;
+	while (i < 4)
 	{
-	  	cast_shadow_rays(&ray->intersection, &mlx->scene);
-		colour = blinn_phong(&mlx->scene, &ray->intersection, scale(ray->direction, -1));
-		put_pixel(&mlx->img, &(t_vec3){x, y, 0}, &colour);
-	}	
+		j = 0;
+		while (j < 4)
+		{
+			offset->x = 0.25 * i;
+			offset->y = 0.25 * j;
+		}
+	}
+}
+
+void	render_pixel(int x, int y, t_mlx *mlx)
+{
+	t_rgb		colour[16];
+	t_ray		ray[16];
+	t_vec2		offset[16];
+	int			i;
+
+	init_offset(offset);
+	i = 0;
+	while (i < 16)
+	{
+		ray[i].origin = mlx->scene.camera.pos;
+		ray[i].direction = calc_ray_dir(&mlx->scene.camera, x, y);
+		ray[i].intersection = find_intersection(ray, mlx->scene.objs->content);
+		if (ray->intersection.obj)
+		{
+		  	cast_shadow_rays(&ray->intersection, &mlx->scene);
+			colour[i] = blinn_phong(&mlx->scene, &ray->intersection, scale(ray->direction, -1));
+		}
+	}
+	put_pixel(&mlx->img, &(t_vec3){x, y, 0}, &colour);
 }
 
 void	raytrace(t_scene *scene, t_mlx *mlx)
 {
-	t_ray		ray;
 	int			i;
 	int			j;
 
-	ray.origin = scene->camera.pos;
 	i = 0;
 	while (i < WIN_HEIGHT - 1)
 	{
