@@ -45,6 +45,11 @@ t_rgb rgb_mult(t_rgb a, t_rgb b)
     });
 }
 
+bool    rgb_equal(t_rgb a, t_rgb b)
+{
+    return (a.r == b.r && a.g == b.g && a.b == b.b);
+}
+
 void	print_rgb(t_rgb rgb)
 {
 	printf("{%d, %d, %d}\n", rgb.r, rgb.g, rgb.b);

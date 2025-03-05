@@ -60,7 +60,7 @@ static void	init_offset(t_vec2 *offset)
 	}
 }
 
-static t_rgb	rgb_average(t_rgb colours[16])
+static t_rgb	rgb_average(t_rgb colours[16], int count)
 {
 	int	r;
 	int	g;
@@ -71,17 +71,32 @@ static t_rgb	rgb_average(t_rgb colours[16])
 	r = 0;
 	g = 0;
 	b = 0;
-	while (i < 16)
+	while (i < count)
 	{
 		r += colours[i].r;
 		g += colours[i].g;
 		b += colours[i].b;
 		i++;
 	}
-	r = round(r / 16.0);
-	g = round(g / 16.0);
-	b = round(b / 16.0);
+	r = round(r / count);
+	g = round(g / count);
+	b = round(b / count);
 	return ((t_rgb){r, g, b});
+}
+
+
+bool	all_equal(t_rgb *colours, int count)
+{
+	int i;
+
+	i = 0;
+	while (i < count - 1)
+	{
+		if (!rgb_equal(colours[i], colours[i + 1]))
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 void	render_pixel(int x, int y, t_mlx *mlx)
@@ -105,9 +120,11 @@ void	render_pixel(int x, int y, t_mlx *mlx)
 		  	cast_shadow_rays(&ray[i].intersection, &mlx->scene);
 			colours[i] = blinn_phong(&mlx->scene, &ray[i].intersection, scale(ray[i].direction, -1));
 		}
+		if (i == 8 && all_equal(colours, i))
+			break ;
 		i++;
 	}
-	final_colour = rgb_average(colours);
+	final_colour = rgb_average(colours, i);
 	put_pixel(&mlx->img, &(t_vec3){x, y, 0}, &final_colour);
 }
 
