@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/04 16:43:15 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:23:11 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void init_intsec(t_intsec *intersection)
 {
 	intersection->pos = (t_vec3){INFINITY, INFINITY, INFINITY};
 	intersection->colour = (t_rgb){0, 0, 0};
-	intersection->in_shadow = false;
+	intersection->in_shadow = true;
 	intersection->t = INFINITY;
 	intersection->obj = NULL;
 }

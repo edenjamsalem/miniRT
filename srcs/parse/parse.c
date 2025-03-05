@@ -19,7 +19,7 @@ void	extract_data(t_scene *scene, char **data, int line_nbr)
 	else if (ft_match(data[0], "C"))
 		get_camera_data(scene, data, line_nbr);
 	else if (ft_match(data[0], "L"))
-		get_light_src_data(scene, data, line_nbr);
+		get_light_data(scene, data, line_nbr);
 	else if (ft_match(data[0], "sp"))
 		get_sphere_data(scene, data, line_nbr);
 	else if (ft_match(data[0], "pl"))
@@ -32,7 +32,6 @@ bool	check_line(t_scene *scene, char **data, int line_nbr)
 {
 	static bool ambient_light;
 	static bool camera;
-	static bool light;
 
 	if (!data || !(*data))
 		return (0);
@@ -47,12 +46,6 @@ bool	check_line(t_scene *scene, char **data, int line_nbr)
 		if (camera)
 			perror_exit(DUPLICATE, line_nbr, data, 0, scene);
 		camera = true;
-	}
-	else if(ft_match(data[0], "L")) // rem this check for bonus
-	{
-		if (light)
-			perror_exit(DUPLICATE, line_nbr, data, 0, scene);
-		light = true;
 	}
 	return (1);
 }

@@ -78,6 +78,7 @@ typedef struct s_light
 	float		brightness;
 	t_rgb	    colour;
     t_vec3      dir;
+    bool        hits_pixel;
 } 				t_light;
 
 typedef struct s_camera
@@ -92,13 +93,11 @@ typedef struct s_camera
 
 typedef struct s_scene
 {
-    t_light		ambient_light;
-	t_light		light;
 	t_camera	camera;
+    t_light		ambient_light;
+    t_arrlst    *lights;
     t_arrlst    *objs;
 	t_basis     world;
-	t_vec3		world_step_x;
-	t_vec3		world_step_y;
 }				t_scene;
 
 typedef struct s_material
@@ -180,7 +179,7 @@ void	get_ambient_light_data(t_scene *scene, char **data, int line_nbr);
 
 void	get_camera_data(t_scene *scene, char **data, int line_nbr);
 
-void	get_light_src_data(t_scene *scene, char **data, int line_nbr);
+void	get_light_data(t_scene *scene, char **data, int line_nbr);
 
 void	extract_data(t_scene *scene, char **data, int line_nbr);
 
@@ -250,7 +249,7 @@ void	raytrace(t_scene *scene, t_mlx *mlx);
 
 void	init_intsec(t_intsec *intersection);
 
-bool	cast_shadow_ray(t_intsec *intersection, t_scene *scene);
+void	cast_shadow_rays(t_intsec *intersection, t_scene *scene);
 
 t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir);
 
