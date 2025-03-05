@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
-#include <time.h>
 
 t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *cam)
 {
@@ -23,13 +22,13 @@ t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *cam)
 	return(world_dir);
 }
 
-t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 *offset)
+t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 {
 	t_vec3	ndc_dir;
 	t_vec3	world_dir;
 
-	ndc_dir.x = ((2.0 * ((x + 0.5) / WIN_WIDTH)) - 1) * camera->aspect_ratio;
-	ndc_dir.y = 1 -  (2.0 * ((y + 0.5) / WIN_HEIGHT));
+	ndc_dir.x = ((2.0 * ((x + offset.x) / WIN_WIDTH)) - 1) * camera->aspect_ratio;
+	ndc_dir.y = 1 -  (2.0 * ((y + offset.y) / WIN_HEIGHT));
 	
 	ndc_dir.x *= camera->fov_tan;
 	ndc_dir.y *= camera->fov_tan;
@@ -39,26 +38,56 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 *offset)
 	return (normalize(world_dir));
 }
 
-void	init_offset(t_vec2 *offset)
+static void	init_offset(t_vec2 *offset)
 {
 	int	i;
 	int	j;
+	int	k;
 
 	i = 0;
+	k = 0;
 	while (i < 4)
 	{
 		j = 0;
 		while (j < 4)
 		{
-			offset->x = 0.25 * i;
-			offset->y = 0.25 * j;
+			offset[k].x = 0.125 + (0.25 * j);
+			offset[k].y = 0.125 + (0.25 * i);
+			j++;
+			k++;
 		}
+		i++;
 	}
+}
+
+static t_rgb	rgb_average(t_rgb colours[16])
+{
+	int	r;
+	int	g;
+	int	b;
+	int	i;
+
+	i = 0;
+	r = 0;
+	g = 0;
+	b = 0;
+	while (i < 16)
+	{
+		r += colours[i].r;
+		g += colours[i].g;
+		b += colours[i].b;
+		i++;
+	}
+	r = round(r / 16.0);
+	g = round(g / 16.0);
+	b = round(b / 16.0);
+	return ((t_rgb){r, g, b});
 }
 
 void	render_pixel(int x, int y, t_mlx *mlx)
 {
-	t_rgb		colour[16];
+	t_rgb		colours[16];
+	t_rgb		final_colour;
 	t_ray		ray[16];
 	t_vec2		offset[16];
 	int			i;
@@ -68,18 +97,21 @@ void	render_pixel(int x, int y, t_mlx *mlx)
 	while (i < 16)
 	{
 		ray[i].origin = mlx->scene.camera.pos;
-		ray[i].direction = calc_ray_dir(&mlx->scene.camera, x, y);
-		ray[i].intersection = find_intersection(ray, mlx->scene.objs->content);
-		if (ray->intersection.obj)
+		ray[i].direction = calc_ray_dir(&mlx->scene.camera, x, y, offset[i]);
+		ray[i].intersection = find_intersection(&ray[i], mlx->scene.objs->content);
+		colours[i] = (t_rgb){0, 0, 0};
+		if (ray[i].intersection.obj)
 		{
-		  	cast_shadow_rays(&ray->intersection, &mlx->scene);
-			colour[i] = blinn_phong(&mlx->scene, &ray->intersection, scale(ray->direction, -1));
+		  	cast_shadow_rays(&ray[i].intersection, &mlx->scene);
+			colours[i] = blinn_phong(&mlx->scene, &ray[i].intersection, scale(ray[i].direction, -1));
 		}
+		i++;
 	}
-	put_pixel(&mlx->img, &(t_vec3){x, y, 0}, &colour);
+	final_colour = rgb_average(colours);
+	put_pixel(&mlx->img, &(t_vec3){x, y, 0}, &final_colour);
 }
 
-void	raytrace(t_scene *scene, t_mlx *mlx)
+void	raytrace(t_mlx *mlx)
 {
 	int			i;
 	int			j;
@@ -90,7 +122,7 @@ void	raytrace(t_scene *scene, t_mlx *mlx)
 		j = 0;
 		while (j < WIN_WIDTH - 1)
 		{ 
-			render_pixel(&ray, j, i, mlx);
+			render_pixel(j, i, mlx);
 			j++;
 		}
 		i++;

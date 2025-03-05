@@ -253,7 +253,7 @@ void	print_vector(t_vec3 a);
 
 // RAY TRACE
 
-void	raytrace(t_scene *scene, t_mlx *mlx);
+void	raytrace(t_mlx *mlx);
 
 void	init_intsec(t_intsec *intersection);
 

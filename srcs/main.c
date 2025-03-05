@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/05 16:45:42 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:22:26 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
 	
 	nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	
-	raytrace(&mlx.scene, &mlx);
+	raytrace(&mlx);
 
 	gettimeofday(&end, NULL);
 	printf("time = %f\n", calc_time_diff(&start, &end) / 1000);
