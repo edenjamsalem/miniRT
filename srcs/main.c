@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/06 16:16:21 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:30:31 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,32 +42,8 @@ void	init_project(t_mlx *mlx)
 	init_img_data(&mlx->img, mlx);
 	init_scene_basis(&mlx->scene);
 	init_camera_basis(&mlx->scene.camera, &mlx->scene.world);
-	mlx->ssaa.rpp = 32;
+	mlx->ssaa.rpp = 1;
 	init_offset(&mlx->ssaa);
-}
-
-void	init_offset(t_ssaa *ssaa)
-{
-	int	i;
-	int	j;
-	int	k;
-	double	step;
-
-	i = 0;
-	k = 0;
-	step = sqrt(ssaa->rpp);
-	while (i < step)
-	{
-		j = 0;
-		while (j < step)
-		{
-			ssaa->offset[k].x = (1.0 / step) * j;
-			ssaa->offset[k].y = (1.0 / step) * i;
-			j++;
-			k++;
-		}
-		i++;
-	}
 }
 
 int main(int argc, char **argv)
@@ -79,12 +55,10 @@ int main(int argc, char **argv)
 	
 	(void)argc;
 	gettimeofday(&start, NULL);
+	nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	
 	parse(argv[1], &mlx.scene);
 	init_project(&mlx);
-
-	nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
-	
 	raytrace(&mlx, &mlx.ssaa);
 
 	gettimeofday(&end, NULL);

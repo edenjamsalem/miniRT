@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/06 16:14:53 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:25:35 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,30 @@ void init_intsec(t_intsec *intersection)
 	intersection->in_shadow = true;
 	intersection->t = INFINITY;
 	intersection->obj = NULL;
+}
+
+void	init_offset(t_ssaa *ssaa)
+{
+	int	i;
+	int	j;
+	int	k;
+	double	step;
+
+	if (ssaa->rpp > 64)
+		ssaa->rpp = 64;
+	i = 0;
+	k = 0;
+	step = sqrt(ssaa->rpp);
+	while (i < step)
+	{
+		j = 0;
+		while (j < step)
+		{
+			ssaa->offset[k].x = (1.0 / step) * j;
+			ssaa->offset[k].y = (1.0 / step) * i;
+			k++;
+			j++;
+		}
+		i++;
+	}
 }
