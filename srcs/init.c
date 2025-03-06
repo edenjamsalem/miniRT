@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/06 15:06:06 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:55:50 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ void	init_offset(t_vec2 *offset, int rpp)
 	int	k;
 	double	step;
 
-	offset = malloc(sizeof(t_vec2) * rpp);
-	if (!offset)
-		perror_exit(MALLOC, 0, NULL, 0, NULL);
 	i = 0;
 	k = 0;
 	step = sqrt(rpp);

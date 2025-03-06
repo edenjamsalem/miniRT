@@ -76,53 +76,44 @@ bool	all_equal(t_rgb *colours, int count)
 	return (true);
 }
 
-void	render_pixel(int x, int y, t_mlx *mlx, int rpp)
+t_rgb	get_colour(int x, int y, t_mlx *mlx, t_vec2 offset)
 {
-	t_rgb		colours[rpp];
-	t_rgb		final_colour;
-	t_ray		*ray;
-	int			i;
+	t_ray	ray;
+	t_rgb	colour;
 
-	ray = malloc(sizeof(t_ray) * rpp);
-	if (!ray)
-		perror_exit(MALLOC, 0, NULL, 0, NULL);
-	i = 0;
-	while (i < rpp)
-	{
-		ray[i].origin = mlx->scene.camera.pos;
-		ray[i].direction = calc_ray_dir(&mlx->scene.camera, x, y, mlx->offset[i]);
-		ray[i].intersection = find_intersection(&ray[i], mlx->scene.objs->content);
-		colours[i] = (t_rgb){0, 0, 0};
-		if (ray[i].intersection.obj)
-		{
-		  	cast_shadow_rays(&ray[i].intersection, &mlx->scene);
-			colours[i] = blinn_phong(&mlx->scene, &ray[i].intersection, scale(ray[i].direction, -1));
-		}
-		//if (i == 8 && all_equal(colours, i))
-		//	break ;
-		i++;
-	}
-	final_colour = rgb_average(colours, i);
-	put_pixel(&mlx->img, &(t_vec3){x, y, 0}, &final_colour);
-	free(ray);
+	ray.origin = mlx->scene.camera.pos;
+	ray.direction = calc_ray_dir(&mlx->scene.camera, x, y, offset);
+	ray.intersection = find_intersection(&ray, mlx->scene.objs->content);
+	if (!ray.intersection.obj)
+		return ((t_rgb){0, 0, 0});
+	cast_shadow_rays(&ray.intersection, &mlx->scene);
+	colour = blinn_phong(&mlx->scene, &ray.intersection, scale(ray.direction, -1));
+	return (colour);
 }
 
 void	raytrace(t_mlx *mlx)
 {
 	int			i;
 	int			j;
+	int			k;
+	t_rgb		colours[mlx->rpp];
+	t_rgb		final_colour;
+	t_vec2		offset[mlx->rpp];
 
-	i = 0;
-	printf("rpp = %d\n", mlx->rpp);
-	while (i < WIN_HEIGHT - 1)
+	init_offset(offset, mlx->rpp);
+	i = -1;
+	while (++i < WIN_HEIGHT - 1)
 	{
-		j = 0;
-		while (j < WIN_WIDTH - 1)
+		j = -1;
+		while (++j < WIN_WIDTH - 1)
 		{ 
-			render_pixel(j, i, mlx, mlx->rpp);
-			j++;
+			k = -1;
+			while (++k < mlx->rpp)
+				colours[k] = get_colour(j, i, mlx, offset[k]);
+
+			final_colour = rgb_average(colours, mlx->rpp);
+			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &final_colour);
 		}
-		i++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
 	printf("FINISHED RAYTRACE\n");
