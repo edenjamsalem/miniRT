@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/06 15:11:16 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:42:04 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init_project(t_mlx *mlx)
 	init_img_data(&mlx->img, mlx);
 	init_scene_basis(&mlx->scene);
 	init_camera_basis(&mlx->scene.camera, &mlx->scene.world);
-	mlx->rpp = 32;
+	mlx->rpp = 16;
 	init_offset(mlx->offset, mlx->rpp);
 }
 
