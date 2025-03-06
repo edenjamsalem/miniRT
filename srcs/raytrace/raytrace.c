@@ -96,11 +96,10 @@ void	raytrace(t_mlx *mlx)
 	int			i;
 	int			j;
 	int			k;
-	t_rgb		colours[mlx->rpp];
+	t_rgb		colours[64];
 	t_rgb		final_colour;
-	t_vec2		offset[mlx->rpp];
 
-	init_offset(offset, mlx->rpp);
+	init_offset(mlx->offset, mlx->rpp);
 	i = -1;
 	while (++i < WIN_HEIGHT - 1)
 	{
@@ -109,7 +108,7 @@ void	raytrace(t_mlx *mlx)
 		{ 
 			k = -1;
 			while (++k < mlx->rpp)
-				colours[k] = get_colour(j, i, mlx, offset[k]);
+				colours[k] = get_colour(j, i, mlx, mlx->offset[k]);
 
 			final_colour = rgb_average(colours, mlx->rpp);
 			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &final_colour);

@@ -179,7 +179,7 @@ typedef struct s_mlx
 	void		*win;
 	t_img		img;
     t_scene     scene;
-	t_vec2		*offset;
+	t_vec2		offset[64];
 	int			rpp;
 }				t_mlx;
 
