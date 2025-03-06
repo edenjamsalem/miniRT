@@ -38,28 +38,6 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	return (normalize(world_dir));
 }
 
-static void	init_offset(t_vec2 *offset)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			offset[k].x = 0.125 + (0.25 * j);
-			offset[k].y = 0.125 + (0.25 * i);
-			j++;
-			k++;
-		}
-		i++;
-	}
-}
-
 static t_rgb	rgb_average(t_rgb colours[16], int count)
 {
 	int	r;
@@ -83,7 +61,6 @@ static t_rgb	rgb_average(t_rgb colours[16], int count)
 	b = round(b / count);
 	return ((t_rgb){r, g, b});
 }
-
 
 bool	all_equal(t_rgb *colours, int count)
 {
@@ -114,16 +91,14 @@ t_rgb	get_colour(int x, int y, t_mlx *mlx, t_vec2 offset)
 	return (colour);
 }
 
-void	raytrace(t_mlx *mlx)
+void	raytrace(t_mlx *mlx, t_ssaa *ssaa)
 {
 	int			i;
 	int			j;
 	int			k;
-	t_rgb		colours[16];
+	t_rgb		colours[64];
 	t_rgb		final_colour;
-	t_vec2		offset[16];
 
-	init_offset(offset);
 	i = -1;
 	while (++i < WIN_HEIGHT - 1)
 	{
@@ -131,10 +106,10 @@ void	raytrace(t_mlx *mlx)
 		while (++j < WIN_WIDTH - 1)
 		{ 
 			k = -1;
-			while (++k < 16)
-				colours[k] = get_colour(j, i, mlx, offset[k]);
+			while (++k < mlx->ssaa.rpp)
+				colours[k] = get_colour(j, i, mlx, ssaa->offset[k]);
 
-			final_colour = rgb_average(colours, 16);
+			final_colour = rgb_average(colours, ssaa->rpp);
 			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &final_colour);
 		}
 	}
