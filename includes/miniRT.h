@@ -179,6 +179,8 @@ typedef struct s_mlx
 	void		*win;
 	t_img		img;
     t_scene     scene;
+	t_vec2		*offset;
+	int			rpp;
 }				t_mlx;
 
 //	PARSE
@@ -295,3 +297,7 @@ int	            min(int a, int b);
 void	        print_rgb(t_rgb rgb);
 
 double	        calc_time_diff(struct timeval *start, struct timeval *end);
+
+// INIT
+
+void	init_offset(t_vec2 *offset, int rpp);

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/05 19:22:26 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:16 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	free_mem(t_mlx *mlx)
 	mlx_destroy_display(mlx->ptr);
 	free_arrlst(mlx->scene.objs, free);
 	free_arrlst(mlx->scene.lights, free);
+	free(mlx->offset);
 	free(mlx->ptr);
 }
 
@@ -42,6 +43,8 @@ void	init_project(t_mlx *mlx)
 	init_img_data(&mlx->img, mlx);
 	init_scene_basis(&mlx->scene);
 	init_camera_basis(&mlx->scene.camera, &mlx->scene.world);
+	mlx->rpp = 32;
+	init_offset(mlx->offset, mlx->rpp);
 }
 
 int main(int argc, char **argv)
@@ -57,7 +60,7 @@ int main(int argc, char **argv)
 		return (1);
 	parse(argv[1], &mlx.scene);
 	init_project(&mlx);
-	
+
 	nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	
 	raytrace(&mlx);

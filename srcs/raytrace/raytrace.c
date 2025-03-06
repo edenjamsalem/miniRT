@@ -38,28 +38,6 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	return (normalize(world_dir));
 }
 
-static void	init_offset(t_vec2 *offset)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			offset[k].x = 0.125 + (0.25 * j);
-			offset[k].y = 0.125 + (0.25 * i);
-			j++;
-			k++;
-		}
-		i++;
-	}
-}
-
 static t_rgb	rgb_average(t_rgb colours[16], int count)
 {
 	int	r;
@@ -84,7 +62,6 @@ static t_rgb	rgb_average(t_rgb colours[16], int count)
 	return ((t_rgb){r, g, b});
 }
 
-
 bool	all_equal(t_rgb *colours, int count)
 {
 	int i;
@@ -99,20 +76,21 @@ bool	all_equal(t_rgb *colours, int count)
 	return (true);
 }
 
-void	render_pixel(int x, int y, t_mlx *mlx)
+void	render_pixel(int x, int y, t_mlx *mlx, int rpp)
 {
-	t_rgb		colours[16];
+	t_rgb		colours[rpp];
 	t_rgb		final_colour;
-	t_ray		ray[16];
-	t_vec2		offset[16];
+	t_ray		*ray;
 	int			i;
 
-	init_offset(offset);
+	ray = malloc(sizeof(t_ray) * rpp);
+	if (!ray)
+		perror_exit(MALLOC, 0, NULL, 0, NULL);
 	i = 0;
-	while (i < 16)
+	while (i < rpp)
 	{
 		ray[i].origin = mlx->scene.camera.pos;
-		ray[i].direction = calc_ray_dir(&mlx->scene.camera, x, y, offset[i]);
+		ray[i].direction = calc_ray_dir(&mlx->scene.camera, x, y, mlx->offset[i]);
 		ray[i].intersection = find_intersection(&ray[i], mlx->scene.objs->content);
 		colours[i] = (t_rgb){0, 0, 0};
 		if (ray[i].intersection.obj)
@@ -120,12 +98,13 @@ void	render_pixel(int x, int y, t_mlx *mlx)
 		  	cast_shadow_rays(&ray[i].intersection, &mlx->scene);
 			colours[i] = blinn_phong(&mlx->scene, &ray[i].intersection, scale(ray[i].direction, -1));
 		}
-		if (i == 8 && all_equal(colours, i))
-			break ;
+		//if (i == 8 && all_equal(colours, i))
+		//	break ;
 		i++;
 	}
 	final_colour = rgb_average(colours, i);
 	put_pixel(&mlx->img, &(t_vec3){x, y, 0}, &final_colour);
+	free(ray);
 }
 
 void	raytrace(t_mlx *mlx)
@@ -134,12 +113,13 @@ void	raytrace(t_mlx *mlx)
 	int			j;
 
 	i = 0;
+	printf("rpp = %d\n", mlx->rpp);
 	while (i < WIN_HEIGHT - 1)
 	{
 		j = 0;
 		while (j < WIN_WIDTH - 1)
 		{ 
-			render_pixel(j, i, mlx);
+			render_pixel(j, i, mlx, mlx->rpp);
 			j++;
 		}
 		i++;
