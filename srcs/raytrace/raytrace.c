@@ -120,8 +120,8 @@ void	render_pixel(int x, int y, t_mlx *mlx)
 		  	cast_shadow_rays(&ray[i].intersection, &mlx->scene);
 			colours[i] = blinn_phong(&mlx->scene, &ray[i].intersection, scale(ray[i].direction, -1));
 		}
-		if (i == 8 && all_equal(colours, i))
-			break ;
+		//if (i == 8 && all_equal(colours, i))
+		//	break ;
 		i++;
 	}
 	final_colour = rgb_average(colours, i);
