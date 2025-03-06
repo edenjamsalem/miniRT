@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/06 15:55:50 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:14:53 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,30 +58,6 @@ void	init_camera_basis(t_camera *camera, t_basis *world)
 		camera->basis.right = normalize(cross(world->up, camera->basis.forward));
 
 	camera->basis.up = normalize(cross(camera->basis.forward, camera->basis.right));
-}
-
-void	init_offset(t_vec2 *offset, int rpp)
-{
-	int	i;
-	int	j;
-	int	k;
-	double	step;
-
-	i = 0;
-	k = 0;
-	step = sqrt(rpp);
-	while (i < step)
-	{
-		j = 0;
-		while (j < step)
-		{
-			offset[k].x = (1.0 / step) * j;
-			offset[k].y = (1.0 / step) * i;
-			j++;
-			k++;
-		}
-		i++;
-	}
 }
 
 void init_intsec(t_intsec *intersection)

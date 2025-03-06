@@ -173,14 +173,20 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
+typedef struct s_ssaa
+{
+	t_vec2		offset[64];
+	int			rpp;
+
+}   t_ssaa;
+
 typedef struct s_mlx
 {
 	void		*ptr;
 	void		*win;
 	t_img		img;
     t_scene     scene;
-	t_vec2		offset[64];
-	int			rpp;
+    t_ssaa      ssaa;
 }				t_mlx;
 
 //	PARSE
@@ -213,10 +219,6 @@ void	get_plane_data(t_scene *scene, char **data, int line_nbr);
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr);
 
-void	init_scene_basis(t_scene *scene);
-
-void	init_camera_basis(t_camera *camera, t_basis *world);
-
 void	assign_default_material(t_material *properties);
 
 // MLX
@@ -227,9 +229,6 @@ int	    close_window(t_mlx *mlx);
 
 void	free_mem(t_mlx *mlx);
 
-void	init_mlx_data(t_mlx *mlx);
-
-void	init_img_data(t_img *img, t_mlx *mlx);
 
 void	put_pixel(t_img *img, t_vec3 *pos, t_rgb *colour);
 
@@ -255,9 +254,8 @@ void	print_vector(t_vec3 a);
 
 // RAY TRACE
 
-void	raytrace(t_mlx *mlx);
+void	raytrace(t_mlx *mlx, t_ssaa *ssaa);
 
-void	init_intsec(t_intsec *intersection);
 
 void	cast_shadow_rays(t_intsec *intersection, t_scene *scene);
 
@@ -300,4 +298,14 @@ double	        calc_time_diff(struct timeval *start, struct timeval *end);
 
 // INIT
 
-void	init_offset(t_vec2 *offset, int rpp);
+void	init_offset(t_ssaa *ssaa);
+
+void	init_scene_basis(t_scene *scene);
+
+void	init_camera_basis(t_camera *camera, t_basis *world);
+
+void	init_mlx_data(t_mlx *mlx);
+
+void	init_img_data(t_img *img, t_mlx *mlx);
+
+void	init_intsec(t_intsec *intersection);
