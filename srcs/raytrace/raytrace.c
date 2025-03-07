@@ -38,44 +38,6 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	return (normalize(world_dir));
 }
 
-static t_rgb	rgb_average(t_rgb colours[16], int count)
-{
-	int	r;
-	int	g;
-	int	b;
-	int	i;
-
-	i = 0;
-	r = 0;
-	g = 0;
-	b = 0;
-	while (i < count)
-	{
-		r += colours[i].r;
-		g += colours[i].g;
-		b += colours[i].b;
-		i++;
-	}
-	r = round(r / count);
-	g = round(g / count);
-	b = round(b / count);
-	return ((t_rgb){r, g, b});
-}
-
-// bool	all_equal(t_rgb *colours, int count)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (i < count - 1)
-// 	{
-// 		if (!rgb_equal(colours[i], colours[i + 1]))
-// 			return (false);
-// 		i++;
-// 	}
-// 	return (true);
-// }
-
 t_rgb	get_colour(int x, int y, t_mlx *mlx, t_vec2 offset)
 {
 	t_ray	ray;
@@ -106,10 +68,10 @@ void	raytrace(t_mlx *mlx)
 		while (++j < WIN_WIDTH - 1)
 		{ 
 			k = -1;
-			while (++k < mlx->consts.rpp)
-				colours[k] = get_colour(j, i, mlx, mlx->consts.pixel_offsets[k]);
+			while (++k < mlx->scene.consts.rpp)
+				colours[k] = get_colour(j, i, mlx, mlx->scene.consts.pixel_offsets[k]);
 
-			final_colour = rgb_average(colours, mlx->consts.rpp);
+			final_colour = rgb_average(colours, mlx->scene.consts.rpp);
 			put_pixel(&mlx->img, &(t_vec2){j, i}, &final_colour);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 17:29:22 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 18:19:11 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,22 @@ void	free_mem(t_mlx *mlx)
 	free(mlx->ptr);
 }
 
-void	init_project(t_mlx *mlx)
+void	init_project(t_mlx *mlx, t_scene *scene)
 {
 	init_mlx_data(mlx);
 	init_img_data(&mlx->img, mlx);
-	init_scene_basis(&mlx->scene);
-	init_local_basis(&mlx->scene.camera.basis, mlx->scene.camera.orientation, &mlx->scene.world);
-	mlx->consts.rpp = 1;
-	mlx->consts.shadow_rpp = 2;
-	init_offset(&mlx->consts);
+	init_world_basis(&scene->consts.world);
+	init_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
+	scene->consts.rpp = 4;
+	scene->consts.shadow_rpp = 20;
+	init_offset(&scene->consts);
 }
+
+// 	TODO:
+//	- implement multiray casting only for borders
+//	- fix rendering inside objects
+//	- make light sources visible
+//	- try to get threads working for efficiency
 
 int main(int argc, char **argv)
 {
@@ -59,7 +65,7 @@ int main(int argc, char **argv)
 	nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	
 	parse(argv[1], &mlx.scene);
-	init_project(&mlx);
+	init_project(&mlx, &mlx.scene);
 	raytrace(&mlx);
 
 	gettimeofday(&end, NULL);

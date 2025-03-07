@@ -86,7 +86,7 @@ typedef struct s_light
     double      radius;
 	float		brightness;
 	t_rgb	    colour;
-    t_vec3      dir; // move to intsec struct
+    t_vec3      dir;
     double      visibility;
 	t_vec3	    rand_points[128];  // ndc for light source intsec points
 } 				t_light;
@@ -101,13 +101,21 @@ typedef struct s_camera
 	double		aspect_ratio;
 } 				t_camera;
 
+typedef struct s_consts
+{
+	t_vec2		pixel_offsets[64];
+	int			rpp;         // num of rays per pixel
+    int         shadow_rpp;     // num of shadows rays fired per intsec
+	t_basis     world;
+}   t_consts;
+
 typedef struct s_scene
 {
 	t_camera	camera;
     t_light		ambient_light;
     t_arrlst    *lights;
     t_arrlst    *objs;
-	t_basis     world;
+    t_consts    consts;
 }				t_scene;
 
 typedef struct s_material
@@ -181,20 +189,12 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
-typedef struct s_consts
-{
-	t_vec2		pixel_offsets[64];
-	int			rpp;         // num of rays per pixel
-    int         shadow_rpp;     // num of shadows rays fired per intsec
-}   t_consts;
-
 typedef struct s_mlx
 {
 	void		*ptr;
 	void		*win;
 	t_img		img;
     t_scene     scene;
-    t_consts    consts;
 }				t_mlx;
 
 //	PARSE
@@ -298,6 +298,8 @@ t_rgb           rgb_mult(t_rgb a, t_rgb b);
 
 bool            rgb_equal(t_rgb a, t_rgb b);
 
+t_rgb			rgb_average(t_rgb *colours, int count);
+
 int	            max(int a, int b);
 
 int	            min(int a, int b);
@@ -310,7 +312,7 @@ double	        calc_time_diff(struct timeval *start, struct timeval *end);
 
 void	init_offset(t_consts *ssaa);
 
-void	init_scene_basis(t_scene *scene);
+void	init_world_basis(t_basis *world);
 
 void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world);
 

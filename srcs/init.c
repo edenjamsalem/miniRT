@@ -42,11 +42,11 @@ void	init_img_data(t_img *img, t_mlx *mlx)
 	}
 }
 
-void	init_scene_basis(t_scene *scene)
+void	init_world_basis(t_basis *world)
 {
-	scene->world.right = (t_vec3){1, 0, 0};
-	scene->world.up = (t_vec3){0, 1, 0};
-	scene->world.forward = (t_vec3){0, 0, 1};
+	world->right = (t_vec3){1, 0, 0};
+	world->up = (t_vec3){0, 1, 0};
+	world->forward = (t_vec3){0, 0, 1};
 }
 
 void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world)

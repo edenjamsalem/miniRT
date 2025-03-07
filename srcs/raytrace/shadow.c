@@ -45,7 +45,7 @@ void	fire_at_light_points(t_light *light, t_shadow *shadow, t_intsec *intsec, t_
 	t_vec3	light_dir;
 	
 	i = 0;
-	while (i < mlx->consts.shadow_rpp)
+	while (i < mlx->scene.consts.shadow_rpp)
 	{
 		light_dir = sub(light->rand_points[i], shadow->ray.origin);
 		light_dist = magnitude(light_dir);
@@ -54,7 +54,7 @@ void	fire_at_light_points(t_light *light, t_shadow *shadow, t_intsec *intsec, t_
 		if (hits_light(&shadow->ray, mlx->scene.objs->content, light_dist, intsec->obj))
 		{
 			intsec->in_shadow = false;
-			light->visibility += 1.0 / mlx->consts.shadow_rpp;
+			light->visibility += 1.0 / mlx->scene.consts.shadow_rpp;
 		}
 		i++;
 	}
@@ -73,8 +73,8 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 		light = (t_light *)(scene->lights->content[i]);
 		light->visibility = 0.0;
 		shadow.ray.direction = light->dir;
-		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->world);
-		gen_rand_light_points(light, &shadow.basis, &mlx->consts);
+		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->consts.world);
+		gen_rand_light_points(light, &shadow.basis, &mlx->scene.consts);
 		fire_at_light_points(light, &shadow, intsec, mlx);
 	}
 }
