@@ -237,8 +237,7 @@ int	    close_window(t_mlx *mlx);
 
 void	free_mem(t_mlx *mlx);
 
-
-void	put_pixel(t_img *img, t_vec3 *pos, t_rgb *colour);
+void	put_pixel(t_img *img, t_vec2 *pos, t_rgb *colour);
 
 // VECTOR
 

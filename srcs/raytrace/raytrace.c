@@ -110,7 +110,7 @@ void	raytrace(t_mlx *mlx)
 				colours[k] = get_colour(j, i, mlx, mlx->consts.pixel_offsets[k]);
 
 			final_colour = rgb_average(colours, mlx->consts.rpp);
-			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &final_colour);
+			put_pixel(&mlx->img, &(t_vec2){j, i}, &final_colour);
 		}
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
