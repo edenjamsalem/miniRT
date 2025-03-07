@@ -19,7 +19,7 @@ t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local)
 	world_dir.x = ndc->x * local->right.x + ndc->y * local->up.x + ndc->z * local->forward.x;
 	world_dir.y = ndc->x * local->right.y + ndc->y * local->up.y + ndc->z * local->forward.y;
 	world_dir.z = ndc->x * local->right.z + ndc->y * local->up.z + ndc->z * local->forward.z;
-	return(normalize(world_dir));
+	return(world_dir);
 }
 
 t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
@@ -35,7 +35,7 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	ndc_dir.z = -1;
 
 	world_dir = transform_local_to_world(&ndc_dir, &camera->basis);
-	return (world_dir);
+	return (normalize(world_dir));
 }
 
 static t_rgb	rgb_average(t_rgb colours[16], int count)

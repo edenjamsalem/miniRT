@@ -56,11 +56,15 @@ t_rgb	get_light_contributions(t_light **lights, t_intsec *intsec, t_vec3 view_di
 	total_intensity = (t_rgb){0, 0, 0};
 	while (lights[++i])
 	{
-		if (lights[i]->visibility == 0.0)
+		if (lights[i]->visibility <= 0.0)
 			continue ;
 		lights[i]->dir = normalize(sub(lights[i]->center, intsec->pos));
 		Id = get_Id(lights[i], intsec, intsec->properties.Kd);
 		Is = get_Is(lights[i], intsec, view_dir, intsec->properties.Ks, intsec->properties.n);
+		
+		Id = rgb_scale(Id, lights[i]->visibility);
+		Is = rgb_scale(Is, lights[i]->visibility);
+
 		total_intensity = rgb_add(total_intensity, Id);
 		total_intensity = rgb_add(total_intensity, Is);
 	}

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:37:45 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 12:38:03 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:10:12 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 	i = -1;
 	while (scene->lights->content[++i])
 	{
-		light = (t_light *)scene->lights->content[i];
+		light = (t_light *)(scene->lights->content[i]);
 		//printf("light visibility = %f\n", light->visibility);
 		light->visibility = 0.0;
- 		light_distance = magnitude(sub(light->center, shadow.ray.origin));
 		shadow.ray.direction = normalize(sub(light->center, shadow.ray.origin));
 		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->world);
 
@@ -62,6 +61,8 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 		while (++j < mlx->consts.shadow_rpp)
 		{
 			light_point = transform_local_to_world(&light->intsec_points[j], &shadow.basis);
+			light_point = add(light_point, light->center);
+ 			light_distance = magnitude(sub(light_point, shadow.ray.origin));
 			shadow.ray.direction = normalize(sub(light_point, shadow.ray.origin));
 			if (shadow_ray_reaches_light(&shadow.ray, scene->objs->content, light_distance, intsec->obj))
 			{
