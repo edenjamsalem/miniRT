@@ -95,7 +95,7 @@ void	init_offset(t_consts *consts)
 	}
 }
 
-void gen_rand_light_point(t_light *light, t_basis *shadow, t_consts *consts)
+void gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts)
 {
 	int		i;
 	double	theta;

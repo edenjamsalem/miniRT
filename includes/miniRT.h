@@ -267,7 +267,7 @@ void	raytrace(t_mlx *mlx);
 
 void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx);
 
-void 	gen_rand_light_point(t_light *light, t_basis *shadow, t_consts *consts);
+void 	gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts);
 
 t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir);
 
