@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 15:36:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/03 18:38:18 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 18:22:52 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ t_vec3	normalize(t_vec3 a)
 	return (scale(a, 1 / magnitude(a)));
 }
 
-bool	check_equal(t_vec3 *a, t_vec3 *b)
-{
-	return (a->x == b->x && a->y == b->y && a->z == b->z);
-}
+// bool	check_equal(t_vec3 *a, t_vec3 *b)
+// {
+// 	return (a->x == b->x && a->y == b->y && a->z == b->z);
+// }
 
 void	print_vector(t_vec3 a)
 {

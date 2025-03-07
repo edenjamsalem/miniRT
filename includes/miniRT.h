@@ -255,8 +255,6 @@ t_vec3	cross(t_vec3 a, t_vec3 b);
 
 t_vec3	normalize(t_vec3 a);
 
-bool    check_equal(t_vec3 *a, t_vec3 *b);
-
 void	print_vector(t_vec3 a);
 
 t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local);

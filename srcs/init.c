@@ -52,7 +52,7 @@ void	init_world_basis(t_basis *world)
 void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world)
 {
 	local->forward = forward;
-	if (check_equal(&world->up, &local->forward)) // need better check for parallelism
+	if (dot(world->up, local->forward) >= 0.99)
 		local->right = normalize(cross(world->forward, local->forward));
 	else
 		local->right = normalize(cross(world->up, local->forward));
