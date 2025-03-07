@@ -95,7 +95,7 @@ void	init_offset(t_consts *consts)
 	}
 }
 
-void calc_intsec_points(t_light *light, t_consts *consts)
+void gen_rand_light_point(t_light *light, t_consts *consts)
 {
 	int		i;
 	double	theta;
@@ -122,7 +122,7 @@ void	init_light_intsec_points(t_scene *scene, t_mlx *mlx)
 	i = 0;
 	while (scene->lights->content[i])
 	{
-		calc_intsec_points(scene->lights->content[i], &mlx->consts);
+		gen_rand_light_point(scene->lights->content[i], &mlx->consts);
 		i++;
 	}
 }
