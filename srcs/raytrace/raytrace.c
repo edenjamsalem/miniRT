@@ -62,19 +62,19 @@ static t_rgb	rgb_average(t_rgb colours[16], int count)
 	return ((t_rgb){r, g, b});
 }
 
-bool	all_equal(t_rgb *colours, int count)
-{
-	int i;
+// bool	all_equal(t_rgb *colours, int count)
+// {
+// 	int i;
 
-	i = 0;
-	while (i < count - 1)
-	{
-		if (!rgb_equal(colours[i], colours[i + 1]))
-			return (false);
-		i++;
-	}
-	return (true);
-}
+// 	i = 0;
+// 	while (i < count - 1)
+// 	{
+// 		if (!rgb_equal(colours[i], colours[i + 1]))
+// 			return (false);
+// 		i++;
+// 	}
+// 	return (true);
+// }
 
 t_rgb	get_colour(int x, int y, t_mlx *mlx, t_vec2 offset)
 {

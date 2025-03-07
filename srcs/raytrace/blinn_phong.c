@@ -45,7 +45,7 @@ t_rgb	get_Is(t_light *light, t_intsec *intsec, t_vec3 view_dir, double Ks, doubl
 	return (rgb_scale(light->colour, intensity));
 }
 
-t_rgb	get_IaIs(t_light **lights, t_intsec *intsec, t_vec3 view_dir)
+t_rgb	get_IdIs(t_light **lights, t_intsec *intsec, t_vec3 view_dir)
 {
 	t_rgb	Id;
 	t_rgb	Is;
@@ -80,6 +80,6 @@ t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir)
 	if (intsec->in_shadow)
 		return (rgb_mult(intsec->colour, Ia));
 
-	I = rgb_add(Ia, get_IaIs((t_light **)scene->lights->content, intsec, view_dir));
+	I = rgb_add(Ia, get_IdIs((t_light **)scene->lights->content, intsec, view_dir));
 	return (rgb_mult(intsec->colour, I));
 }
