@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:40:51 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 11:06:30 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:15:24 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	get_light_data(t_scene *scene, char **data, int line_nbr)
 	light->brightness = ft_atof(data[2]);
 	light->dir = (t_vec3){0, 0, 0};
 	light->visibility = 0.0;
-	light->radius = 10; // make dynamic later
+	light->radius = 0; // make dynamic later
 	
 	if (!in_range(light->brightness, 0.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);	

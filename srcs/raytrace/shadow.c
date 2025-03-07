@@ -54,13 +54,13 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
  		light_distance = magnitude(sub(light->center, shadow.ray.origin));
 		shadow.ray.direction = normalize(sub(light->center, shadow.ray.origin));
 		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->world);
-		
+
 		j = -1;
 		while (++j < mlx->consts.shadow_rpp)
 		{
 			light->intsec_points[j] = transform_ndc_to_worldspace(&light->intsec_points[j], &shadow.basis);
 			shadow.ray.direction = normalize(sub(light->intsec_points[j], shadow.ray.origin));
-			if (shadow_ray_reaches_light(&shadow, scene->objs->content, light_distance, intsec->obj))
+			if (shadow_ray_reaches_light(&shadow.ray, scene->objs->content, light_distance, intsec->obj))
 			{
 				intsec->in_shadow = false;
 				light->visibility += 1.0 / mlx->consts.shadow_rpp;

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 12:01:22 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:13:25 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,11 @@ void	init_offset(t_consts *consts)
 	}
 }
 
-static void calc_intsec_points(t_light *light, t_basis *world, t_consts *consts)
+static void calc_intsec_points(t_light *light, t_consts *consts)
 {
 	int		i;
 	double	theta;
 	double	step;
-	// create shadow struct
 	
 	light->intsec_points[0] = (t_vec3){0, 0, 0}; // center of light 
 	i = 1;
@@ -123,7 +122,7 @@ void	init_light_intsec_points(t_scene *scene, t_mlx *mlx)
 	i = 0;
 	while (scene->lights->content[i])
 	{
-		calc_intsec_points(scene->lights->content[i], &scene->world, &mlx->consts);
+		calc_intsec_points(scene->lights->content[i], &mlx->consts);
 		i++;
 	}
 }
