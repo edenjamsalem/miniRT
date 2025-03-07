@@ -88,7 +88,7 @@ typedef struct s_light
 	t_rgb	    colour;
     t_vec3      dir; // move to intsec struct
     double      visibility;
-	t_vec3	    intsec_points[64];  // ndc for light source intsec points
+	t_vec3	    intsec_points[128];  // ndc for light source intsec points
 } 				t_light;
 
 typedef struct s_camera
@@ -267,6 +267,8 @@ t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local);
 void	raytrace(t_mlx *mlx);
 
 void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx);
+
+void 	calc_intsec_points(t_light *light, t_consts *consts);
 
 t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir);
 

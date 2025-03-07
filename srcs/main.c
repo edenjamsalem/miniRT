@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 13:11:49 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 14:45:36 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ void	init_project(t_mlx *mlx)
 	init_img_data(&mlx->img, mlx);
 	init_scene_basis(&mlx->scene);
 	init_local_basis(&mlx->scene.camera.basis, mlx->scene.camera.orientation, &mlx->scene.world);
-	mlx->consts.rpp = 32;
-	mlx->consts.shadow_rpp = 8;
+	mlx->consts.rpp = 4;
+	mlx->consts.shadow_rpp = 128;
 	init_offset(&mlx->consts);
-	init_light_intsec_points(&mlx->scene, mlx);
+//	init_light_intsec_points(&mlx->scene, mlx);
 }
 
 //	init_shadow_basis(&shadow->basis, shadow->ray.dir, &world);

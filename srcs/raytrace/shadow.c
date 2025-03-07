@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:37:45 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 13:10:12 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 14:45:24 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 	while (scene->lights->content[++i])
 	{
 		light = (t_light *)(scene->lights->content[i]);
-		//printf("light visibility = %f\n", light->visibility);
 		light->visibility = 0.0;
 		shadow.ray.direction = normalize(sub(light->center, shadow.ray.origin));
 		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->world);
+		calc_intsec_points(scene->lights->content[i], &mlx->consts);
 
 		j = -1;
 		while (++j < mlx->consts.shadow_rpp)
@@ -70,5 +70,6 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 				light->visibility += 1.0 / mlx->consts.shadow_rpp;
 			}
 		}
+	//	printf("light visibility = %f\n", light->visibility);
 	}
 }

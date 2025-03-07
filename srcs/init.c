@@ -95,22 +95,27 @@ void	init_offset(t_consts *consts)
 	}
 }
 
-static void calc_intsec_points(t_light *light, t_consts *consts)
+void calc_intsec_points(t_light *light, t_consts *consts)
 {
 	int		i;
 	double	theta;
-	double	step;
+	double	r;
+//	double	step;
 	
-	light->intsec_points[0] = (t_vec3){0, 0, 0}; // center of light 
-	i = 1;
+//	light->intsec_points[0] = (t_vec3){0, 0, 0}; // center of light 
+	i = 0;
 	theta = 0;
-	step = (2 * PI) / (consts->shadow_rpp - 1);
+//	step = (2 * PI) / (consts->shadow_rpp - 1);
+//	r = ((double)rand() / RAND_MAX) * light->radius;
 	while (i < consts->shadow_rpp)
 	{
-		light->intsec_points[i].x = light->radius * cos(theta);
-		light->intsec_points[i].y = light->radius * sin(theta);
-		light->intsec_points[i].z = -1;
-		theta += step;
+		r = light->radius * sqrt(((double)rand() / RAND_MAX));
+        theta = ((double)rand() / RAND_MAX) * 2 * PI;
+
+		light->intsec_points[i].x = r * cos(theta);
+		light->intsec_points[i].y = r * sin(theta);
+		light->intsec_points[i].z = 0;
+//		theta += step;
 		i++;
 	}
 }
