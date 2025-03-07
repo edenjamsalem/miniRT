@@ -82,11 +82,13 @@ typedef struct s_basis
 
 typedef struct s_light
 {
-	t_vec3	    pos;
+	t_vec3	    center;
+    double      radius;
 	float		brightness;
 	t_rgb	    colour;
-    t_vec3      dir;
-    bool        hits_pixel;
+    t_vec3      dir; // move to intsec struct
+    double      visibility;
+	t_vec3	    intsec_points[64];  // ndc for light source intsec points
 } 				t_light;
 
 typedef struct s_camera
@@ -161,8 +163,14 @@ typedef struct s_ray
 {
     t_vec3      origin;
     t_vec3      direction;
-    t_intsec    intersection;
+    t_intsec    intsec;
 }           t_ray;
+
+typedef struct s_shadow
+{
+    t_ray ray;
+    t_basis basis;
+}   t_shadow;
 
 typedef struct s_img
 {
@@ -173,12 +181,12 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
-typedef struct s_ssaa
+typedef struct s_consts
 {
-	t_vec2		offset[64];
-	int			rpp;
-
-}   t_ssaa;
+	t_vec2		pixel_offsets[64];
+	int			rpp;         // num of rays per pixel
+    int         shadow_rpp;     // num of shadows rays fired per intsec
+}   t_consts;
 
 typedef struct s_mlx
 {
@@ -186,7 +194,7 @@ typedef struct s_mlx
 	void		*win;
 	t_img		img;
     t_scene     scene;
-    t_ssaa      ssaa;
+    t_consts    consts;
 }				t_mlx;
 
 //	PARSE
@@ -252,12 +260,13 @@ bool    check_equal(t_vec3 *a, t_vec3 *b);
 
 void	print_vector(t_vec3 a);
 
+t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *local);
+
 // RAY TRACE
 
-void	raytrace(t_mlx *mlx, t_ssaa *ssaa);
+void	raytrace(t_mlx *mlx);
 
-
-void	cast_shadow_rays(t_intsec *intersection, t_scene *scene);
+void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx);
 
 t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir);
 
@@ -298,14 +307,16 @@ double	        calc_time_diff(struct timeval *start, struct timeval *end);
 
 // INIT
 
-void	init_offset(t_ssaa *ssaa);
+void	init_offset(t_consts *ssaa);
 
 void	init_scene_basis(t_scene *scene);
 
-void	init_camera_basis(t_camera *camera, t_basis *world);
+void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world);
 
 void	init_mlx_data(t_mlx *mlx);
 
 void	init_img_data(t_img *img, t_mlx *mlx);
 
 void	init_intsec(t_intsec *intersection);
+
+void	init_light_intsec_points(t_scene *scene, t_mlx *mlx);

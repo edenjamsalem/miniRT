@@ -12,14 +12,14 @@
 
 #include "../includes/miniRT.h"
 
-t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *cam)
+t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *local)
 {
 	t_vec3	world_dir;
 
-	world_dir.x = ndc->x * cam->right.x + ndc->y * cam->up.x + ndc->z * cam->forward.x;
-	world_dir.y = ndc->x * cam->right.y + ndc->y * cam->up.y + ndc->z * cam->forward.y;
-	world_dir.z = ndc->x * cam->right.z + ndc->y * cam->up.z + ndc->z * cam->forward.z;
-	return(world_dir);
+	world_dir.x = ndc->x * local->right.x + ndc->y * local->up.x + ndc->z * local->forward.x;
+	world_dir.y = ndc->x * local->right.y + ndc->y * local->up.y + ndc->z * local->forward.y;
+	world_dir.z = ndc->x * local->right.z + ndc->y * local->up.z + ndc->z * local->forward.z;
+	return(normalize(world_dir));
 }
 
 t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
@@ -35,7 +35,7 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	ndc_dir.z = -1;
 
 	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
-	return (normalize(world_dir));
+	return (world_dir);
 }
 
 static t_rgb	rgb_average(t_rgb colours[16], int count)
@@ -83,15 +83,15 @@ t_rgb	get_colour(int x, int y, t_mlx *mlx, t_vec2 offset)
 
 	ray.origin = mlx->scene.camera.pos;
 	ray.direction = calc_ray_dir(&mlx->scene.camera, x, y, offset);
-	ray.intersection = find_intersection(&ray, mlx->scene.objs->content);
-	if (!ray.intersection.obj)
+	ray.intsec = find_intersection(&ray, mlx->scene.objs->content);
+	if (!ray.intsec.obj)
 		return ((t_rgb){0, 0, 0});
-	cast_shadow_rays(&ray.intersection, &mlx->scene);
-	colour = blinn_phong(&mlx->scene, &ray.intersection, scale(ray.direction, -1));
+	cast_shadow_rays(&ray.intsec, &mlx->scene, mlx);
+	colour = blinn_phong(&mlx->scene, &ray.intsec, scale(ray.direction, -1));
 	return (colour);
 }
 
-void	raytrace(t_mlx *mlx, t_ssaa *ssaa)
+void	raytrace(t_mlx *mlx)
 {
 	int			i;
 	int			j;
@@ -106,10 +106,10 @@ void	raytrace(t_mlx *mlx, t_ssaa *ssaa)
 		while (++j < WIN_WIDTH - 1)
 		{ 
 			k = -1;
-			while (++k < mlx->ssaa.rpp)
-				colours[k] = get_colour(j, i, mlx, ssaa->offset[k]);
+			while (++k < mlx->consts.rpp)
+				colours[k] = get_colour(j, i, mlx, mlx->consts.pixel_offsets[k]);
 
-			final_colour = rgb_average(colours, ssaa->rpp);
+			final_colour = rgb_average(colours, mlx->consts.rpp);
 			put_pixel(&mlx->img, &(t_vec3){j, i, 0}, &final_colour);
 		}
 	}

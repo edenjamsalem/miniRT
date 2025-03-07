@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:37:45 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/05 15:30:12 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 10:57:51y eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,33 @@ bool	shadow_ray_reaches_light(t_ray *ray, void **objs, double light_distance, vo
 	return (true);
 }
 
-void	cast_shadow_rays(t_intsec *intersection, t_scene *scene)
+void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 {
-	t_ray	shadow;
+	t_shadow	shadow;
     double  light_distance;
 	t_light	*light;
 	int		i;
+	int		j;
 
-	shadow.origin = intersection->pos;
-	i = 0;
-	while (scene->lights->content[i])
+	shadow.ray.origin = intsec->pos;
+	i = -1;
+	while (scene->lights->content[++i])
 	{
 		light = (t_light *)scene->lights->content[i];
-		shadow.direction = normalize(sub(light->pos, shadow.origin));
- 		light_distance = magnitude(sub(light->pos, shadow.origin));
+ 		light_distance = magnitude(sub(light->center, shadow.ray.origin));
+		shadow.ray.direction = normalize(sub(light->center, shadow.ray.origin));
+		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->world);
 		
-		if (shadow_ray_reaches_light(&shadow, scene->objs->content, light_distance, intersection->obj))
+		j = -1;
+		while (++j < mlx->consts.shadow_rpp)
 		{
-			intersection->in_shadow = false;
-			light->hits_pixel = true;
+			light->intsec_points[j] = transform_ndc_to_worldspace(&light->intsec_points[j], &shadow.basis);
+			shadow.ray.direction = normalize(sub(light->intsec_points[j], shadow.ray.origin));
+			if (shadow_ray_reaches_light(&shadow, scene->objs->content, light_distance, intsec->obj))
+			{
+				intsec->in_shadow = false;
+				light->visibility += 1.0 / mlx->consts.shadow_rpp;
+			}
 		}
-		i++;
 	}
 }

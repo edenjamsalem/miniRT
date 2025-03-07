@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/06 16:30:31 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 11:35:11 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,14 @@ void	init_project(t_mlx *mlx)
 	init_mlx_data(mlx);
 	init_img_data(&mlx->img, mlx);
 	init_scene_basis(&mlx->scene);
-	init_camera_basis(&mlx->scene.camera, &mlx->scene.world);
-	mlx->ssaa.rpp = 1;
-	init_offset(&mlx->ssaa);
+	init_local_basis(&mlx->scene.camera.basis, mlx->scene.camera.orientation, &mlx->scene.world);
+	mlx->consts.rpp = 1;
+	mlx->consts.shadow_rpp = 16;
+	init_offset(&mlx->consts);
+	init_light_intsec_points(&mlx->scene, mlx);
 }
+
+//	init_shadow_basis(&shadow->basis, shadow->ray.dir, &world);
 
 int main(int argc, char **argv)
 {
@@ -59,7 +63,7 @@ int main(int argc, char **argv)
 	
 	parse(argv[1], &mlx.scene);
 	init_project(&mlx);
-	raytrace(&mlx, &mlx.ssaa);
+	raytrace(&mlx);
 
 	gettimeofday(&end, NULL);
 	printf("time = %f\n", calc_time_diff(&start, &end) / 1000);

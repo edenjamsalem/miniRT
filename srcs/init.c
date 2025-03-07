@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/06 16:25:35 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:01:22 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ void	init_scene_basis(t_scene *scene)
 	scene->world.forward = (t_vec3){0, 0, 1};
 }
 
-void	init_camera_basis(t_camera *camera, t_basis *world)
+void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world)
 {
-	camera->basis.forward = camera->orientation;
-	if (check_equal(&world->up, &camera->basis.forward)) // need better check for parallelism
-		camera->basis.right = normalize(cross(world->forward, camera->basis.forward));
+	local->forward = forward;
+	if (check_equal(&world->up, &local->forward)) // need better check for parallelism
+		local->right = normalize(cross(world->forward, local->forward));
 	else
-		camera->basis.right = normalize(cross(world->up, camera->basis.forward));
+		local->right = normalize(cross(world->up, local->forward));
 
-	camera->basis.up = normalize(cross(camera->basis.forward, camera->basis.right));
+	local->up = normalize(cross(local->forward, local->right));
 }
 
 void init_intsec(t_intsec *intersection)
@@ -69,28 +69,62 @@ void init_intsec(t_intsec *intersection)
 	intersection->obj = NULL;
 }
 
-void	init_offset(t_ssaa *ssaa)
+void	init_offset(t_consts *consts)
 {
 	int	i;
 	int	j;
 	int	k;
 	double	step;
 
-	if (ssaa->rpp > 64)
-		ssaa->rpp = 64;
+	if (consts->rpp > 64)
+		consts->rpp = 64;
 	i = 0;
 	k = 0;
-	step = sqrt(ssaa->rpp);
+	step = sqrt(consts->rpp);
 	while (i < step)
 	{
 		j = 0;
 		while (j < step)
 		{
-			ssaa->offset[k].x = (1.0 / step) * j;
-			ssaa->offset[k].y = (1.0 / step) * i;
+			consts->pixel_offsets[k].x = (1.0 / step) * j;
+			consts->pixel_offsets[k].y = (1.0 / step) * i;
 			k++;
 			j++;
 		}
 		i++;
 	}
 }
+
+static void calc_intsec_points(t_light *light, t_basis *world, t_consts *consts)
+{
+	int		i;
+	double	theta;
+	double	step;
+	// create shadow struct
+	
+	light->intsec_points[0] = (t_vec3){0, 0, 0}; // center of light 
+	i = 1;
+	theta = 0;
+	step = (2 * PI) / (consts->shadow_rpp);
+	while (i < consts->shadow_rpp - 1)
+	{
+		light->intsec_points[i].x = light->radius * cos(theta);
+		light->intsec_points[i].y = light->radius * sin(theta);
+		light->intsec_points[i].z = -1;
+		theta += step;
+		i++;
+	}
+}
+
+void	init_light_intsec_points(t_scene *scene, t_mlx *mlx)
+{
+	int	i;
+
+	i = 0;
+	while (scene->lights->content[i])
+	{
+		calc_intsec_points(scene->lights->content[i], &scene->world, &mlx->consts);
+		i++;
+	}
+}
+
