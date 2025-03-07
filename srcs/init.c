@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 12:13:25 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:48:05t by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ static void calc_intsec_points(t_light *light, t_consts *consts)
 	light->intsec_points[0] = (t_vec3){0, 0, 0}; // center of light 
 	i = 1;
 	theta = 0;
-	step = (2 * PI) / (consts->shadow_rpp);
-	while (i < consts->shadow_rpp - 1)
+	step = (2 * PI) / (consts->shadow_rpp - 1);
+	while (i < consts->shadow_rpp)
 	{
 		light->intsec_points[i].x = light->radius * cos(theta);
 		light->intsec_points[i].y = light->radius * sin(theta);

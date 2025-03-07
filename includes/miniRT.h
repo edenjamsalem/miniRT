@@ -260,7 +260,7 @@ bool    check_equal(t_vec3 *a, t_vec3 *b);
 
 void	print_vector(t_vec3 a);
 
-t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *local);
+t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local);
 
 // RAY TRACE
 

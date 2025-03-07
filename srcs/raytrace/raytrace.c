@@ -12,7 +12,7 @@
 
 #include "../includes/miniRT.h"
 
-t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *local)
+t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local)
 {
 	t_vec3	world_dir;
 
@@ -34,7 +34,7 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	ndc_dir.y *= camera->fov_tan;
 	ndc_dir.z = -1;
 
-	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
+	world_dir = transform_local_to_world(&ndc_dir, &camera->basis);
 	return (world_dir);
 }
 
