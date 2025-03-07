@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:37:45 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 17:12:28 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:17:01 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,4 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 		gen_rand_light_points(light, &shadow.basis, &mlx->consts);
 		fire_at_light_points(light, &shadow, intsec, mlx);
 	}
-	//	printf("light visibility = %f\n", light->visibility);
 }
