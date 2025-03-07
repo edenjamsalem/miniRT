@@ -95,7 +95,7 @@ void	init_offset(t_consts *consts)
 	}
 }
 
-void gen_rand_light_point(t_light *light, t_consts *consts)
+void gen_rand_light_point(t_light *light, t_basis *shadow, t_consts *consts)
 {
 	int		i;
 	double	theta;
@@ -108,22 +108,24 @@ void gen_rand_light_point(t_light *light, t_consts *consts)
 		r = light->radius * sqrt(((double)rand() / RAND_MAX));
   	    theta = ((double)rand() / RAND_MAX) * 2 * PI;
 
-		light->intsec_points[i].x = r * cos(theta);
-		light->intsec_points[i].y = r * sin(theta);
-		light->intsec_points[i].z = 0;
+		light->rand_points[i].x = r * cos(theta);
+		light->rand_points[i].y = r * sin(theta);
+		light->rand_points[i].z = 0;
+		light->rand_points[i] = transform_local_to_world(&light->rand_points[i], shadow);
+		light->rand_points[i] = add(light->rand_points[i], light->center);
 		i++;
 	}
 }
 
-void	init_light_intsec_points(t_scene *scene, t_mlx *mlx)
-{
-	int	i;
+// void	init_light_intsec_points(t_scene *scene, t_mlx *mlx)
+// {
+// 	int	i;
 
-	i = 0;
-	while (scene->lights->content[i])
-	{
-		gen_rand_light_point(scene->lights->content[i], &mlx->consts);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (scene->lights->content[i])
+// 	{
+// 		gen_rand_light_point(scene->lights->content[i], &mlx->consts);
+// 		i++;
+// 	}
+// }
 

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 11:37:45 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 16:52:57 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:06:09 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 void	fire_at_light_points(t_light *light, t_shadow *shadow, t_intsec *intsec, t_mlx *mlx)
 {
 	int		i;
-	t_vec3	light_point;
+//	t_vec3	light_point;
     double  light_dist;
 	
 	i = 0;
 	while (i < mlx->consts.shadow_rpp)
 	{
-		light_point = transform_local_to_world(&light->intsec_points[i], &shadow->basis);
-		light_point = add(light_point, light->center);
-		light_dist = magnitude(sub(light_point, shadow->ray.origin));
-		shadow->ray.direction = normalize(sub(light_point, shadow->ray.origin));
+	//	light_point = transform_local_to_world(&light->rand_points[i], &shadow->basis);
+	//	light_point = add(light_point, light->center);
+		light_dist = magnitude(sub(light->rand_points[i], shadow->ray.origin));
+		shadow->ray.direction = normalize(sub(light->rand_points[i], shadow->ray.origin));
 		
 		if (hits_light(&shadow->ray, mlx->scene.objs->content, light_dist, intsec->obj))
 		{
@@ -75,7 +75,7 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 		light->visibility = 0.0;
 		shadow.ray.direction = light->dir;
 		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->world);
-		gen_rand_light_point(light, &mlx->consts);
+		gen_rand_light_point(light, &shadow.basis, &mlx->consts);
 		fire_at_light_points(light, &shadow, intsec, mlx);
 	}
 	//	printf("light visibility = %f\n", light->visibility);
