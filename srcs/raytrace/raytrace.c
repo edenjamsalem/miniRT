@@ -38,7 +38,7 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	return (normalize(world_dir));
 }
 
-void	raytrace(int x, int y, t_mlx *mlx)
+void	raytrace(int x, int y, t_scene *scene, t_mlx *mlx)
 {
 	t_ray	ray;
 	t_rgb		colours[64];
@@ -46,20 +46,20 @@ void	raytrace(int x, int y, t_mlx *mlx)
 	int			i;
 
 	i = -1;
-	ray.origin = mlx->scene.camera.pos;
-	while (++i < mlx->scene.consts.rpp)
+	ray.origin = scene->camera.pos;
+	while (++i < scene->consts.rpp)
 	{
-		ray.direction = calc_ray_dir(&mlx->scene.camera, x, y, mlx->scene.consts.pixel_offsets[i]);
-		ray.intsec = find_intersection(&ray, mlx->scene.objs->content);
+		ray.direction = calc_ray_dir(&scene->camera, x, y, scene->consts.pixel_offsets[i]);
+		ray.intsec = find_intersection(&ray, scene->objs->content);
 		if (!ray.intsec.obj)
 			colours[i] = (t_rgb){0, 0, 0};
 		else
 		{
-			cast_shadow_rays(&ray.intsec, &mlx->scene, mlx);
-			colours[i] = blinn_phong(&mlx->scene, &ray.intsec, scale(ray.direction, -1));
+			cast_shadow_rays(&ray.intsec, scene);
+			colours[i] = blinn_phong(scene, &ray.intsec, scale(ray.direction, -1));
 		}
 	}
-	final_colour = rgb_average(colours, mlx->scene.consts.rpp);
+	final_colour = rgb_average(colours, scene->consts.rpp);
 	put_pixel(&mlx->img, &(t_vec2){x, y}, &final_colour);
 }
 
@@ -74,7 +74,7 @@ void	render_pixels(t_mlx *mlx)
 		j = -1;
 		while (++j < WIN_WIDTH - 1)
 		{ 
-			raytrace(j, i, mlx);
+			raytrace(j, i, &mlx->scene, mlx);
 		}
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
