@@ -38,7 +38,7 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 	return (true);
 }
 
-void	fire_at_light_points(t_light *light, t_shadow *shadow, t_intsec *intsec, t_mlx *mlx)
+void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_mlx *mlx)
 {
 	int		i;
     double  light_dist;
@@ -75,6 +75,6 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 		shadow.ray.direction = light->dir;
 		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->consts.world);
 		gen_rand_light_points(light, &shadow.basis, &mlx->scene.consts);
-		fire_at_light_points(light, &shadow, intsec, mlx);
+		cast_to_light(light, &shadow, intsec, mlx);
 	}
 }
