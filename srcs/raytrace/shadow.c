@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:44 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:37:45 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 18:07:00 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 		else if (((t_pl *)objs[i])->shape == PL)
 		{
 			t = get_pl_t(ray, objs[i]);
+			if (t >= 0 && t < light_dist)
+				return (false);
+		}
+		else if (((t_cy *)objs[i])->shape == CY)
+		{
+			t = get_cy_t(ray, objs[i]);
 			if (t >= 0 && t < light_dist)
 				return (false);
 		}
