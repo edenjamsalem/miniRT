@@ -45,7 +45,7 @@ t_rgb	get_Is(t_light *light, t_intsec *intsec, t_vec3 view_dir, double Ks, doubl
 	return (rgb_scale(light->colour, intensity));
 }
 
-t_rgb	get_light_contributions(t_light **lights, t_intsec *intsec, t_vec3 view_dir)
+t_rgb	get_IdIs(t_light **lights, t_intsec *intsec, t_vec3 view_dir)
 {
 	t_rgb	Id;
 	t_rgb	Is;
@@ -56,11 +56,14 @@ t_rgb	get_light_contributions(t_light **lights, t_intsec *intsec, t_vec3 view_di
 	total_intensity = (t_rgb){0, 0, 0};
 	while (lights[++i])
 	{
-		if (!lights[i]->hits_pixel)
+		if (lights[i]->visibility <= 0.0)
 			continue ;
-		lights[i]->dir = normalize(sub(lights[i]->pos, intsec->pos));
 		Id = get_Id(lights[i], intsec, intsec->properties.Kd);
 		Is = get_Is(lights[i], intsec, view_dir, intsec->properties.Ks, intsec->properties.n);
+		
+		Id = rgb_scale(Id, lights[i]->visibility);
+		Is = rgb_scale(Is, lights[i]->visibility);
+
 		total_intensity = rgb_add(total_intensity, Id);
 		total_intensity = rgb_add(total_intensity, Is);
 	}
@@ -76,6 +79,6 @@ t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir)
 	if (intsec->in_shadow)
 		return (rgb_mult(intsec->colour, Ia));
 
-	I = rgb_add(Ia, get_light_contributions((t_light **)scene->lights->content, intsec, view_dir));
+	I = rgb_add(Ia, get_IdIs((t_light **)scene->lights->content, intsec, view_dir));
 	return (rgb_mult(intsec->colour, I));
 }

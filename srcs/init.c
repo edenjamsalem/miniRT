@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:39:53 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:50 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:48:05t by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,22 @@ void	init_img_data(t_img *img, t_mlx *mlx)
 	}
 }
 
-void	init_scene_basis(t_scene *scene)
+void	init_world_basis(t_basis *world)
 {
-	scene->world.right = (t_vec3){1, 0, 0};
-	scene->world.up = (t_vec3){0, 1, 0};
-	scene->world.forward = (t_vec3){0, 0, 1};
+	world->right = (t_vec3){1, 0, 0};
+	world->up = (t_vec3){0, 1, 0};
+	world->forward = (t_vec3){0, 0, 1};
 }
 
-void	init_camera_basis(t_camera *camera, t_basis *world)
+void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world)
 {
-	camera->basis.forward = camera->orientation;
-	if (check_equal(&world->up, &camera->basis.forward)) // need better check for parallelism
-		camera->basis.right = normalize(cross(world->forward, camera->basis.forward));
+	local->forward = forward;
+	if (dot(world->up, local->forward) >= 0.99)
+		local->right = normalize(cross(world->forward, local->forward));
 	else
-		camera->basis.right = normalize(cross(world->up, camera->basis.forward));
+		local->right = normalize(cross(world->up, local->forward));
 
-	camera->basis.up = normalize(cross(camera->basis.forward, camera->basis.right));
+	local->up = normalize(cross(local->forward, local->right));
 }
 
 void init_intsec(t_intsec *intersection)
@@ -68,3 +68,30 @@ void init_intsec(t_intsec *intersection)
 	intersection->t = INFINITY;
 	intersection->obj = NULL;
 }
+
+void	init_offset(t_consts *consts)
+{
+	int	i;
+	int	j;
+	int	k;
+	double	step;
+
+	if (consts->rpp > 64)
+		consts->rpp = 64;
+	i = 0;
+	k = 0;
+	step = sqrt(consts->rpp);
+	while (i < step)
+	{
+		j = 0;
+		while (j < step)
+		{
+			consts->pixel_offsets[k].x = (1.0 / step) * j;
+			consts->pixel_offsets[k].y = (1.0 / step) * i;
+			k++;
+			j++;
+		}
+		i++;
+	}
+}
+

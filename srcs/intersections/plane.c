@@ -6,13 +6,13 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:47:17 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/04 16:23:16 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 16:02:56 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-double	get_pl_t(t_ray *ray, t_plane *plane)
+double	get_pl_t(t_ray *ray, t_pl *plane)
 {
 	double		t;
 
@@ -23,7 +23,7 @@ double	get_pl_t(t_ray *ray, t_plane *plane)
 	return (t);
 }
 
-void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec)
+void	get_pl_intsec_data(t_ray *ray, t_pl *plane, t_intsec *intsec)
 {
 	intsec->t = get_pl_t(ray, plane);
 	if (intsec->t >= 0)

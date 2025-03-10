@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/05 19:22:26 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 16:25:37 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,42 @@ void	free_mem(t_mlx *mlx)
 	free(mlx->ptr);
 }
 
-void	init_project(t_mlx *mlx)
+void	check_camera_inside_objs(void **objs, t_camera *camera)
+{
+	int			i;
+
+	i = 0;
+	while (objs[i])
+	{
+		if (((t_sp *)objs[i])->shape == SP && camera_in_sp((t_sp *)objs[i], camera))
+			((t_sp *)objs[i])->camera_inside = true;
+		else
+			((t_sp *)objs[i])->camera_inside = false;
+		// else if (((t_cy *)objs[i])->shape == CY && camera_in_cy((t_cy *)objs[i], camera))
+		// {
+		// 	((t_cy *)objs[i])->camera_inside = true;
+		// }
+		i++;
+	}
+}
+
+void	init_project(t_mlx *mlx, t_scene *scene)
 {
 	init_mlx_data(mlx);
 	init_img_data(&mlx->img, mlx);
-	init_scene_basis(&mlx->scene);
-	init_camera_basis(&mlx->scene.camera, &mlx->scene.world);
+	init_world_basis(&scene->consts.world);
+	init_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
+	scene->consts.rpp = 2;
+	scene->consts.shadow_rpp = 20;
+	init_offset(&scene->consts);
+	check_camera_inside_objs(scene->objs->content, &scene->camera);
 }
+
+// 	TODO:
+//	- implement multiray casting only for borders
+//	- fix rendering inside objects
+//	- make light sources visible
+//	- try to get threads working for efficiency
 
 int main(int argc, char **argv)
 {
@@ -51,16 +80,13 @@ int main(int argc, char **argv)
 	struct timeval	end;
 	int		nbr_cores;
 	
+	(void)argc;
 	gettimeofday(&start, NULL);
-	
-	if (argc != 2)
-		return (1);
-	parse(argv[1], &mlx.scene);
-	init_project(&mlx);
-	
 	nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	
-	raytrace(&mlx);
+	parse(argv[1], &mlx.scene);
+	init_project(&mlx, &mlx.scene);
+	render_pixels(&mlx);
 
 	gettimeofday(&end, NULL);
 	printf("time = %f\n", calc_time_diff(&start, &end) / 1000);

@@ -12,13 +12,13 @@
 
 #include "../includes/miniRT.h"
 
-t_vec3	transform_ndc_to_worldspace(t_vec3 *ndc, t_basis *cam)
+t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local)
 {
 	t_vec3	world_dir;
 
-	world_dir.x = ndc->x * cam->right.x + ndc->y * cam->up.x + ndc->z * cam->forward.x;
-	world_dir.y = ndc->x * cam->right.y + ndc->y * cam->up.y + ndc->z * cam->forward.y;
-	world_dir.z = ndc->x * cam->right.z + ndc->y * cam->up.z + ndc->z * cam->forward.z;
+	world_dir.x = ndc->x * local->right.x + ndc->y * local->up.x + ndc->z * local->forward.x;
+	world_dir.y = ndc->x * local->right.y + ndc->y * local->up.y + ndc->z * local->forward.y;
+	world_dir.z = ndc->x * local->right.z + ndc->y * local->up.z + ndc->z * local->forward.z;
 	return(world_dir);
 }
 
@@ -34,115 +34,52 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	ndc_dir.y *= camera->fov_tan;
 	ndc_dir.z = -1;
 
-	world_dir = transform_ndc_to_worldspace(&ndc_dir, &camera->basis);
+	world_dir = transform_local_to_world(&ndc_dir, &camera->basis);
 	return (normalize(world_dir));
 }
 
-static void	init_offset(t_vec2 *offset)
+t_rgb	raytrace(int x, int y, t_scene *scene)
 {
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			offset[k].x = 0.125 + (0.25 * j);
-			offset[k].y = 0.125 + (0.25 * i);
-			j++;
-			k++;
-		}
-		i++;
-	}
-}
-
-static t_rgb	rgb_average(t_rgb colours[16], int count)
-{
-	int	r;
-	int	g;
-	int	b;
-	int	i;
-
-	i = 0;
-	r = 0;
-	g = 0;
-	b = 0;
-	while (i < count)
-	{
-		r += colours[i].r;
-		g += colours[i].g;
-		b += colours[i].b;
-		i++;
-	}
-	r = round(r / count);
-	g = round(g / count);
-	b = round(b / count);
-	return ((t_rgb){r, g, b});
-}
-
-
-bool	all_equal(t_rgb *colours, int count)
-{
-	int i;
-
-	i = 0;
-	while (i < count - 1)
-	{
-		if (!rgb_equal(colours[i], colours[i + 1]))
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-void	render_pixel(int x, int y, t_mlx *mlx)
-{
-	t_rgb		colours[16];
+	t_ray	ray;
+	t_rgb		colours[64];
 	t_rgb		final_colour;
-	t_ray		ray[16];
-	t_vec2		offset[16];
 	int			i;
 
-	init_offset(offset);
-	i = 0;
-	while (i < 16)
+	i = -1;
+	ray.origin = scene->camera.pos;
+	while (++i < scene->consts.rpp)
 	{
-		ray[i].origin = mlx->scene.camera.pos;
-		ray[i].direction = calc_ray_dir(&mlx->scene.camera, x, y, offset[i]);
-		ray[i].intersection = find_intersection(&ray[i], mlx->scene.objs->content);
-		colours[i] = (t_rgb){0, 0, 0};
-		if (ray[i].intersection.obj)
+		ray.direction = calc_ray_dir(&scene->camera, x, y, scene->consts.pixel_offsets[i]);
+		ray.intsec = find_intersection(&ray, scene->objs->content);
+		if (!ray.intsec.obj)
+			colours[i] = (t_rgb){0, 0, 0};
+		else
 		{
-		  	cast_shadow_rays(&ray[i].intersection, &mlx->scene);
-			colours[i] = blinn_phong(&mlx->scene, &ray[i].intersection, scale(ray[i].direction, -1));
+			cast_shadow_rays(&ray.intsec, scene);
+			colours[i] = blinn_phong(scene, &ray.intsec, scale(ray.direction, -1));
 		}
-		if (i == 8 && all_equal(colours, i))
-			break ;
-		i++;
 	}
-	final_colour = rgb_average(colours, i);
-	put_pixel(&mlx->img, &(t_vec3){x, y, 0}, &final_colour);
+	final_colour = rgb_average(colours, scene->consts.rpp);
+	return (final_colour);
 }
 
-void	raytrace(t_mlx *mlx)
+void	render_pixels(t_mlx *mlx)
 {
-	int			i;
-	int			j;
+	int		i;
+	int		j;
+	t_rgb	colour;
+	t_pixel	pixel;
 
-	i = 0;
-	while (i < WIN_HEIGHT - 1)
+	i = -1;
+	while (++i < WIN_HEIGHT - 1)
 	{
-		j = 0;
-		while (j < WIN_WIDTH - 1)
+		j = -1;
+		while (++j < WIN_WIDTH - 1)
 		{ 
-			render_pixel(j, i, mlx);
-			j++;
+			colour = raytrace(j, i, &mlx->scene);
+			pixel = (t_pixel){j, i, colour};
+			put_pixel(&pixel, &mlx->img);
 		}
-		i++;
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
 	printf("FINISHED RAYTRACE\n");

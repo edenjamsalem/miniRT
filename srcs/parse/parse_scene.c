@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:40:51 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/05 15:13:31 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:38:00 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,10 @@ void	get_light_data(t_scene *scene, char **data, int line_nbr)
 		perror_exit(MALLOC, line_nbr, data, 0, scene);
 		
 	append_arrlst(scene->lights, light);	
-	assign_vector(&light->pos, data[1]);
+	assign_vector(&light->center, data[1]);
 	light->brightness = ft_atof(data[2]);
-	light->dir = (t_vec3){0, 0, 0};
-	light->hits_pixel = false;
-	
+	light->radius = 10; // make dynamic later
+
 	if (!in_range(light->brightness, 0.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);	
 	if (no_elems == 4 && !assign_rgb(&light->colour, data[3]))

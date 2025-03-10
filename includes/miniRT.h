@@ -47,9 +47,9 @@ typedef enum e_err
 typedef enum e_shape
 {
     NONE,
-    SPHERE,
-    PLANE,
-    CYLINDER,
+    SP,
+    PL,
+    CY,
 }				t_shape;
 
 typedef struct s_rgb
@@ -73,6 +73,13 @@ typedef struct s_vec2
     double          y;
 }				t_vec2;
 
+typedef struct  t_pixel
+{
+    double     x;
+    double     y;
+    t_rgb      colour;
+}	t_pixel;
+
 typedef struct s_basis
 {
     t_vec3  right;
@@ -82,11 +89,13 @@ typedef struct s_basis
 
 typedef struct s_light
 {
-	t_vec3	    pos;
+	t_vec3	    center;
+    double      radius;
 	float		brightness;
 	t_rgb	    colour;
     t_vec3      dir;
-    bool        hits_pixel;
+    double      visibility;
+	t_vec3	    rand_points[128];  // ndc for light source intsec points
 } 				t_light;
 
 typedef struct s_camera
@@ -99,13 +108,21 @@ typedef struct s_camera
 	double		aspect_ratio;
 } 				t_camera;
 
+typedef struct s_consts
+{
+	t_vec2		pixel_offsets[64];
+	int			rpp;         // num of rays per pixel
+    int         shadow_rpp;     // num of shadows rays fired per intsec
+	t_basis     world;
+}   t_consts;
+
 typedef struct s_scene
 {
 	t_camera	camera;
     t_light		ambient_light;
     t_arrlst    *lights;
     t_arrlst    *objs;
-	t_basis     world;
+    t_consts    consts;
 }				t_scene;
 
 typedef struct s_material
@@ -116,7 +133,7 @@ typedef struct s_material
     double  n;
 }           t_material;
 
-typedef struct s_sphere
+typedef struct s_sp
 {
     t_shape     shape;
     t_vec3	    center;
@@ -124,18 +141,19 @@ typedef struct s_sphere
     double		radius;
     t_rgb		colour;
     t_material  properties;
-}				t_sphere;
+	bool	    camera_inside;
+}				t_sp;
 
-typedef struct s_plane
+typedef struct s_pl
 {
     t_shape     shape;
     t_vec3	    point;
     t_vec3	    normal;
     t_rgb		colour;
     t_material  properties;
-}				t_plane;
+}				t_pl;
 
-typedef struct s_cylinder
+typedef struct s_cy
 {
     t_shape	shape;
     t_vec3	center;
@@ -144,7 +162,8 @@ typedef struct s_cylinder
     double	height;
     t_rgb	colour;
     t_material  properties;
-}				t_cylinder;
+	bool	    camera_inside;
+}				t_cy;
 
 typedef struct s_intersection
 {
@@ -161,8 +180,14 @@ typedef struct s_ray
 {
     t_vec3      origin;
     t_vec3      direction;
-    t_intsec    intersection;
+    t_intsec    intsec;
 }           t_ray;
+
+typedef struct s_shadow
+{
+    t_ray ray;
+    t_basis basis;
+}   t_shadow;
 
 typedef struct s_img
 {
@@ -211,10 +236,6 @@ void	get_plane_data(t_scene *scene, char **data, int line_nbr);
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr);
 
-void	init_scene_basis(t_scene *scene);
-
-void	init_camera_basis(t_camera *camera, t_basis *world);
-
 void	assign_default_material(t_material *properties);
 
 // MLX
@@ -225,11 +246,7 @@ int	    close_window(t_mlx *mlx);
 
 void	free_mem(t_mlx *mlx);
 
-void	init_mlx_data(t_mlx *mlx);
-
-void	init_img_data(t_img *img, t_mlx *mlx);
-
-void	put_pixel(t_img *img, t_vec3 *pos, t_rgb *colour);
+void	put_pixel(t_pixel *pixel, t_img *img);
 
 // VECTOR
 
@@ -247,30 +264,30 @@ t_vec3	cross(t_vec3 a, t_vec3 b);
 
 t_vec3	normalize(t_vec3 a);
 
-bool    check_equal(t_vec3 *a, t_vec3 *b);
-
 void	print_vector(t_vec3 a);
+
+t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local);
 
 // RAY TRACE
 
-void	raytrace(t_mlx *mlx);
+void	render_pixels(t_mlx *mlx);
 
-void	init_intsec(t_intsec *intersection);
+void	cast_shadow_rays(t_intsec *intsec, t_scene *scene);
 
-void	cast_shadow_rays(t_intsec *intersection, t_scene *scene);
+void 	gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts);
 
 t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir);
 
 
 // INTERSECTIONS
 
-double	get_pl_t(t_ray *ray, t_plane *plane);
+double	get_pl_t(t_ray *ray, t_pl *plane);
 
-void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec);
+void	get_pl_intsec_data(t_ray *ray, t_pl *plane, t_intsec *intsec);
 
-double	get_sp_t(t_ray *ray, t_sphere *sphere);
+double	get_sp_t(t_ray *ray, t_sp *sphere);
 
-void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec);
+void	get_sp_intsec_data(t_ray *ray, t_sp *sphere, t_intsec *intsec);
 
 double	get_cy_t(t_ray *ray, t_cylinder *cylinder);
 
@@ -278,9 +295,11 @@ void	get_cy_intsec_data(t_ray *ray, t_cylinder *cylinder, t_intsec *intsec);
 
 t_intsec	find_intersection(t_ray *ray, void **objs);
 
+bool	camera_in_sp(t_sp *sphere, t_camera *camera);
+
 // UTILS
 
-unsigned int	rgb_to_int(t_rgb *rgb);
+unsigned int	rgb_to_int(t_rgb rgb);
 
 t_rgb	        rgb_add(t_rgb a, t_rgb b);
 
@@ -292,6 +311,8 @@ t_rgb           rgb_mult(t_rgb a, t_rgb b);
 
 bool            rgb_equal(t_rgb a, t_rgb b);
 
+t_rgb			rgb_average(t_rgb *colours, int count);
+
 int	            max(int a, int b);
 
 int	            min(int a, int b);
@@ -299,3 +320,18 @@ int	            min(int a, int b);
 void	        print_rgb(t_rgb rgb);
 
 double	        calc_time_diff(struct timeval *start, struct timeval *end);
+
+// INIT
+
+void	init_offset(t_consts *ssaa);
+
+void	init_world_basis(t_basis *world);
+
+void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world);
+
+void	init_mlx_data(t_mlx *mlx);
+
+void	init_img_data(t_img *img, t_mlx *mlx);
+
+void	init_intsec(t_intsec *intersection);
+

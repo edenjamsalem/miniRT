@@ -87,5 +87,6 @@ bool	assign_material(t_material *material, char *data)
 		return (0);
 	if (!in_range(material->n, 0.0, 300.0))
 		return (0);
+	free_2darr((void **)properties, 4);
 	return (1);
 }
