@@ -272,6 +272,10 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere);
 
 void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec);
 
+double	get_cy_t(t_ray *ray, t_cylinder *cylinder);
+
+void	get_cy_intsec_data(t_ray *ray, t_cylinder *cylinder, t_intsec *intsec);
+
 t_intsec	find_intersection(t_ray *ray, void **objs);
 
 // UTILS
