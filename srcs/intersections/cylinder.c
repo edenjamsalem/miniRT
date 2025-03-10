@@ -6,7 +6,7 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:33:48 by muabdi            #+#    #+#             */
-/*   Updated: 2025/03/10 17:59:14 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/03/10 18:40:07 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ double get_cy_t(t_ray *ray, t_cy *cylinder)
     double h1, h2;
 
     oc = sub(ray->origin, cylinder->center);
-    a = dot(ray->direction, ray->direction) - pow(dot(ray->direction, cylinder->normal), 2);
+    a = 1 - pow(dot(ray->direction, cylinder->normal), 2);
     b = 2 * (dot(ray->direction, oc) - dot(ray->direction, cylinder->normal) * dot(oc, cylinder->normal));
     c = dot(oc, oc) - pow(dot(oc, cylinder->normal), 2) - pow(cylinder->diameter / 2.0, 2);
     discriminant = b * b - 4 * a * c;
