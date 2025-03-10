@@ -45,6 +45,7 @@ void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_mlx *ml
 	t_vec3	light_dir;
 	
 	i = 0;
+	light->visibility = 0.0;
 	while (i < mlx->scene.consts.shadow_rpp)
 	{
 		light_dir = sub(light->rand_points[i], shadow->ray.origin);
@@ -71,7 +72,6 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx)
 	while (scene->lights->content[++i])
 	{
 		light = (t_light *)(scene->lights->content[i]);
-		light->visibility = 0.0;
 		shadow.ray.direction = light->dir;
 		init_local_basis(&shadow.basis, shadow.ray.direction, &scene->consts.world);
 		gen_rand_light_points(light, &shadow.basis, &mlx->scene.consts);
