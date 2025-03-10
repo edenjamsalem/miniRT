@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 18:10:07 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 18:15:42 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_pixel	raytrace(int x, int y, t_scene *scene)
 	return ((t_pixel){x, y, final_colour});
 }
 
-void	render_pixels(t_mlx *mlx)
+void	render_scene(t_mlx *mlx)
 {
 	int		i;
 	int		j;

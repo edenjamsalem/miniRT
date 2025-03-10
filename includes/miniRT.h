@@ -270,7 +270,7 @@ t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local);
 
 // RAY TRACE
 
-void	render_pixels(t_mlx *mlx);
+void	render_scene(t_mlx *mlx);
 
 void	cast_shadow_rays(t_intsec *intsec, t_scene *scene);
 
