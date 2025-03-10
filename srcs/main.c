@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 16:25:37 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 17:21:14 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ int main(int argc, char **argv)
 	t_mlx	mlx;
 	struct timeval	start; // for testing only
 	struct timeval	end;
-	int		nbr_cores;
+	// int		nbr_cores;
 	
 	(void)argc;
 	gettimeofday(&start, NULL);
-	nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
+	// nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	
 	parse(argv[1], &mlx.scene);
 	init_project(&mlx, &mlx.scene);

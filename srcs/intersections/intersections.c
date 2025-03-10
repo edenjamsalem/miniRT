@@ -6,7 +6,7 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:15:39 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/03/10 17:16:44 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_intsec	find_intersection(t_ray *ray, void **objs)
 			get_sp_intsec_data(ray, objs[i], &current);
 		else if (((t_pl *)objs[i])->shape == PL)
 			get_pl_intsec_data(ray, objs[i], &current);
-		else if (((t_cylinder *)objs[i])->shape == CYLINDER)
+		else if (((t_cy *)objs[i])->shape == CY)
 			get_cy_intsec_data(ray, objs[i], &current);
 		if (current.t >= 0 && current.t < nearest.t)
 			nearest = current;
