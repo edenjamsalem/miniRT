@@ -8,185 +8,185 @@
 #include <sys/time.h>
 #include <pthread.h>
 
-//      WINDOW SIZE
-#define WIN_WIDTH        1200
-#define WIN_HEIGHT      800
+//	  WINDOW SIZE
+#define WIN_WIDTH		1200
+#define WIN_HEIGHT	  800
 
-//      EVENT MACROS
-#define KEY_PRS_EVT     2
-#define KEY_REL_EVT     3
-#define BTN_PRS_EVT     4
-#define BTN_REL_EVT     5
-#define DESTROY_EVT     17
+//	  EVENT MACROS
+#define KEY_PRS_EVT	 2
+#define KEY_REL_EVT	 3
+#define BTN_PRS_EVT	 4
+#define BTN_REL_EVT	 5
+#define DESTROY_EVT	 17
 
 // KEYSYMS
-#define ESC_KEY                 0xff1b
-#define A_KEY                   0x0061
-#define S_KEY                   0x0073
-#define D_KEY                   0x0064
-#define W_KEY                   0x0077
-#define Q_KEY                   0x0071
-#define E_KEY                   0x0065
-#define UP_KEY                  0xff52
-#define DOWN_KEY                0xff54
-#define LEFT_KEY                0xff51
-#define RIGHT_KEY               0xff53
-#define SCROLL_UP               4
-#define SCROLL_DOWN             5
+#define ESC_KEY				 0xff1b
+#define A_KEY				   0x0061
+#define S_KEY				   0x0073
+#define D_KEY				   0x0064
+#define W_KEY				   0x0077
+#define Q_KEY				   0x0071
+#define E_KEY				   0x0065
+#define UP_KEY				  0xff52
+#define DOWN_KEY				0xff54
+#define LEFT_KEY				0xff51
+#define RIGHT_KEY			   0xff53
+#define SCROLL_UP			   4
+#define SCROLL_DOWN			 5
 
 #define PI 3.14159265358979323846
 
 typedef enum e_err
 {
-    LINE_ARG_COUNT,
-    ARG_OUT_OF_RANGE,
-    DUPLICATE,
-    MALLOC,
+	LINE_ARG_COUNT,
+	ARG_OUT_OF_RANGE,
+	DUPLICATE,
+	MALLOC,
 }				t_err;
 
 typedef enum e_shape
 {
-    NONE,
-    SP,
-    PL,
-    CY,
+	NONE,
+	SP,
+	PL,
+	CY,
 }				t_shape;
 
 typedef struct s_rgb
 {
-    unsigned char   r;
-    unsigned char   g;
-    unsigned char   b;
+	unsigned char   r;
+	unsigned char   g;
+	unsigned char   b;
 }				t_rgb;
 
 typedef struct s_vec3
 {
-    double          x;
-    double          y;
-    double          z;
+	double		  x;
+	double		  y;
+	double		  z;
 }				t_vec3;
 
 
 typedef struct s_vec2
 {
-    double          x;
-    double          y;
+	double		  x;
+	double		  y;
 }				t_vec2;
 
 typedef struct  t_pixel
 {
-    double     x;
-    double     y;
-    t_rgb      colour;
+	double	 x;
+	double	 y;
+	t_rgb	  colour;
 }	t_pixel;
 
 typedef struct s_basis
 {
-    t_vec3  right;
-    t_vec3  up;
-    t_vec3  forward;
-}           t_basis;
+	t_vec3  right;
+	t_vec3  up;
+	t_vec3  forward;
+}		   t_basis;
 
 typedef struct s_light
 {
-	t_vec3	    center;
-    double      radius;
+	t_vec3		center;
+	double	  radius;
 	float		brightness;
-	t_rgb	    colour;
-    t_vec3      dir;
-    double      visibility;
-	t_vec3	    rand_points[128];  // ndc for light source intsec points
+	t_rgb		colour;
+	t_vec3	  dir;
+	double	  visibility;
+	t_vec3		rand_points[128];  // ndc for light source intsec points
 } 				t_light;
 
 typedef struct s_camera
 {
-	t_vec3	    pos;
-	t_vec3	    orientation;
-	t_basis     basis;
-    int		    fov;
-    double		fov_tan; // to optimise ray trace
+	t_vec3		pos;
+	t_vec3		orientation;
+	t_basis	 basis;
+	int			fov;
+	double		fov_tan; // to optimise ray trace
 	double		aspect_ratio;
 } 				t_camera;
 
 typedef struct s_consts
 {
 	t_vec2		pixel_offsets[64];
-	int			rpp;         // num of rays per pixel
-    int         shadow_rpp;     // num of shadows rays fired per intsec
-	t_basis     world;
+	int			rpp;		 // num of rays per pixel
+	int		 shadow_rpp;	 // num of shadows rays fired per intsec
+	t_basis	 world;
 }   t_consts;
 
 typedef struct s_scene
 {
 	t_camera	camera;
-    t_light		ambient_light;
-    t_arrlst    *lights;
-    t_arrlst    *objs;
-    t_consts    consts;
+	t_light		ambient_light;
+	t_arrlst	*lights;
+	t_arrlst	*objs;
+	t_consts	consts;
 }				t_scene;
 
 typedef struct s_material
 {
-    double  Ka;
-    double  Kd;
-    double  Ks;
-    double  n;
-}           t_material;
+	double  Ka;
+	double  Kd;
+	double  Ks;
+	double  n;
+}		   t_material;
 
 typedef struct s_sp
 {
-    t_shape     shape;
-    t_vec3	    center;
-    double		diameter;
-    double		radius;
-    t_rgb		colour;
-    t_material  properties;
-	bool	    camera_inside;
+	t_shape	 shape;
+	t_vec3		center;
+	double		diameter;
+	double		radius;
+	t_rgb		colour;
+	t_material  properties;
+	bool		camera_inside;
 }				t_sp;
 
 typedef struct s_pl
 {
-    t_shape     shape;
-    t_vec3	    point;
-    t_vec3	    normal;
-    t_rgb		colour;
-    t_material  properties;
+	t_shape	 shape;
+	t_vec3		point;
+	t_vec3		normal;
+	t_rgb		colour;
+	t_material  properties;
 }				t_pl;
 
 typedef struct s_cy
 {
-    t_shape	shape;
-    t_vec3	center;
-    t_vec3	normal;
-    double	diameter;
-    double	height;
-    t_rgb	colour;
-    t_material  properties;
-	bool	    camera_inside;
+	t_shape	shape;
+	t_vec3	center;
+	t_vec3	normal;
+	double	diameter;
+	double	height;
+	t_rgb	colour;
+	t_material  properties;
+	bool		camera_inside;
 }				t_cy;
 
 typedef struct s_intersection
 {
-    t_vec3      pos;
-    t_vec3      normal;
-    t_rgb       colour;
-    void        *obj;
-    double      t;
-	bool	    in_shadow;
-    t_material  properties;
-}              t_intsec;
+	t_vec3	  pos;
+	t_vec3	  normal;
+	t_rgb	   colour;
+	void		*obj;
+	double	  t;
+	bool		in_shadow;
+	t_material  properties;
+}			  t_intsec;
 
 typedef struct s_ray
 {
-    t_vec3      origin;
-    t_vec3      direction;
-    t_intsec    intsec;
-}           t_ray;
+	t_vec3	  origin;
+	t_vec3	  direction;
+	t_intsec	intsec;
+}		   t_ray;
 
 typedef struct s_shadow
 {
-    t_ray ray;
-    t_basis basis;
+	t_ray ray;
+	t_basis basis;
 }   t_shadow;
 
 typedef struct s_img
@@ -203,7 +203,7 @@ typedef struct s_mlx
 	void		*ptr;
 	void		*win;
 	t_img		img;
-    t_scene     scene;
+	t_scene	 scene;
 }				t_mlx;
 
 //	PARSE
@@ -216,7 +216,7 @@ void	get_light_data(t_scene *scene, char **data, int line_nbr);
 
 void	extract_data(t_scene *scene, char **data, int line_nbr);
 
-void    parse(char *file, t_scene *scene);
+void	parse(char *file, t_scene *scene);
 
 void	perror_exit(t_err err, int line_nbr, char **data, int i, t_scene *scene);
 
@@ -240,9 +240,9 @@ void	assign_default_material(t_material *properties);
 
 // MLX
 
-int     key_event(int keysym, t_mlx *mlx);
+int	 key_event(int keysym, t_mlx *mlx);
 
-int	    close_window(t_mlx *mlx);
+int		close_window(t_mlx *mlx);
 
 void	free_mem(t_mlx *mlx);
 
@@ -250,13 +250,13 @@ void	put_pixel(t_pixel *pixel, t_img *img);
 
 // VECTOR
 
-t_vec3    add(t_vec3 a, t_vec3 b);
+t_vec3	add(t_vec3 a, t_vec3 b);
 
-t_vec3    sub(t_vec3 a, t_vec3 b);
+t_vec3	sub(t_vec3 a, t_vec3 b);
 
-t_vec3      scale(t_vec3 a, double t);
+t_vec3	  scale(t_vec3 a, double t);
 
-double     dot(t_vec3 a, t_vec3 b);
+double	 dot(t_vec3 a, t_vec3 b);
 
 double	magnitude(t_vec3 a);
 
@@ -297,25 +297,25 @@ bool	camera_in_sp(t_sp *sphere, t_camera *camera);
 
 unsigned int	rgb_to_int(t_rgb rgb);
 
-t_rgb	        rgb_add(t_rgb a, t_rgb b);
+t_rgb			rgb_add(t_rgb a, t_rgb b);
 
-t_rgb	        rgb_sub(t_rgb a, t_rgb b);
+t_rgb			rgb_sub(t_rgb a, t_rgb b);
 
-t_rgb	        rgb_scale(t_rgb a, double t);
+t_rgb			rgb_scale(t_rgb a, double t);
 
-t_rgb           rgb_mult(t_rgb a, t_rgb b);
+t_rgb		   rgb_mult(t_rgb a, t_rgb b);
 
-bool            rgb_equal(t_rgb a, t_rgb b);
+bool			rgb_equal(t_rgb a, t_rgb b);
 
 t_rgb			rgb_average(t_rgb *colours, int count);
 
-int	            max(int a, int b);
+int				max(int a, int b);
 
-int	            min(int a, int b);
+int				min(int a, int b);
 
-void	        print_rgb(t_rgb rgb);
+void			print_rgb(t_rgb rgb);
 
-double	        calc_time_diff(struct timeval *start, struct timeval *end);
+double			calc_time_diff(struct timeval *start, struct timeval *end);
 
 // INIT
 

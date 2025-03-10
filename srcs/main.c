@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:12:55 by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/10 17:38:10 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	check_camera_inside_objs(void **objs, t_camera *camera)
 		i++;
 	}
 }
-
+	
 void	init_project(t_mlx *mlx, t_scene *scene)
 {
 	init_mlx_data(mlx);
 	init_img_data(&mlx->img, mlx);
 	init_world_basis(&scene->consts.world);
 	init_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
-	scene->consts.rpp = 4;
+	scene->consts.rpp = 1;
 	scene->consts.shadow_rpp = 20;
 	init_offset(&scene->consts);
 	check_camera_inside_objs(scene->objs->content, &scene->camera);

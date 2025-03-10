@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 11:37:45 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 17:17:01by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/10 17:37:44 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/10 17:37:45 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 {
 	int		i;
-    double	t;
+	double	t;
 
 	i = -1;
 	while (objs[++i])
@@ -23,14 +23,14 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 		if (objs[i] == intsec_obj)
 			continue;
 		if (((t_sp *)objs[i])->shape == SP)
-        {
-            t = get_sp_t(ray, objs[i]);
+		{
+			t = get_sp_t(ray, objs[i]);
 			if (t >= 0 && t < light_dist)
 				return (false);
-        }
+		}
 		else if (((t_pl *)objs[i])->shape == PL)
 		{
-            t = get_pl_t(ray, objs[i]);
+			t = get_pl_t(ray, objs[i]);
 			if (t >= 0 && t < light_dist)
 				return (false);
 		}
@@ -41,7 +41,7 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_scene *scene)
 {
 	int		i;
-    double  light_dist;
+	double  light_dist;
 	t_vec3	light_dir;
 	
 	i = 0;
@@ -72,7 +72,7 @@ void gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts)
 	while (i < consts->shadow_rpp)
 	{
 		r = light->radius * sqrt(((double)rand() / RAND_MAX));
-  	    theta = ((double)rand() / RAND_MAX) * 2 * PI;
+  		theta = ((double)rand() / RAND_MAX) * 2 * PI;
 
 		light->rand_points[i].x = r * cos(theta);
 		light->rand_points[i].y = r * sin(theta);

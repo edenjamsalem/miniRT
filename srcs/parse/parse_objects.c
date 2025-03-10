@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 14:47:43 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:12:01 by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/10 17:37:05 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/10 17:37:06 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
 		perror_exit(MALLOC, 0, data, 0, scene);
 	append_arrlst(scene->objs, cylinder);
 	
-    cylinder->shape = CY;
+	cylinder->shape = CY;
 	assign_vector(&cylinder->center, data[1]);
 	assign_vector(&cylinder->normal, data[2]);
 	cylinder->diameter = ft_atof(data[3]);
