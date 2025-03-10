@@ -51,8 +51,7 @@ void	raytrace(int x, int y, t_mlx *mlx)
 	{
 		ray.direction = calc_ray_dir(&mlx->scene.camera, x, y, mlx->scene.consts.pixel_offsets[i]);
 		ray.intsec = find_intersection(&ray, mlx->scene.objs->content);
-		if (i == 0)
-			cast_shadow_rays(&ray.intsec, &mlx->scene, mlx);
+		cast_shadow_rays(&ray.intsec, &mlx->scene, mlx);
 		if (!ray.intsec.obj)
 			colours[i] = (t_rgb){0, 0, 0};
 		else
