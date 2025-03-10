@@ -46,7 +46,7 @@ t_rgb	get_colour(int x, int y, t_mlx *mlx, t_vec2 offset)
 	ray.origin = mlx->scene.camera.pos;
 	ray.direction = calc_ray_dir(&mlx->scene.camera, x, y, offset);
 	ray.intsec = find_intersection(&ray, mlx->scene.objs->content);
-	if (!ray.intsec.obj)
+	if (ray.intsec.obj)
 		return ((t_rgb){0, 0, 0});
 	cast_shadow_rays(&ray.intsec, &mlx->scene, mlx);
 	colour = blinn_phong(&mlx->scene, &ray.intsec, scale(ray.direction, -1));
