@@ -261,9 +261,9 @@ t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local);
 
 // RAY TRACE
 
-void	raytrace(t_mlx *mlx);
+void	render_pixels(t_mlx *mlx);
 
-void	cast_shadow_rays(t_intsec *intsec, t_scene *scene, t_mlx *mlx);
+void	cast_shadow_rays(t_intsec *intsec, t_scene *scene);
 
 void 	gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts);
 

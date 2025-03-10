@@ -58,7 +58,6 @@ t_rgb	get_IdIs(t_light **lights, t_intsec *intsec, t_vec3 view_dir)
 	{
 		if (lights[i]->visibility <= 0.0)
 			continue ;
-		lights[i]->dir = normalize(sub(lights[i]->center, intsec->pos));
 		Id = get_Id(lights[i], intsec, intsec->properties.Kd);
 		Is = get_Is(lights[i], intsec, view_dir, intsec->properties.Ks, intsec->properties.n);
 		
