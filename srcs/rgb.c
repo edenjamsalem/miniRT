@@ -12,9 +12,9 @@
 
 #include "../includes/miniRT.h"
 
-unsigned int	rgb_to_int(t_rgb *rgb)
+unsigned int	rgb_to_int(t_rgb rgb)
 {
-	return ((rgb->r << 16) | (rgb->g << 8) | rgb->b);
+	return ((rgb.r << 16) | (rgb.g << 8) | rgb.b);
 }
 
 t_rgb	rgb_add(t_rgb a, t_rgb b)

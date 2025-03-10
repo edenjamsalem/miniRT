@@ -38,7 +38,7 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	return (normalize(world_dir));
 }
 
-void	raytrace(int x, int y, t_scene *scene, t_mlx *mlx)
+t_rgb	raytrace(int x, int y, t_scene *scene)
 {
 	t_ray	ray;
 	t_rgb		colours[64];
@@ -60,13 +60,15 @@ void	raytrace(int x, int y, t_scene *scene, t_mlx *mlx)
 		}
 	}
 	final_colour = rgb_average(colours, scene->consts.rpp);
-	put_pixel(&mlx->img, &(t_vec2){x, y}, &final_colour);
+	return (final_colour);
 }
 
 void	render_pixels(t_mlx *mlx)
 {
-	int			i;
-	int			j;
+	int		i;
+	int		j;
+	t_rgb	colour;
+	t_pixel	pixel;
 
 	i = -1;
 	while (++i < WIN_HEIGHT - 1)
@@ -74,7 +76,9 @@ void	render_pixels(t_mlx *mlx)
 		j = -1;
 		while (++j < WIN_WIDTH - 1)
 		{ 
-			raytrace(j, i, &mlx->scene, mlx);
+			colour = raytrace(j, i, &mlx->scene);
+			pixel = (t_pixel){j, i, colour};
+			put_pixel(&pixel, &mlx->img);
 		}
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);

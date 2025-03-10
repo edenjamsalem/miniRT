@@ -73,6 +73,13 @@ typedef struct s_vec2
     double          y;
 }				t_vec2;
 
+typedef struct  t_pixel
+{
+    double     x;
+    double     y;
+    t_rgb      colour;
+}	t_pixel;
+
 typedef struct s_basis
 {
     t_vec3  right;
@@ -237,7 +244,7 @@ int	    close_window(t_mlx *mlx);
 
 void	free_mem(t_mlx *mlx);
 
-void	put_pixel(t_img *img, t_vec2 *pos, t_rgb *colour);
+void	put_pixel(t_pixel *pixel, t_img *img);
 
 // VECTOR
 
@@ -284,7 +291,7 @@ t_intsec	find_intersection(t_ray *ray, void **objs);
 
 // UTILS
 
-unsigned int	rgb_to_int(t_rgb *rgb);
+unsigned int	rgb_to_int(t_rgb rgb);
 
 t_rgb	        rgb_add(t_rgb a, t_rgb b);
 

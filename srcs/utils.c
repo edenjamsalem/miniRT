@@ -39,15 +39,15 @@ bool	within_screen(int x, int y)
 	return (x > 0 && x < WIN_WIDTH && y > 0 && y < WIN_HEIGHT);
 }
 
-void	put_pixel(t_img *img, t_vec2 *pos, t_rgb *colour)
+void	put_pixel(t_pixel *pixel, t_img *img)
 {
 	char	*dst;
 
-	if (!within_screen(pos->x, pos->y))
+	if (!within_screen(pixel->x, pixel->y))
 		return ;
 
-	dst = find_offset(pos->x, pos->y, img);
-	*((unsigned int *)dst) = rgb_to_int(colour);
+	dst = find_offset(pixel->x, pixel->y, img);
+	*((unsigned int *)dst) = rgb_to_int(pixel->colour);
 }
 
 int	max(int a, int b)
