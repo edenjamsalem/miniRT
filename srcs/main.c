@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:21:14 by muabdi           ###   ########.fr       */
+/*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/10 17:58:16 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,19 @@ void	check_camera_inside_objs(void **objs, t_camera *camera)
 	{
 		if (((t_sp *)objs[i])->shape == SP && camera_in_sp((t_sp *)objs[i], camera))
 			((t_sp *)objs[i])->camera_inside = true;
-		else
-			((t_sp *)objs[i])->camera_inside = false;
 		// else if (((t_cy *)objs[i])->shape == CY && camera_in_cy((t_cy *)objs[i], camera))
-		// {
 		// 	((t_cy *)objs[i])->camera_inside = true;
-		// }
 		i++;
 	}
 }
-
+	
 void	init_project(t_mlx *mlx, t_scene *scene)
 {
 	init_mlx_data(mlx);
 	init_img_data(&mlx->img, mlx);
 	init_world_basis(&scene->consts.world);
 	init_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
-	scene->consts.rpp = 2;
+	scene->consts.rpp = 1;
 	scene->consts.shadow_rpp = 20;
 	init_offset(&scene->consts);
 	check_camera_inside_objs(scene->objs->content, &scene->camera);
@@ -69,7 +65,6 @@ void	init_project(t_mlx *mlx, t_scene *scene)
 
 // 	TODO:
 //	- implement multiray casting only for borders
-//	- fix rendering inside objects
 //	- make light sources visible
 //	- try to get threads working for efficiency
 

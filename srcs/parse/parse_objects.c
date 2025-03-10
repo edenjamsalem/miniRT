@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 14:47:43 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 16:05:09 by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/10 17:37:05 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/10 17:37:06 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 	assign_vector(&sphere->center, data[1]);
 	sphere->diameter = ft_atof(data[2]);
 	sphere->radius = sphere->diameter / 2.0;
+	sphere->camera_inside = false;
 	
 	if (!assign_rgb(&sphere->colour, data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
@@ -89,11 +90,12 @@ void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
 		perror_exit(MALLOC, 0, data, 0, scene);
 	append_arrlst(scene->objs, cylinder);
 	
-    cylinder->shape = CY;
+	cylinder->shape = CY;
 	assign_vector(&cylinder->center, data[1]);
 	assign_vector(&cylinder->normal, data[2]);
 	cylinder->diameter = ft_atof(data[3]);
 	cylinder->height = ft_atof(data[4]);
+	cylinder->camera_inside = false;
 
 	if (!vector_in_range(&cylinder->normal, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);
