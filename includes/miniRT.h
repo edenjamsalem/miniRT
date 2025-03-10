@@ -47,9 +47,9 @@ typedef enum e_err
 typedef enum e_shape
 {
     NONE,
-    SPHERE,
-    PLANE,
-    CYLINDER,
+    SP,
+    PL,
+    CY,
 }				t_shape;
 
 typedef struct s_rgb
@@ -133,7 +133,7 @@ typedef struct s_material
     double  n;
 }           t_material;
 
-typedef struct s_sphere
+typedef struct s_sp
 {
     t_shape     shape;
     t_vec3	    center;
@@ -141,18 +141,19 @@ typedef struct s_sphere
     double		radius;
     t_rgb		colour;
     t_material  properties;
-}				t_sphere;
+	bool	    camera_inside;
+}				t_sp;
 
-typedef struct s_plane
+typedef struct s_pl
 {
     t_shape     shape;
     t_vec3	    point;
     t_vec3	    normal;
     t_rgb		colour;
     t_material  properties;
-}				t_plane;
+}				t_pl;
 
-typedef struct s_cylinder
+typedef struct s_cy
 {
     t_shape	shape;
     t_vec3	center;
@@ -161,7 +162,8 @@ typedef struct s_cylinder
     double	height;
     t_rgb	colour;
     t_material  properties;
-}				t_cylinder;
+	bool	    camera_inside;
+}				t_cy;
 
 typedef struct s_intersection
 {
@@ -279,15 +281,17 @@ t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir);
 
 // INTERSECTIONS
 
-double	get_pl_t(t_ray *ray, t_plane *plane);
+double	get_pl_t(t_ray *ray, t_pl *plane);
 
-void	get_pl_intsec_data(t_ray *ray, t_plane *plane, t_intsec *intsec);
+void	get_pl_intsec_data(t_ray *ray, t_pl *plane, t_intsec *intsec);
 
-double	get_sp_t(t_ray *ray, t_sphere *sphere);
+double	get_sp_t(t_ray *ray, t_sp *sphere);
 
-void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec);
+void	get_sp_intsec_data(t_ray *ray, t_sp *sphere, t_intsec *intsec);
 
 t_intsec	find_intersection(t_ray *ray, void **objs);
+
+bool	camera_in_sp(t_sp *sphere, t_camera *camera);
 
 // UTILS
 
@@ -327,4 +331,3 @@ void	init_img_data(t_img *img, t_mlx *mlx);
 
 void	init_intsec(t_intsec *intersection);
 
-void	init_light_intsec_points(t_scene *scene, t_mlx *mlx);

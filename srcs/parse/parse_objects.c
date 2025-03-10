@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 14:47:43 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/07 17:40:20 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 16:05:09 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ void	assign_default_material(t_material *properties)
 
 void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 {
-	t_sphere	*sphere;
+	t_sp	*sphere;
 	int			no_elems;
 
 	no_elems = ft_2darr_len((void **)data);
 	if (no_elems < 4 || no_elems > 5)
 		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
 	
-	sphere = malloc(sizeof(t_sphere));
+	sphere = malloc(sizeof(t_sp));
 	if (!sphere)
 		perror_exit(MALLOC, 0, data, 0, scene);
 	append_arrlst(scene->objs, sphere);
 	
-	sphere->shape = SPHERE;
+	sphere->shape = SP;
 	assign_vector(&sphere->center, data[1]);
 	sphere->diameter = ft_atof(data[2]);
 	sphere->radius = sphere->diameter / 2.0;
@@ -49,18 +49,18 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 
 void	get_plane_data(t_scene *scene, char **data, int line_nbr)
 {
-	t_plane	*plane;
+	t_pl	*plane;
 	int		no_elems;
 
 	no_elems = ft_2darr_len((void **)data);
 	if (no_elems < 4 || no_elems > 5)
 		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
-	plane = malloc(sizeof(t_plane));
+	plane = malloc(sizeof(t_pl));
 	if (!plane)
 		perror_exit(MALLOC, 0, data, 0, scene);
 	append_arrlst(scene->objs, plane);
 	
-	plane->shape = PLANE;
+	plane->shape = PL;
 	assign_vector(&plane->point, data[1]);
 	assign_vector(&plane->normal, data[2]);
 	
@@ -77,19 +77,19 @@ void	get_plane_data(t_scene *scene, char **data, int line_nbr)
 
 void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
 {
-	t_cylinder	*cylinder;
+	t_cy	*cylinder;
 	int			no_elems;
 
 	no_elems = ft_2darr_len((void **)data);
 	if (no_elems < 6 || no_elems > 7)
 		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
 
-	cylinder = malloc(sizeof(t_cylinder));
+	cylinder = malloc(sizeof(t_cy));
 	if (!cylinder)
 		perror_exit(MALLOC, 0, data, 0, scene);
 	append_arrlst(scene->objs, cylinder);
 	
-    cylinder->shape = CYLINDER;
+    cylinder->shape = CY;
 	assign_vector(&cylinder->center, data[1]);
 	assign_vector(&cylinder->normal, data[2]);
 	cylinder->diameter = ft_atof(data[3]);

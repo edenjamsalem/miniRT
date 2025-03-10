@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 18:46:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/06 17:18:52 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 16:26:33 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static double get_t(double t[2])
 		return (-1);
 }
 
-double	get_sp_t(t_ray *ray, t_sphere *sphere)
+double	get_sp_t(t_ray *ray, t_sp *sphere)
 {
 	double		b;
 	double		c;
@@ -33,7 +33,6 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 	t_vec3		l;
 
 	l = sub(ray->origin, sphere->center);
-	//a == dot(ray.direction, ray.direction) == 1 as ray.direction is normalized
 	b = 2.0 * dot(ray->direction, l);
 	c = dot(l, l) - (sphere->radius * sphere->radius);
 
@@ -49,7 +48,7 @@ double	get_sp_t(t_ray *ray, t_sphere *sphere)
 	return (get_t(t));
 }
 
-void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
+void	get_sp_intsec_data(t_ray *ray, t_sp *sphere, t_intsec *intsec)
 {
 	intsec->t = get_sp_t(ray, sphere);
 	if (intsec->t >= 0)
@@ -57,7 +56,17 @@ void	get_sp_intsec_data(t_ray *ray, t_sphere *sphere, t_intsec *intsec)
 		intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
 		intsec->colour = sphere->colour;
 		intsec->normal = normalize(sub(intsec->pos, sphere->center));
+		if (sphere->camera_inside)
+			intsec->normal = scale(intsec->normal, -1);
 		intsec->obj = (void *)sphere;
 		intsec->properties = sphere->properties;
 	}
+}
+
+bool	camera_in_sp(t_sp *sphere, t_camera *camera)
+{
+	t_vec3 len;
+
+	len = sub(camera->pos, sphere->center);
+	return (dot(len, len) < (sphere->radius * sphere->radius));
 }

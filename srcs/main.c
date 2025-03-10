@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:50:15 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 15:24:39 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 16:25:37 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,25 @@ void	free_mem(t_mlx *mlx)
 	free(mlx->ptr);
 }
 
+void	check_camera_inside_objs(void **objs, t_camera *camera)
+{
+	int			i;
+
+	i = 0;
+	while (objs[i])
+	{
+		if (((t_sp *)objs[i])->shape == SP && camera_in_sp((t_sp *)objs[i], camera))
+			((t_sp *)objs[i])->camera_inside = true;
+		else
+			((t_sp *)objs[i])->camera_inside = false;
+		// else if (((t_cy *)objs[i])->shape == CY && camera_in_cy((t_cy *)objs[i], camera))
+		// {
+		// 	((t_cy *)objs[i])->camera_inside = true;
+		// }
+		i++;
+	}
+}
+
 void	init_project(t_mlx *mlx, t_scene *scene)
 {
 	init_mlx_data(mlx);
@@ -45,6 +64,7 @@ void	init_project(t_mlx *mlx, t_scene *scene)
 	scene->consts.rpp = 2;
 	scene->consts.shadow_rpp = 20;
 	init_offset(&scene->consts);
+	check_camera_inside_objs(scene->objs->content, &scene->camera);
 }
 
 // 	TODO:

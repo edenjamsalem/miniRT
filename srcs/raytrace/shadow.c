@@ -22,13 +22,13 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 	{
 		if (objs[i] == intsec_obj)
 			continue;
-		if (((t_sphere *)objs[i])->shape == SPHERE)
+		if (((t_sp *)objs[i])->shape == SP)
         {
             t = get_sp_t(ray, objs[i]);
 			if (t >= 0 && t < light_dist)
 				return (false);
         }
-		else if (((t_plane *)objs[i])->shape == PLANE)
+		else if (((t_pl *)objs[i])->shape == PL)
 		{
             t = get_pl_t(ray, objs[i]);
 			if (t >= 0 && t < light_dist)
@@ -57,6 +57,28 @@ void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_scene *
 			intsec->in_shadow = false;
 			light->visibility += 1.0 / scene->consts.shadow_rpp;
 		}
+		i++;
+	}
+}
+
+void gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts)
+{
+	int		i;
+	double	theta;
+	double	r;
+	
+	i = 0;
+	theta = 0;
+	while (i < consts->shadow_rpp)
+	{
+		r = light->radius * sqrt(((double)rand() / RAND_MAX));
+  	    theta = ((double)rand() / RAND_MAX) * 2 * PI;
+
+		light->rand_points[i].x = r * cos(theta);
+		light->rand_points[i].y = r * sin(theta);
+		light->rand_points[i].z = 0;
+		light->rand_points[i] = transform_local_to_world(&light->rand_points[i], shadow);
+		light->rand_points[i] = add(light->rand_points[i], light->center);
 		i++;
 	}
 }
