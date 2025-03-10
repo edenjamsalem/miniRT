@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:37:38 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/10 18:10:07 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	return (normalize(world_dir));
 }
 
-t_rgb	raytrace(int x, int y, t_scene *scene)
+t_pixel	raytrace(int x, int y, t_scene *scene)
 {
 	t_ray	ray;
-	t_rgb		colours[64];
-	t_rgb		final_colour;
-	int			i;
+	t_rgb	colours[64];
+	t_rgb	final_colour;
+	int		i;
 
 	i = -1;
 	ray.origin = scene->camera.pos;
@@ -60,14 +60,13 @@ t_rgb	raytrace(int x, int y, t_scene *scene)
 		}
 	}
 	final_colour = rgb_average(colours, scene->consts.rpp);
-	return (final_colour);
+	return ((t_pixel){x, y, final_colour});
 }
 
 void	render_pixels(t_mlx *mlx)
 {
 	int		i;
 	int		j;
-	t_rgb	colour;
 	t_pixel	pixel;
 
 	i = -1;
@@ -76,8 +75,7 @@ void	render_pixels(t_mlx *mlx)
 		j = -1;
 		while (++j < WIN_WIDTH - 1)
 		{ 
-			colour = raytrace(j, i, &mlx->scene);
-			pixel = (t_pixel){j, i, colour};
+			pixel = raytrace(j, i, &mlx->scene);
 			put_pixel(&pixel, &mlx->img);
 		}
 	}
