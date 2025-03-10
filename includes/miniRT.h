@@ -289,6 +289,10 @@ double	get_sp_t(t_ray *ray, t_sp *sphere);
 
 void	get_sp_intsec_data(t_ray *ray, t_sp *sphere, t_intsec *intsec);
 
+double	get_cy_t(t_ray *ray, t_cy *cylinder);
+
+void	get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec);
+
 t_intsec	find_intersection(t_ray *ray, void **objs);
 
 bool	camera_in_sp(t_sp *sphere, t_camera *camera);
