@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 18:15:42 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:25:52 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	init_project(t_mlx *mlx, t_scene *scene)
 	init_img_data(&mlx->img, mlx);
 	init_world_basis(&scene->consts.world);
 	init_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
-	scene->consts.rpp = 1; // max == 64
+	scene->consts.rpp = 4; // max == 64
 	scene->consts.shadow_rpp = 20; // max == 128
 	init_offset(&scene->consts);
 	check_camera_inside_objs(scene->objs->content, &scene->camera);

@@ -217,13 +217,13 @@ typedef struct s_parse
 }	t_parse;
 //	PARSE
 
-void	get_ambient_light_data(t_scene *scene, char **data, int line_nbr);
+void	get_ambient_light_data(t_parse *parse, t_scene *scene);
 
-void	get_camera_data(t_scene *scene, char **data, int line_nbr);
+void	get_camera_data(t_parse *parse, t_scene *scene);
 
-void	get_light_data(t_scene *scene, char **data, int line_nbr);
+void	get_light_data(t_parse *parse, t_scene *scene);
 
-void	extract_data(t_scene *scene, char **data, int line_nbr);
+void	extract_data(t_parse *parse, t_scene *scene);
 
 void	parse(char *file, t_scene *scene);
 
@@ -239,11 +239,11 @@ bool	assign_rgb(t_rgb *rgb, char *data);
 
 bool	vector_in_range(t_vec3 *vector, double lower, double upper);
 
-void	get_sphere_data(t_scene *scene, char **data, int line_nbr);
+void	get_sphere_data(t_parse *parse, t_scene *scene);
 
-void	get_plane_data(t_scene *scene, char **data, int line_nbr);
+void	get_plane_data(t_parse *parse, t_scene *scene);
 
-void	get_cylinder_data(t_scene *scene, char **data, int line_nbr);
+void	get_cylinder_data(t_parse *parse, t_scene *scene);
 
 void	assign_default_material(t_material *properties);
 

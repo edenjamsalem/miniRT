@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:12 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/11 16:25:00 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:29:51 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	get_camera_data(t_parse *parse, t_scene *scene)
 	if (!vector_in_range(&scene->camera.orientation, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 2);
 	if (!in_range(scene->camera.fov, 0, 180))
-		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
+		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
 }
 
 void	get_light_data(t_parse *parse, t_scene *scene)
@@ -50,25 +50,25 @@ void	get_light_data(t_parse *parse, t_scene *scene)
 	t_light		*light;
 	int			no_elems;
 
-	no_elems = ft_2darr_len((void **)data);
+	no_elems = ft_2darr_len((void **)parse->data);
 	if (no_elems < 3 || no_elems > 4)
-		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
+		perror_exit(LINE_ARG_COUNT, parse, 0);
 
 	light = malloc(sizeof(t_light));
 	if (!light)
-		perror_exit(MALLOC, line_nbr, data, 0, scene);
+		perror_exit(MALLOC, parse, 0);
 		
 	append_arrlst(scene->lights, light);	
-	if (!assign_vector(&light->center, data[1]))
-		perror_exit(VEC_COUNT, line_nbr, data, 1, scene);
+	if (!assign_vector(&light->center, parse->data[1]))
+		perror_exit(VEC_COUNT, parse, 1);
 		
-	light->brightness = ft_atof(data[2]);
+	light->brightness = ft_atof(parse->data[2]);
 	light->radius = 10; // make dynamic later
 
 	if (!in_range(light->brightness, 0.0, 1.0))
-		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);	
-	if (no_elems == 4 && !assign_rgb(&light->colour, data[3]))
-		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 3, scene);
+		perror_exit(ARG_OUT_OF_RANGE, parse, 2);	
+	if (no_elems == 4 && !assign_rgb(&light->colour, parse->data[3]))
+		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
 	else if (no_elems == 3)
 		assign_rgb(&light->colour, "255,255,255");
 }	

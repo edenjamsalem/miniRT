@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:25 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/11 16:22:05 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:48:27 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	extract_data(t_parse *parse, t_scene *scene)
 		get_cylinder_data(parse, scene);
 }
 
-bool	check_line(t_parse *parse, t_scene *scene)
+bool	check_line(t_parse *parse)
 {
 	static bool ambient_light;
 	static bool camera;
@@ -66,7 +66,7 @@ void parse(char *file, t_scene *scene)
 	{
 		parse.data = ft_split_set(line, " \t\n");
 		free(line);
-		if (check_line(&parse, scene))
+		if (check_line(&parse))
 			extract_data(&parse, scene);
 		free_2darr((void **)parse.data, ft_2darr_len((void **)parse.data));
 		line = get_next_line(fd);
