@@ -41,6 +41,7 @@ typedef enum e_err
 	LINE_ARG_COUNT,
 	ARG_OUT_OF_RANGE,
 	DUPLICATE,
+	VEC_COUNT,
 	MALLOC,
 }				t_err;
 
@@ -220,7 +221,7 @@ void	parse(char *file, t_scene *scene);
 
 void	perror_exit(t_err err, int line_nbr, char **data, int i, t_scene *scene);
 
-void	assign_vector(t_vec3 *vector, char *data);
+bool	assign_vector(t_vec3 *vector, char *data);
 
 bool	assign_material(t_material *material, char *data);
 

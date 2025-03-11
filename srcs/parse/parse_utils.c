@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:18 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:37:19 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:37:22 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,23 @@ bool	vector_in_range(t_vec3 *vector, double lower, double upper)
 	return (1);
 }
 
-void	assign_vector(t_vec3 *vector, char *data)
+bool	assign_vector(t_vec3 *vector, char *data)
 {
 	char	**coords;
+	int		num_elems;
 
 	coords = ft_split(data, ',');
+	num_elems = ft_2darr_len((void **)coords);
+	if (num_elems != 3)
+	{
+		free_2darr((void **)coords, num_elems);
+		return (false);
+	}
 	vector->x = ft_atof(coords[0]);
 	vector->y = ft_atof(coords[1]);
 	vector->z = ft_atof(coords[2]);
 	free_2darr((void **)coords, 3);
+	return (true);
 }
 
 bool	assign_material(t_material *material, char *data)

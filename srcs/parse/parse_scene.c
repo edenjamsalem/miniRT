@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:12 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:37:13 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:26:49 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ void	get_camera_data(t_scene *scene, char **data, int line_nbr)
 	if (ft_2darr_len((void **)data) != 4)
 		perror_exit(LINE_ARG_COUNT, line_nbr, data, 0, scene);
 
-	assign_vector(&scene->camera.pos, data[1]);
-	assign_vector(&scene->camera.orientation, data[2]);
+	if (!assign_vector(&scene->camera.pos, data[1]))
+		perror_exit(VEC_COUNT, line_nbr, data, 1, scene);
+	if (!assign_vector(&scene->camera.orientation, data[2]))
+		perror_exit(VEC_COUNT, line_nbr, data, 2, scene);
+
 	scene->camera.fov = ft_atoi(data[3]);
 	scene->camera.fov_tan = tan((scene->camera.fov / 2.0) * (PI / 180));
 	scene->camera.aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
@@ -56,7 +59,9 @@ void	get_light_data(t_scene *scene, char **data, int line_nbr)
 		perror_exit(MALLOC, line_nbr, data, 0, scene);
 		
 	append_arrlst(scene->lights, light);	
-	assign_vector(&light->center, data[1]);
+	if (!assign_vector(&light->center, data[1]))
+		perror_exit(VEC_COUNT, line_nbr, data, 1, scene);
+		
 	light->brightness = ft_atof(data[2]);
 	light->radius = 10; // make dynamic later
 

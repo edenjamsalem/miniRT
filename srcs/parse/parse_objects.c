@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:05 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:37:06 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/11 15:30:08 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	get_sphere_data(t_scene *scene, char **data, int line_nbr)
 	append_arrlst(scene->objs, sphere);
 	
 	sphere->shape = SP;
-	assign_vector(&sphere->center, data[1]);
+	if (!assign_vector(&sphere->center, data[1]))
+		perror_exit(VEC_COUNT, line_nbr, data, 1, scene);
 	sphere->diameter = ft_atof(data[2]);
 	sphere->radius = sphere->diameter / 2.0;
 	sphere->camera_inside = false;
@@ -62,8 +63,10 @@ void	get_plane_data(t_scene *scene, char **data, int line_nbr)
 	append_arrlst(scene->objs, plane);
 	
 	plane->shape = PL;
-	assign_vector(&plane->point, data[1]);
-	assign_vector(&plane->normal, data[2]);
+	if (!assign_vector(&plane->point, data[1]))
+		perror_exit(VEC_COUNT, line_nbr, data, 1, scene);
+	if (!assign_vector(&plane->normal, data[2]))
+		perror_exit(VEC_COUNT, line_nbr, data, 2, scene);
 	
 	if (!vector_in_range(&plane->normal, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, line_nbr, data, 2, scene);	
@@ -91,8 +94,11 @@ void	get_cylinder_data(t_scene *scene, char **data, int line_nbr)
 	append_arrlst(scene->objs, cylinder);
 	
 	cylinder->shape = CY;
-	assign_vector(&cylinder->center, data[1]);
-	assign_vector(&cylinder->normal, data[2]);
+	if (!assign_vector(&cylinder->center, data[1]))
+		perror_exit(VEC_COUNT, line_nbr, data, 1, scene);
+	if (!assign_vector(&cylinder->normal, data[2]))
+		perror_exit(VEC_COUNT, line_nbr, data, 2, scene);
+	
 	cylinder->diameter = ft_atof(data[3]);
 	cylinder->height = ft_atof(data[4]);
 	cylinder->camera_inside = false;
