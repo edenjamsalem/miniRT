@@ -6,7 +6,7 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 15:33:02 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/03/12 15:33:58 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	init_project(t_mlx *mlx, t_scene *scene)
 	init_img_data(&mlx->img, mlx);
 	init_world_basis(&scene->consts.world);
 	init_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
-	scene->consts.rpp = 1;
-	scene->consts.shadow_rpp = 20;
+	scene->consts.rpp = 4; // max == 64
+	scene->consts.shadow_rpp = 20; // max == 128
 	init_offset(&scene->consts);
 	check_camera_inside_objs(scene->objs->content, &scene->camera);
 }
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 
 	parse(argv[1], &mlx.scene);
 	init_project(&mlx, &mlx.scene);
-	render_pixels(&mlx);
+	render_scene(&mlx);
 
 	gettimeofday(&end, NULL);
 	printf("time = %f\n", calc_time_diff(&start, &end) / 1000);

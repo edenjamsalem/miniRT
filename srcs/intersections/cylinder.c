@@ -6,19 +6,47 @@
 /*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:33:48 by muabdi            #+#    #+#             */
-/*   Updated: 2025/03/10 18:40:07 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/03/12 15:34:12 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
+double    get_h(double t, t_ray *ray, t_cy *cylinder)
+{
+    t_vec3 p;
+    double h;
+    
+    p = add(ray->origin, scale(ray->direction, t));
+    h = dot(sub(p, cylinder->center), cylinder->normal);
+    return (h);
+}
+
+
+double  get_t(double t[2], t_ray *ray, t_cy *cylinder)
+{
+    double h1;
+    double h2;
+
+    h1 = get_h(t[0], ray, cylinder);
+    h2 = get_h(t[1], ray, cylinder);
+
+    if (t[0] > 0 && h1 >= 0 && h1 <= cylinder->height && t[1] > 0 && h2 >= 0 && h2 <= cylinder->height)
+        return fmin(t[0], t[1]);
+    else if (t[0] > 0 && h1 >= 0 && h1 <= cylinder->height)
+        return t[0];
+    else if (t[1] > 0 && h2 >= 0 && h2 <= cylinder->height)
+        return t[1];
+    else
+        return -1.0;
+
+}
+
 double get_cy_t(t_ray *ray, t_cy *cylinder)
 {
     t_vec3 oc;
     double a, b, c, discriminant;
-    double t1, t2;
-    t_vec3 p1, p2;
-    double h1, h2;
+    double t[2];
 
     oc = sub(ray->origin, cylinder->center);
     a = 1 - pow(dot(ray->direction, cylinder->normal), 2);
@@ -29,21 +57,10 @@ double get_cy_t(t_ray *ray, t_cy *cylinder)
     if (discriminant < 0)
         return -1.0;
 
-    t1 = (-b - sqrt(discriminant)) / (2 * a);
-    t2 = (-b + sqrt(discriminant)) / (2 * a);
-    p1 = add(ray->origin, scale(ray->direction, t1));
-    p2 = add(ray->origin, scale(ray->direction, t2));
-    h1 = dot(sub(p1, cylinder->center), cylinder->normal);
-    h2 = dot(sub(p2, cylinder->center), cylinder->normal);
+    t[0] = (-b - sqrt(discriminant)) / (2 * a);
+    t[1] = (-b + sqrt(discriminant)) / (2 * a);
 
-    if (t1 > 0 && h1 >= 0 && h1 <= cylinder->height && t2 > 0 && h2 >= 0 && h2 <= cylinder->height)
-        return fmin(t1, t2);
-    else if (t1 > 0 && h1 >= 0 && h1 <= cylinder->height)
-        return t1;
-    else if (t2 > 0 && h2 >= 0 && h2 <= cylinder->height)
-        return t2;
-    else
-        return -1.0;
+    return (get_t(t, ray, cylinder));
 }
 
 void get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec)
