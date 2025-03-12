@@ -42,6 +42,7 @@ typedef enum e_err
 	ARG_OUT_OF_RANGE,
 	DUPLICATE,
 	VEC_COUNT,
+	RGB_COUNT,
 	MALLOC,
 }				t_err;
 
@@ -207,19 +208,26 @@ typedef struct s_mlx
 	t_scene	 scene;
 }				t_mlx;
 
+typedef struct s_parse
+{
+	int		line_num;
+	char	**data;
+	char	*arg;
+	t_scene	*scene;
+}	t_parse;
 //	PARSE
 
-void	get_ambient_light_data(t_scene *scene, char **data, int line_nbr);
+void	get_ambient_light_data(t_parse *parse, t_scene *scene);
 
-void	get_camera_data(t_scene *scene, char **data, int line_nbr);
+void	get_camera_data(t_parse *parse, t_scene *scene);
 
-void	get_light_data(t_scene *scene, char **data, int line_nbr);
+void	get_light_data(t_parse *parse, t_scene *scene);
 
-void	extract_data(t_scene *scene, char **data, int line_nbr);
+void	extract_data(t_parse *parse, t_scene *scene);
 
 void	parse(char *file, t_scene *scene);
 
-void	perror_exit(t_err err, int line_nbr, char **data, int i, t_scene *scene);
+void	perror_exit(t_err err, t_parse *parse, int i);
 
 bool	assign_vector(t_vec3 *vector, char *data);
 
@@ -231,11 +239,11 @@ bool	assign_rgb(t_rgb *rgb, char *data);
 
 bool	vector_in_range(t_vec3 *vector, double lower, double upper);
 
-void	get_sphere_data(t_scene *scene, char **data, int line_nbr);
+void	get_sphere_data(t_parse *parse, t_scene *scene);
 
-void	get_plane_data(t_scene *scene, char **data, int line_nbr);
+void	get_plane_data(t_parse *parse, t_scene *scene);
 
-void	get_cylinder_data(t_scene *scene, char **data, int line_nbr);
+void	get_cylinder_data(t_parse *parse, t_scene *scene);
 
 void	assign_default_material(t_material *properties);
 

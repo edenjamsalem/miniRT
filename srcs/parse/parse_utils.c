@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:18 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/11 15:37:22 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:11:39 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,15 @@ bool	assign_rgb(t_rgb *colour, char *data)
 {
 	char	**rgb_str;
 	int		rgb_int[3];
+	int		num_elems;
 	
 	rgb_str = ft_split(data, ',');
+	num_elems = ft_2darr_len((void **)rgb_str);
+	if (num_elems != 3)
+	{
+		free_2darr((void **)rgb_str, num_elems);
+		return (0);
+	}
 	rgb_int[0] = ft_atoi(rgb_str[0]);
 	rgb_int[1] = ft_atoi(rgb_str[1]);
 	rgb_int[2] = ft_atoi(rgb_str[2]);
