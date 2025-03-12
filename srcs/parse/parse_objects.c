@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:05 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/11 16:47:51 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:45:17 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	get_cylinder_data(t_parse *parse, t_scene *scene)
 		perror_exit(VEC_COUNT, parse, 2);
 	
 	cylinder->diameter = ft_atof(parse->data[3]);
+	cylinder->radius = cylinder->diameter / 2.0;
 	cylinder->height = ft_atof(parse->data[4]);
 	cylinder->camera_inside = false;
 
