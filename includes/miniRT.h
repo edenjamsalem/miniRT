@@ -137,7 +137,7 @@ typedef struct s_material
 
 typedef struct s_sp
 {
-	t_shape	 shape;
+	t_shape	 	shape;
 	t_vec3		center;
 	double		diameter;
 	double		radius;
@@ -161,6 +161,7 @@ typedef struct s_cy
 	t_vec3	center;
 	t_vec3	normal;
 	double	diameter;
+	double	radius;
 	double	height;
 	t_rgb	colour;
 	t_material  properties;
@@ -298,7 +299,7 @@ double	get_sp_t(t_ray *ray, t_sp *sphere);
 
 void	get_sp_intsec_data(t_ray *ray, t_sp *sphere, t_intsec *intsec);
 
-double	get_cy_t(t_ray *ray, t_cy *cylinder);
+double	get_curved_t(t_ray *ray, t_cy *cylinder);
 
 void	get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec);
 
