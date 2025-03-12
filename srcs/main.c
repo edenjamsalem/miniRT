@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 16:07:56 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:20:04 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	check_camera_inside_objs(void **objs, t_camera *camera)
 	{
 		if (((t_sp *)objs[i])->shape == SP && camera_in_sp((t_sp *)objs[i], camera))
 			((t_sp *)objs[i])->camera_inside = true;
-		// else if (((t_cy *)objs[i])->shape == CY && camera_in_cy((t_cy *)objs[i], camera))
-		// 	((t_cy *)objs[i])->camera_inside = true;
+		else if (((t_cy *)objs[i])->shape == CY && camera_in_cy((t_cy *)objs[i], camera))
+		 	((t_cy *)objs[i])->camera_inside = true;
 		i++;
 	}
 }

@@ -307,6 +307,7 @@ t_intsec	find_intersection(t_ray *ray, void **objs);
 
 bool	camera_in_sp(t_sp *sphere, t_camera *camera);
 
+bool	camera_in_cy(t_cy *cylinder, t_camera *camera);
 // UTILS
 
 unsigned int	rgb_to_int(t_rgb rgb);
