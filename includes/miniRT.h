@@ -159,7 +159,7 @@ typedef struct s_cy
 {
 	t_shape	shape;
 	t_vec3	center;
-	t_vec3	normal;
+	t_vec3	axis;
 	double	diameter;
 	double	radius;
 	double	height;

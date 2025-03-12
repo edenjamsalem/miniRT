@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:05 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 15:45:17 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:15:28 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	get_cylinder_data(t_parse *parse, t_scene *scene)
 	cylinder->shape = CY;
 	if (!assign_vector(&cylinder->center, parse->data[1]))
 		perror_exit(VEC_COUNT, parse, 1);
-	if (!assign_vector(&cylinder->normal, parse->data[2]))
+	if (!assign_vector(&cylinder->axis, parse->data[2]))
 		perror_exit(VEC_COUNT, parse, 2);
 	
 	cylinder->diameter = ft_atof(parse->data[3]);
@@ -104,7 +104,7 @@ void	get_cylinder_data(t_parse *parse, t_scene *scene)
 	cylinder->height = ft_atof(parse->data[4]);
 	cylinder->camera_inside = false;
 
-	if (!vector_in_range(&cylinder->normal, -1.0, 1.0))
+	if (!vector_in_range(&cylinder->axis, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 2);
 	if (!assign_rgb(&cylinder->colour, parse->data[5]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 5);
