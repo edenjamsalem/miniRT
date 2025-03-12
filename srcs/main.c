@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 15:17:42 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:07:56 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,18 @@ int main(int argc, char **argv)
 	t_mlx	mlx;
 	struct timeval	start; // for testing only
 	struct timeval	end;
-	// int		nbr_cores;
-	
+
 	(void)argc;
 	gettimeofday(&start, NULL);
-	// nbr_cores = sysconf(_SC_NPROCESSORS_ONLN);
-	
+
 	parse(argv[1], &mlx.scene);
 	init_project(&mlx, &mlx.scene);
 	render_scene(&mlx);
 
 	gettimeofday(&end, NULL);
 	printf("time = %f\n", calc_time_diff(&start, &end) / 1000);
-	
+
 	mlx_hook(mlx.win, KEY_PRS_EVT, 1L << 0, key_event, &mlx);
-//	mlx_hook(mlx.win, BTN_PRS_EVT, 1L << 2, mouse_event, &mlx);
 	mlx_hook(mlx.win, DESTROY_EVT, 1L << 17, close_window, &mlx);
 	mlx_loop(mlx.ptr);
 }
