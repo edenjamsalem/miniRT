@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:19 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/11 16:21:31 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:59:24 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	perror_exit(t_err err, t_parse *parse, int i)
 	else if (err == DUPLICATE)
 		ft_fprintf(2, "Line %d: is duplicate.\n", parse->line_num);
 	else if (err == VEC_COUNT)
-		ft_fprintf(2, "Line %d: vectors must have 3 dimension.\n", parse->line_num);
+		ft_fprintf(2, "Line %d: vector has missing value.\n", parse->line_num);
 	else if (err == MALLOC)
 		ft_fprintf(2, "malloc error\n");
 	
