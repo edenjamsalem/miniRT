@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
+/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:18 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 16:26:28 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/03/12 18:08:58 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ bool	assign_material(t_material *material, char *data)
 
 	properties = ft_split(data, ',');
 	num_elems = ft_2darr_len((void **)properties);
-	printf("num_elems = %d\n", num_elems);
 	if (num_elems != 4)
 	{
 		free_2darr((void **)properties, num_elems);
@@ -102,11 +101,6 @@ bool	assign_material(t_material *material, char *data)
 	material->Kd = ft_atof(properties[1]);
 	material->Ks = ft_atof(properties[2]);
 	material->n = ft_atof(properties[3]);
-
-	printf("Ka = %f\n", material->Ka);
-	printf("Kd = %f\n", material->Kd);
-	printf("Ks = %f\n", material->Ks);
-	printf("n = %f\n", material->n);
 
 	if (!in_range(material->Ka, 0.0, 1.0))
 		return (free_2darr((void **)properties, 4), false);

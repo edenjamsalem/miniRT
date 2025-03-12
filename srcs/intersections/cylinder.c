@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:33:48 by muabdi            #+#    #+#             */
-/*   Updated: 2025/03/12 17:27:58 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:27:58by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,20 +87,6 @@ double find_smallest(double t_curved, double t_top, double t_bottom)
     return (t);
 }
 
-double find_largest(double t_curved, double t_top, double t_bottom)
-{
-    double t;
-
-    t = -1.0;
-    if (t_curved > 0)
-        t = t_curved;
-    if (t_top > 0 && (t < 0 || t_top > t))
-        t = t_top;
-    if (t_bottom > 0 && (t < 0 || t_bottom > t))
-        t = t_bottom;
-    return (t);
-}
-
 void get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec)
 {
     double  t_curved;
@@ -110,11 +96,8 @@ void get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec)
     t_curved = get_curved_t(ray, cylinder);
     t_top = get_top_t(ray, cylinder);
     t_bottom = get_bottom_t(ray, cylinder);
-    
-    if (cylinder->camera_inside)
-        intsec->t = find_largest(t_curved, t_top, t_bottom);
-    else
-        intsec->t = find_smallest(t_curved, t_top, t_bottom);
+
+	intsec->t = find_smallest(t_curved, t_top, t_bottom);
 
     if (intsec->t >= 0)
     {
