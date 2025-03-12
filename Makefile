@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+         #
+#    By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 14:04:43 by eamsalem          #+#    #+#              #
-#    Updated: 2025/03/06 15:00:36 by eamsalem         ###   ########.fr        #
+#    Updated: 2025/03/12 15:40:46 by muabdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBFT = $(LIBS)/Libft
 MLX = $(LIBS)/minilibx-linux
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3#! Remember to remove -g3 flag
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 
 INCLUDEFLAGS = -I$(INCLUDES) -I$(MLX) -I$(LIBFT)/includes
 LINKFLAGS = -lmlx -lXext -lX11 -lm -lft

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:25 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/11 16:48:27 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:51:53 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,19 @@ bool	check_line(t_parse *parse)
 	return (1);
 }
 
+bool check_extension(char *file)
+{
+	int i;
+
+	i = ft_strlen(file) - 1;
+	if (file[i] != 't' || file[i - 1] != 'r' || file[i - 2] != '.')
+	{
+		printf("Error\nInvalid file extension\n");
+		exit(EXIT_FAILURE);
+	}
+	return (1);
+}
+
 void parse(char *file, t_scene *scene)
 {
 	int		fd;
@@ -59,7 +72,13 @@ void parse(char *file, t_scene *scene)
 	parse.scene = scene;
 	scene->objs = init_arrlst(4);
 	scene->lights = init_arrlst(4);
+	check_extension(file);
 	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error\nFailed to open file");
+		exit(EXIT_FAILURE);
+	}
 	line = get_next_line(fd);
 	parse.line_num = 1;
 	while (line)

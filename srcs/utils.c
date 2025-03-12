@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:19 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 14:59:24 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:48:59 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	perror_exit(t_err err, t_parse *parse, int i)
 {
 	(void)i;
-	ft_fprintf(2, "Error\n");
+	ft_fprintf(2, "Error:");
 	if (err == LINE_ARG_COUNT)
 		ft_fprintf(2, "Line %d: Incorrect number of args.\n", parse->line_num);
 	else if (err == ARG_OUT_OF_RANGE)
@@ -26,7 +26,8 @@ void	perror_exit(t_err err, t_parse *parse, int i)
 		ft_fprintf(2, "Line %d: vector has missing value.\n", parse->line_num);
 	else if (err == MALLOC)
 		ft_fprintf(2, "malloc error\n");
-	
+	else
+		ft_fprintf(2, "undefined error\n");
 	free_arrlst(parse->scene->lights, free);
 	free_arrlst(parse->scene->objs, free);
 	free_2darr((void **)parse->data, ft_2darr_len((void **)parse->data));

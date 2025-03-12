@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 16:20:04 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:47:33 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	check_camera_inside_objs(void **objs, t_camera *camera)
 		i++;
 	}
 }
-	
+
 void	init_project(t_mlx *mlx, t_scene *scene)
 {
 	init_mlx_data(mlx);
@@ -74,7 +74,8 @@ int main(int argc, char **argv)
 	struct timeval	start; // for testing only
 	struct timeval	end;
 
-	(void)argc;
+	if (argc != 2)
+		return (printf("Error: invalid number of arguments\n"), EXIT_FAILURE);
 	gettimeofday(&start, NULL);
 
 	parse(argv[1], &mlx.scene);
