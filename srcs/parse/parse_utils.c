@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:18 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/11 16:11:39 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:26:28 by muabdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	assign_rgb(t_rgb *colour, char *data)
 
 bool	in_range(double value, double lower, double higher)
 {
-	return (value >= lower || value <= higher);
+	return (value >= lower && value <= higher);
 }
 
 bool	vector_in_range(t_vec3 *vector, double lower, double upper)
@@ -87,21 +87,35 @@ bool	assign_vector(t_vec3 *vector, char *data)
 bool	assign_material(t_material *material, char *data)
 {
 	char	**properties;
+	int		num_elems;
 
 	properties = ft_split(data, ',');
+	num_elems = ft_2darr_len((void **)properties);
+	printf("num_elems = %d\n", num_elems);
+	if (num_elems != 4)
+	{
+		free_2darr((void **)properties, num_elems);
+		return (0);
+	}
+
 	material->Ka = ft_atof(properties[0]);
 	material->Kd = ft_atof(properties[1]);
 	material->Ks = ft_atof(properties[2]);
 	material->n = ft_atof(properties[3]);
 
+	printf("Ka = %f\n", material->Ka);
+	printf("Kd = %f\n", material->Kd);
+	printf("Ks = %f\n", material->Ks);
+	printf("n = %f\n", material->n);
+
 	if (!in_range(material->Ka, 0.0, 1.0))
-		return (0);
+		return (free_2darr((void **)properties, 4), false);
 	if (!in_range(material->Kd, 0.0, 1.0))
-		return (0);
+		return (free_2darr((void **)properties, 4), false);
 	if (!in_range(material->Ks, 0.0, 1.0))
-		return (0);
+		return (free_2darr((void **)properties, 4), false);
 	if (!in_range(material->n, 0.0, 300.0))
-		return (0);
+		return (free_2darr((void **)properties, 4), false);
 	free_2darr((void **)properties, 4);
-	return (1);
+	return (true);
 }
