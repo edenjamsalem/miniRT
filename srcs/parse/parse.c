@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
+/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:25 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 15:51:53 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/03/13 15:01:34 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void parse(char *file, t_scene *scene)
 		perror("Error\nFailed to open file");
 		exit(EXIT_FAILURE);
 	}
-	line = get_next_line(fd);
 	parse.line_num = 1;
+	line = get_next_line(fd);
 	while (line)
 	{
 		parse.data = ft_split_set(line, " \t\n");

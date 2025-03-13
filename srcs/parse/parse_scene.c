@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:12 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 14:10:17 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:06:00 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	get_camera_data(t_parse *parse, t_scene *scene)
 void	get_light_data(t_parse *parse, t_scene *scene)
 {
 	t_light		*light;
-	int			no_elems;
+	int			num_elems;
 
-	no_elems = ft_2darr_len((void **)parse->data);
-	if (no_elems < 3 || no_elems > 4)
+	num_elems = ft_2darr_len((void **)parse->data);
+	if (num_elems < 3 || num_elems > 4)
 		perror_exit(LINE_ARG_COUNT, parse, 0);
 
 	light = malloc(sizeof(t_light));
@@ -71,8 +71,8 @@ void	get_light_data(t_parse *parse, t_scene *scene)
 
 	if (!in_range(light->brightness, 0.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 2);	
-	if (no_elems == 4 && !assign_rgb(&light->colour, parse->data[3]))
+	if (num_elems == 4 && !assign_rgb(&light->colour, parse->data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
-	else if (no_elems == 3)
+	else if (num_elems == 3)
 		assign_rgb(&light->colour, "255,255,255");
 }	
