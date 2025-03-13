@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:09:11 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 17:41:27 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:49:40 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static double    get_h(double t, t_ray *ray, t_cy *cy)
 
 static bool t_valid(double t, double h, t_cy *cy)
 {
-    return (t > 0 && h >= -cy->height / 2 && h <= cy->height / 2);
+    return (t > 0 && h >= cy->bottom_h && h <= cy->top_h);
 }
 
 static double  get_closest_t(double t[2], t_ray *ray, t_cy *cy)

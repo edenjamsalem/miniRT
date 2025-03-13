@@ -173,6 +173,9 @@ typedef struct s_cy
 	double	diameter;
 	double	radius;
 	double	height;
+	double	top_h;
+	double	bottom_h;
+	double	rad_sqr;
 	t_rgb	colour;
 	t_material  surf;
 	bool		camera_inside;

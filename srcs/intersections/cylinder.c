@@ -16,17 +16,15 @@ bool	camera_in_cy(t_cy *cy, t_camera *camera)
 {
 	t_vec3  to_camera;
     double  axis_project;
-    double  radial_projection;
     t_vec3  radial_vec;
     
 	to_camera = sub(camera->pos, cy->center);
     axis_project = dot(to_camera, cy->axis);
-    if (axis_project < (-cy->height / 2) || axis_project > (cy->height / 2))
+    if (axis_project < (cy->bottom_h) || axis_project > (cy->top_h))
         return false;
     
     radial_vec = sub(to_camera, scale(cy->axis, axis_project));
-    radial_projection = magnitude(radial_vec);
-    return (radial_projection < cy->radius);
+    return (dot(radial_vec, radial_vec) < cy->rad_sqr);
 }
 
 double get_top_t(t_ray *ray, t_cy *cy)
@@ -36,7 +34,7 @@ double get_top_t(t_ray *ray, t_cy *cy)
     t_vec3  p_intsec;
     t_vec3  dist_from_center;
     
-    top_center_p = add(cy->center, scale(cy->axis, cy->height / 2));
+    top_center_p = add(cy->center, scale(cy->axis, cy->top_h));
     t_pl = dot(cy->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
@@ -47,7 +45,7 @@ double get_top_t(t_ray *ray, t_cy *cy)
     p_intsec = add(ray->origin, scale(ray->dir, t_pl));
     dist_from_center = sub(p_intsec, top_center_p);
 
-    if (dot(dist_from_center, dist_from_center) <= (cy->radius * cy->radius))
+    if (dot(dist_from_center, dist_from_center) <= (cy->rad_sqr))
     {
         cy->intsec_count += 1;
         return (t_pl);
@@ -62,7 +60,7 @@ double get_bottom_t(t_ray *ray, t_cy *cy)
     t_vec3  p_intsec;
     t_vec3  dist_from_center;
     
-    bottom_center_p = add(cy->center, scale(cy->axis, (-cy->height / 2)));
+    bottom_center_p = add(cy->center, scale(cy->axis, (cy->bottom_h)));
     t_pl = dot(cy->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
@@ -73,7 +71,7 @@ double get_bottom_t(t_ray *ray, t_cy *cy)
     p_intsec = add(ray->origin, scale(ray->dir, t_pl));
     dist_from_center = sub(p_intsec, bottom_center_p);
 
-    if (dot(dist_from_center, dist_from_center) <= (cy->radius * cy->radius))
+    if (dot(dist_from_center, dist_from_center) <= cy->rad_sqr)
     {
         cy->intsec_count += 1;
         return (t_pl);
