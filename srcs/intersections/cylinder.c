@@ -15,18 +15,18 @@
 bool	camera_in_cy(t_cy *cylinder, t_camera *camera)
 {
 	t_vec3  to_camera;
-    double  height_projection;
+    double  axis_projection;
     double  radial_projection;
     t_vec3  radial_vec;
     
 	to_camera = sub(camera->pos, cylinder->center);
-    height_projection = dot(to_camera, cylinder->axis);
-    if (height_projection < 0 || height_projection > cylinder->height)
+    axis_projection = dot(to_camera, cylinder->axis);
+    if (axis_projection < (-cylinder->height / 2) || axis_projection > (cylinder->height / 2))
         return false;
     
-    radial_vec = sub(to_camera, scale(cylinder->axis, height_projection));
+    radial_vec = sub(to_camera, scale(cylinder->axis, axis_projection));
     radial_projection = magnitude(radial_vec);
-    return (radial_projection > cylinder->radius);
+    return (radial_projection < cylinder->radius);
 }
 
 double get_top_t(t_ray *ray, t_cy *cylinder)
@@ -113,6 +113,7 @@ void get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec)
             intsec->normal = scale(cylinder->axis, -1);
         else
             intsec->normal = get_radial_normal(intsec->pos, cylinder);
+
         if (cylinder->camera_inside)
             intsec->normal = scale(intsec->normal, -1);
         intsec->obj = (void *)cylinder;
