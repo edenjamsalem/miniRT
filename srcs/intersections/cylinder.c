@@ -48,7 +48,10 @@ double get_top_t(t_ray *ray, t_cy *cy)
     dist_from_center = sub(p_intsec, top_center_p);
 
     if (dot(dist_from_center, dist_from_center) <= (cy->radius * cy->radius))
+    {
+        cy->intsec_count += 1;
         return (t_pl);
+    }
     return (-1);
 }
 
@@ -71,7 +74,10 @@ double get_bottom_t(t_ray *ray, t_cy *cy)
     dist_from_center = sub(p_intsec, bottom_center_p);
 
     if (dot(dist_from_center, dist_from_center) <= (cy->radius * cy->radius))
+    {
+        cy->intsec_count += 1;
         return (t_pl);
+    }
     return (-1);
 }
 
@@ -89,31 +95,38 @@ double find_smallest(double t_curved, double t_top, double t_bottom)
     return (t);
 }
 
+t_vec3  get_intsec_normal(t_intsec *intsec, double t_top, double t_bottom, t_cy *cy)
+{
+    if (intsec->t == t_top)
+        return (cy->axis);
+    else if (intsec->t == t_bottom)
+        return(scale(cy->axis, -1));
+    else
+        return(get_radial_normal(intsec->pos, cy));
+}
+
 void get_cy_intsec_data(t_ray *ray, t_cy *cy, t_intsec *intsec)
 {
     double  t_curved;
     double  t_top;
     double  t_bottom;
     
+    cy->intsec_count = 0;
     t_curved = get_curved_t(ray, cy);
-    t_top = get_top_t(ray, cy);
-    t_bottom = get_bottom_t(ray, cy);
+    t_top = -1;
+    if (cy->intsec_count < 2)
+        t_top = get_top_t(ray, cy);
+    t_bottom = -1;
+    if (cy->intsec_count < 2)
+        t_bottom = get_bottom_t(ray, cy);
 
-	intsec->t = find_smallest(t_curved, t_top, t_bottom);
+    intsec->t = find_smallest(t_curved, t_top, t_bottom);
 
     if (intsec->t >= 0)
     {
         intsec->pos = add(ray->origin, scale(ray->dir, intsec->t));
         intsec->colour = cy->colour;
-        intsec->normal = normalize(sub(intsec->pos, cy->center));
-
-        if (intsec->t == t_top)
-            intsec->normal = cy->axis;
-        else if (intsec->t == t_bottom)
-            intsec->normal = scale(cy->axis, -1);
-        else
-            intsec->normal = get_radial_normal(intsec->pos, cy);
-
+        intsec->normal = get_intsec_normal(intsec, t_top, t_bottom, cy);
         if (cy->camera_inside)
             intsec->normal = scale(intsec->normal, -1);
         intsec->obj = (void *)cy;

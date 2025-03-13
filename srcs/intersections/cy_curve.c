@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:09:11 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 17:08:38 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:31:27 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,20 @@ static double  get_closest_t(double t[2], t_ray *ray, t_cy *cy)
     h[1] = get_h(t[1], ray, cy);
 
     if (t_valid(t[0], h[0], cy) && t_valid(t[1], h[1], cy))
+    {
+        cy->intsec_count += 2;
         return fmin(t[0], t[1]);
+    }
     else if (t_valid(t[0], h[0], cy))
+    {
+        cy->intsec_count += 1;
         return t[0];
+    }
     else if (t_valid(t[1], h[1], cy))
+    {
+        cy->intsec_count += 1;
         return t[1];
+    }
     else
         return -1.0;
 }

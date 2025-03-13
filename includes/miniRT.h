@@ -176,6 +176,7 @@ typedef struct s_cy
 	t_rgb	colour;
 	t_material  surf;
 	bool		camera_inside;
+	int		intsec_count;
 }				t_cy;
 
 typedef struct s_intersection

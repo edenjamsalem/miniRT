@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 17:19:58 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:21:34 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int main(int argc, char **argv)
 	struct timeval	end;
 
 	if (argc != 2)
-		return (printf("Error: invalid number of arguments\n"), EXIT_FAILURE);
+	{
+		printf("Error\nInvalid number of arguments\n");
+		return (EXIT_FAILURE);
+	}
 	gettimeofday(&start, NULL);
 
 	parse(argv[1], &mlx.scene);
