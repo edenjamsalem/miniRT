@@ -112,8 +112,7 @@ void get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec)
         else if (intsec->t == t_bottom)
             intsec->normal = scale(cylinder->axis, -1);
         else
-            intsec->normal = normalize(sub(intsec->pos, cylinder->center));
-
+            intsec->normal = get_radial_normal(intsec->pos, cylinder);
         if (cylinder->camera_inside)
             intsec->normal = scale(intsec->normal, -1);
         intsec->obj = (void *)cylinder;

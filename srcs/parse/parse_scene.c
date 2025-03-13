@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:12 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 12:35:48 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:10:17 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,9 @@ void	get_camera_data(t_parse *parse, t_scene *scene)
 	if (!assign_vector(&scene->camera.orientation, parse->data[2]))
 		perror_exit(VEC_COUNT, parse, 2);
 
-	printf("x = %f\n", scene->camera.orientation.x);
-	printf("y = %f\n", scene->camera.orientation.y);
-	printf("z = %f\n", scene->camera.orientation.z);
-
 	if (!vector_in_range(&scene->camera.orientation, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 2);
 	scene->camera.orientation = normalize(scene->camera.orientation);
-	printf(" ---- ");
-	printf("x = %f\n", scene->camera.orientation.x);
-	printf("y = %f\n", scene->camera.orientation.y);
-	printf("z = %f\n", scene->camera.orientation.z);
 
 	scene->camera.fov = ft_atoi(parse->data[3]);
 	if (!in_range(scene->camera.fov, 0, 180))
