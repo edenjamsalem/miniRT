@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder.c                                         :+:      :+:    :+:   */
+/*   cy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,65 +12,65 @@
 
 #include "../includes/miniRT.h"
 
-bool	camera_in_cy(t_cy *cylinder, t_camera *camera)
+bool	camera_in_cy(t_cy *cy, t_camera *camera)
 {
 	t_vec3  to_camera;
-    double  axis_projection;
+    double  axis_project;
     double  radial_projection;
     t_vec3  radial_vec;
     
-	to_camera = sub(camera->pos, cylinder->center);
-    axis_projection = dot(to_camera, cylinder->axis);
-    if (axis_projection < (-cylinder->height / 2) || axis_projection > (cylinder->height / 2))
+	to_camera = sub(camera->pos, cy->center);
+    axis_project = dot(to_camera, cy->axis);
+    if (axis_project < (-cy->height / 2) || axis_project > (cy->height / 2))
         return false;
     
-    radial_vec = sub(to_camera, scale(cylinder->axis, axis_projection));
+    radial_vec = sub(to_camera, scale(cy->axis, axis_project));
     radial_projection = magnitude(radial_vec);
-    return (radial_projection < cylinder->radius);
+    return (radial_projection < cy->radius);
 }
 
-double get_top_t(t_ray *ray, t_cy *cylinder)
+double get_top_t(t_ray *ray, t_cy *cy)
 {
     double  t_pl;
     t_vec3  top_center_p;
     t_vec3  p_intsec;
     t_vec3  dist_from_center;
     
-    top_center_p = add(cylinder->center, scale(cylinder->axis, cylinder->height / 2));
-    t_pl = dot(cylinder->axis, ray->dir);
+    top_center_p = add(cy->center, scale(cy->axis, cy->height / 2));
+    t_pl = dot(cy->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
-	t_pl = dot(cylinder->axis, sub(top_center_p , ray->origin)) / t_pl;
+	t_pl = dot(cy->axis, sub(top_center_p , ray->origin)) / t_pl;
     if (t_pl < 0)
         return (-1);
     
     p_intsec = add(ray->origin, scale(ray->dir, t_pl));
     dist_from_center = sub(p_intsec, top_center_p);
 
-    if (dot(dist_from_center, dist_from_center) <= (cylinder->radius * cylinder->radius))
+    if (dot(dist_from_center, dist_from_center) <= (cy->radius * cy->radius))
         return (t_pl);
     return (-1);
 }
 
-double get_bottom_t(t_ray *ray, t_cy *cylinder)
+double get_bottom_t(t_ray *ray, t_cy *cy)
 {
     double  t_pl;
     t_vec3  bottom_center_p;
     t_vec3  p_intsec;
     t_vec3  dist_from_center;
     
-    bottom_center_p = add(cylinder->center, scale(cylinder->axis, (-cylinder->height / 2)));
-    t_pl = dot(cylinder->axis, ray->dir);
+    bottom_center_p = add(cy->center, scale(cy->axis, (-cy->height / 2)));
+    t_pl = dot(cy->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
-	t_pl = dot(cylinder->axis, sub(bottom_center_p , ray->origin)) / t_pl;
+	t_pl = dot(cy->axis, sub(bottom_center_p , ray->origin)) / t_pl;
     if (t_pl < 0)
         return (-1);
     
     p_intsec = add(ray->origin, scale(ray->dir, t_pl));
     dist_from_center = sub(p_intsec, bottom_center_p);
 
-    if (dot(dist_from_center, dist_from_center) <= (cylinder->radius * cylinder->radius))
+    if (dot(dist_from_center, dist_from_center) <= (cy->radius * cy->radius))
         return (t_pl);
     return (-1);
 }
@@ -89,34 +89,34 @@ double find_smallest(double t_curved, double t_top, double t_bottom)
     return (t);
 }
 
-void get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec)
+void get_cy_intsec_data(t_ray *ray, t_cy *cy, t_intsec *intsec)
 {
     double  t_curved;
     double  t_top;
     double  t_bottom;
     
-    t_curved = get_curved_t(ray, cylinder);
-    t_top = get_top_t(ray, cylinder);
-    t_bottom = get_bottom_t(ray, cylinder);
+    t_curved = get_curved_t(ray, cy);
+    t_top = get_top_t(ray, cy);
+    t_bottom = get_bottom_t(ray, cy);
 
 	intsec->t = find_smallest(t_curved, t_top, t_bottom);
 
     if (intsec->t >= 0)
     {
         intsec->pos = add(ray->origin, scale(ray->dir, intsec->t));
-        intsec->colour = cylinder->colour;
-        intsec->normal = normalize(sub(intsec->pos, cylinder->center));
+        intsec->colour = cy->colour;
+        intsec->normal = normalize(sub(intsec->pos, cy->center));
 
         if (intsec->t == t_top)
-            intsec->normal = cylinder->axis;
+            intsec->normal = cy->axis;
         else if (intsec->t == t_bottom)
-            intsec->normal = scale(cylinder->axis, -1);
+            intsec->normal = scale(cy->axis, -1);
         else
-            intsec->normal = get_radial_normal(intsec->pos, cylinder);
+            intsec->normal = get_radial_normal(intsec->pos, cy);
 
-        if (cylinder->camera_inside)
+        if (cy->camera_inside)
             intsec->normal = scale(intsec->normal, -1);
-        intsec->obj = (void *)cylinder;
-        intsec->surf = cylinder->surf;
+        intsec->obj = (void *)cy;
+        intsec->surf = cy->surf;
     }
 }

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:31 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 16:52:47 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:12:58 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_rgb	get_diffuse_i(t_light *light, t_intsec *intsec, double Kd)
 	return (rgb_scale(light->colour, intensity));
 }
 
-t_rgb	get_specular_i(t_light *light, t_intsec *intsec, t_vec3 view_dir, double Ks, double n)
+t_rgb	get_specular_i(t_light *light, t_intsec *intsec, t_vec3 view_dir, t_material *surf)
 {
 	t_vec3	h;
 	double	specular;
@@ -41,7 +41,7 @@ t_rgb	get_specular_i(t_light *light, t_intsec *intsec, t_vec3 view_dir, double K
 	if (specular <= 0)
 		return ((t_rgb){0, 0, 0});
 
-	intensity = light->brightness * Ks * pow(specular, n);
+	intensity = light->brightness * surf->Ks * pow(specular, surf->n);
 	return (rgb_scale(light->colour, intensity));
 }
 
@@ -59,7 +59,7 @@ t_rgb	get_lights_i(t_light **lights, t_intsec *intsec, t_vec3 view_dir)
 		if (lights[i]->visibility <= 0.0)
 			continue ;
 		diffuse_i = get_diffuse_i(lights[i], intsec, intsec->surf.Kd);
-		specular_i = get_specular_i(lights[i], intsec, view_dir, intsec->surf.Ks, intsec->surf.n);
+		specular_i = get_specular_i(lights[i], intsec, view_dir, &intsec->surf);
 		
 		diffuse_i = rgb_scale(diffuse_i, lights[i]->visibility);
 		specular_i = rgb_scale(specular_i, lights[i]->visibility);

@@ -87,7 +87,7 @@ typedef struct s_basis
 {
 	t_vec3  right;
 	t_vec3  up;
-	t_vec3  forward;
+	t_vec3  fwd;
 }		   t_basis;
 
 typedef struct s_quadratic
@@ -251,11 +251,11 @@ bool	assign_rgb(t_rgb *rgb, char *data);
 
 bool	vector_in_range(t_vec3 *vector, double lower, double upper);
 
-void	get_sphere_data(t_parse *parse, t_scene *scene);
+void	get_sp_data(t_parse *parse, t_scene *scene);
 
-void	get_plane_data(t_parse *parse, t_scene *scene);
+void	get_pl_data(t_parse *parse, t_scene *scene);
 
-void	get_cylinder_data(t_parse *parse, t_scene *scene);
+void	get_cy_data(t_parse *parse, t_scene *scene);
 
 void	assign_default_material(t_material *surf);
 
@@ -308,27 +308,27 @@ t_rgb	blinn_phong(t_scene *scene, t_intsec *intsec, t_vec3 view_dir);
 
 // INTERSECTIONS
 
-double	get_pl_t(t_ray *ray, t_pl *plane);
+double	get_pl_t(t_ray *ray, t_pl *pl);
 
-void	get_pl_intsec_data(t_ray *ray, t_pl *plane, t_intsec *intsec);
+void	get_pl_intsec_data(t_ray *ray, t_pl *pl, t_intsec *intsec);
 
-double	get_sp_t(t_ray *ray, t_sp *sphere);
+double	get_sp_t(t_ray *ray, t_sp *sp);
 
-void	get_sp_intsec_data(t_ray *ray, t_sp *sphere, t_intsec *intsec);
+void	get_sp_intsec_data(t_ray *ray, t_sp *sp, t_intsec *intsec);
 
-double	get_curved_t(t_ray *ray, t_cy *cylinder);
+double	get_curved_t(t_ray *ray, t_cy *cy);
 
-void	get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec);
+void	get_cy_intsec_data(t_ray *ray, t_cy *cy, t_intsec *intsec);
 
 void	check_camera_inside_objs(void **objs, t_camera *camera);
 
 t_intsec	find_intersection(t_ray *ray, void **objs);
 
-bool	camera_in_sp(t_sp *sphere, t_camera *camera);
+bool	camera_in_sp(t_sp *sp, t_camera *camera);
 
-bool	camera_in_cy(t_cy *cylinder, t_camera *camera);
+bool	camera_in_cy(t_cy *cy, t_camera *camera);
 
-t_vec3  get_radial_normal(t_vec3 p, t_cy *cylinder);
+t_vec3  get_radial_normal(t_vec3 p, t_cy *cy);
 
 // UTILS
 
@@ -358,7 +358,7 @@ void	init_pixel_offsets(t_consts *ssaa);
 
 void	init_world_basis(t_basis *world);
 
-void	calc_local_basis(t_basis *local, t_vec3 forward, t_basis *world);
+void	calc_local_basis(t_basis *local, t_vec3 fwd, t_basis *world);
 
 void	init_mlx_data(t_mlx *mlx);
 

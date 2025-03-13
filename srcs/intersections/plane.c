@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.c                                            :+:      :+:    :+:   */
+/*   pl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,26 +12,26 @@
 
 #include "../includes/miniRT.h"
 
-double	get_pl_t(t_ray *ray, t_pl *plane)
+double	get_pl_t(t_ray *ray, t_pl *pl)
 {
 	double		t;
 
-	t = dot(plane->normal, ray->dir);
+	t = dot(pl->normal, ray->dir);
 	if (fabs(t) < 0.000001) // checks if parallel
 		return (-1);
-	t = dot(plane->normal, sub(plane->point, ray->origin)) / t;
+	t = dot(pl->normal, sub(pl->point, ray->origin)) / t;
 	return (t);
 }
 
-void	get_pl_intsec_data(t_ray *ray, t_pl *plane, t_intsec *intsec)
+void	get_pl_intsec_data(t_ray *ray, t_pl *pl, t_intsec *intsec)
 {
-	intsec->t = get_pl_t(ray, plane);
+	intsec->t = get_pl_t(ray, pl);
 	if (intsec->t >= 0)
 	{
 		intsec->pos = add(ray->origin, scale(ray->dir, intsec->t));
-		intsec->colour = plane->colour;
-		intsec->normal = plane->normal;
-		intsec->obj = (void *)plane;
-		intsec->surf = plane->surf;
+		intsec->colour = pl->colour;
+		intsec->normal = pl->normal;
+		intsec->obj = (void *)pl;
+		intsec->surf = pl->surf;
 	}	
 }

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:25 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 16:25:12 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:06:18 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	extract_data(t_parse *parse, t_scene *scene)
 	else if (ft_match(parse->data[0], "L"))
 		get_light_data(parse, scene);
 	else if (ft_match(parse->data[0], "sp"))
-		get_sphere_data(parse, scene);
+		get_sp_data(parse, scene);
 	else if (ft_match(parse->data[0], "pl"))
-		get_plane_data(parse, scene);
+		get_pl_data(parse, scene);
 	else if (ft_match(parse->data[0], "cy"))
-		get_cylinder_data(parse, scene);
+		get_cy_data(parse, scene);
 }
 
 void parse(char *file, t_scene *scene)
