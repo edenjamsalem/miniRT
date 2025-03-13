@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 16:09:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 16:13:15 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:20:43 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,26 @@ bool	vector_in_range(t_vec3 *vector, double lower, double upper)
 	return (1);
 }
 
-bool	check_line(t_parse *parse)
+bool	invalid_duplicate(t_parse *parse)
 {
 	static bool ambient_light;
 	static bool camera;
 
 	if (!parse->data || !(*parse->data))
 		return (0);
-	else if(ft_match(parse->data[0], "A"))
+	if(ft_match(parse->data[0], "A"))
 	{
 		if (ambient_light)
-			perror_exit(DUPLICATE, parse, 0);
+			return (1);
 		ambient_light = true;
 	}
 	else if(ft_match(parse->data[0], "C"))
 	{
 		if (camera)
-			perror_exit(DUPLICATE, parse, 0);
+			return (1);
 		camera = true;
 	}
-	return (1);
+	return (0);
 }
 
 bool invalid_extension(char *file)

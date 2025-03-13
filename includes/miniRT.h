@@ -252,7 +252,7 @@ void	assign_default_material(t_material *properties);
 
 bool	rgb_in_range(int rgb[3]);
 
-bool	check_line(t_parse *parse);
+bool	invalid_duplicate(t_parse *parse);
 
 bool invalid_extension(char *file);
 

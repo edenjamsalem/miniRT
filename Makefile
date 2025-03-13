@@ -6,7 +6,7 @@
 #    By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 14:04:43 by eamsalem          #+#    #+#              #
-#    Updated: 2025/03/13 15:42:50 by eamsalem         ###   ########.fr        #
+#    Updated: 2025/03/13 16:26:50 by eamsalem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBFT = $(LIBS)/Libft
 MLX = $(LIBS)/minilibx-linux
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address -Ofast
+CFLAGS = -Wall -Werror -Wextra -g3 
 
 INCLUDEFLAGS = -I$(INCLUDES) -I$(MLX) -I$(LIBFT)/includes
 LINKFLAGS = -lmlx -lXext -lX11 -lm -lft

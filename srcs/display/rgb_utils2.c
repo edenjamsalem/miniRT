@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:29:28 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:30:35 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:14:32 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ unsigned int	rgb_to_int(t_rgb rgb)
 {
 	return ((rgb.r << 16) | (rgb.g << 8) | rgb.b);
 }
+
+void	print_rgb(t_rgb rgb)
+{
+	printf("{%d, %d, %d}\n", rgb.r, rgb.g, rgb.b);
+}
+
 t_rgb	rgb_average(t_rgb *colours, int count)
 {
 	int	r;
@@ -38,9 +44,4 @@ t_rgb	rgb_average(t_rgb *colours, int count)
 	g = g / count;
 	b = b / count;
 	return ((t_rgb){r, g, b});
-}
-
-void	print_rgb(t_rgb rgb)
-{
-	printf("{%d, %d, %d}\n", rgb.r, rgb.g, rgb.b);
 }
