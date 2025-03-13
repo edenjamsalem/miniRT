@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:54 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:37:55 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:37:46 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,6 @@ void	init_img_data(t_img *img, t_mlx *mlx)
 	}
 }
 
-void	init_world_basis(t_basis *world)
-{
-	world->right = (t_vec3){1, 0, 0};
-	world->up = (t_vec3){0, 1, 0};
-	world->forward = (t_vec3){0, 0, 1};
-}
-
-void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world)
-{
-	local->forward = forward;
-	if (dot(world->up, local->forward) >= 0.99)
-		local->right = normalize(cross(world->forward, local->forward));
-	else
-		local->right = normalize(cross(world->up, local->forward));
-
-	local->up = normalize(cross(local->forward, local->right));
-}
-
 void init_intsec(t_intsec *intersection)
 {
 	intersection->pos = (t_vec3){INFINITY, INFINITY, INFINITY};
@@ -69,7 +51,7 @@ void init_intsec(t_intsec *intersection)
 	intersection->obj = NULL;
 }
 
-void	init_offset(t_consts *consts)
+void	init_pixel_offsets(t_consts *consts)
 {
 	int	i;
 	int	j;
@@ -94,4 +76,17 @@ void	init_offset(t_consts *consts)
 		i++;
 	}
 }
+
+void	init_project(t_mlx *mlx, t_scene *scene)
+{
+	init_mlx_data(mlx);
+	init_img_data(&mlx->img, mlx);
+	init_world_basis(&scene->consts.world);
+	calc_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
+	scene->consts.rpp = 1; // max == 64
+	scene->consts.shadow_rpp = 20; // max == 128
+	init_pixel_offsets(&scene->consts);
+	check_camera_inside_objs(scene->objs->content, &scene->camera);
+}
+
 

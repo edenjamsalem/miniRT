@@ -6,21 +6,12 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 12:41:07 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:38:08 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local)
-{
-	t_vec3	world_dir;
-
-	world_dir.x = ndc->x * local->right.x + ndc->y * local->up.x + ndc->z * local->forward.x;
-	world_dir.y = ndc->x * local->right.y + ndc->y * local->up.y + ndc->z * local->forward.y;
-	world_dir.z = ndc->x * local->right.z + ndc->y * local->up.z + ndc->z * local->forward.z;
-	return(world_dir);
-}
 
 t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 {

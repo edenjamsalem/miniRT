@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   intersections.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
+/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 17:57:57 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/03/13 15:32:40 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
+
+void	check_camera_inside_objs(void **objs, t_camera *camera)
+{
+	int			i;
+
+	i = 0;
+	while (objs[i])
+	{
+		if (((t_sp *)objs[i])->shape == SP && camera_in_sp((t_sp *)objs[i], camera))
+			((t_sp *)objs[i])->camera_inside = true;
+		else if (((t_cy *)objs[i])->shape == CY && camera_in_cy((t_cy *)objs[i], camera))
+		 	((t_cy *)objs[i])->camera_inside = true;
+		i++;
+	}
+}
 
 t_intsec	find_intersection(t_ray *ray, void **objs)
 {

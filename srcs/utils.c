@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:19 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:16:06 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:32:01 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,49 +25,14 @@ void	perror_exit(t_err err, t_parse *parse, int i)
 	else if (err == VEC_COUNT)
 		ft_fprintf(2, "Line %d: '%s' must be 3D vec.\n", parse->line_num, parse->data[i]);
 	else if (err == MALLOC)
-		ft_fprintf(2, "malloc error\n");
+		ft_fprintf(2, "Malloc error\n");
 	else
-		ft_fprintf(2, "undefined error\n");
+		ft_fprintf(2, "Undefined error\n");
 		
 	free_arrlst(parse->scene->lights, free);
 	free_arrlst(parse->scene->objs, free);
 	free_2darr((void **)parse->data, ft_2darr_len((void **)parse->data));
 	exit(EXIT_FAILURE);
-}
-
-char	*find_offset(int x, int y, t_img *img)
-{
-	return (img->addr + ((y * img->line_len) + (x * (img->bpp / 8))));
-}
-
-bool	within_screen(int x, int y)
-{
-	return (x > 0 && x < WIN_WIDTH && y > 0 && y < WIN_HEIGHT);
-}
-
-void	put_pixel(t_pixel *pixel, t_img *img)
-{
-	char	*dst;
-
-	if (!within_screen(pixel->x, pixel->y))
-		return ;
-
-	dst = find_offset(pixel->x, pixel->y, img);
-	*((unsigned int *)dst) = rgb_to_int(pixel->colour);
-}
-
-int	max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
-
-int	min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
 }
 
 double	calc_time_diff(struct timeval *start, struct timeval *end)
@@ -85,4 +50,14 @@ double	calc_time_diff(struct timeval *start, struct timeval *end)
 	}
 	millisecs = ((double)secs + (double)micro_secs / 1000000.0) * 1000;
 	return (millisecs);
+}
+
+void	free_mem(t_mlx *mlx)
+{
+	mlx_destroy_image(mlx->ptr, mlx->img.ptr);
+	mlx_destroy_window(mlx->ptr, mlx->win);
+	mlx_destroy_display(mlx->ptr);
+	free_arrlst(mlx->scene.objs, free);
+	free_arrlst(mlx->scene.lights, free);
+	free(mlx->ptr);
 }

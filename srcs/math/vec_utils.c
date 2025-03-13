@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_utils.c                                     :+:      :+:    :+:   */
+/*   vec_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:24 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 12:36:56 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:28:10 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,4 @@ double	dot(t_vec3 a, t_vec3 b)
 double	magnitude(t_vec3 a)
 {
 	return (sqrt((a.x * a.x) + (a.y * a.y) + (a.z * a.z)));
-}
-
-// returns an orthogonal vector to a and b
-t_vec3	cross(t_vec3 a, t_vec3 b)
-{
-	t_vec3	c;
-
-	c.x = (a.y * b.z) - (a.z * b.y);
-	c.y = (a.z * b.x) - (a.x * b.z);
-	c.z = (a.x * b.y) - (a.y * b.x);
-	return (c);
-}
-
-t_vec3	normalize(t_vec3 a)
-{
-	return (scale(a, 1 / magnitude(a)));
-}
-
-void	print_vector(t_vec3 a)
-{
-	printf("x: %f, y: %f, z: %f\n", a.x, a.y, a.z);
 }

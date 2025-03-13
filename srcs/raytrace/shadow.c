@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:44 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 15:51:46 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:37:27 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene)
 	{
 		light = (t_light *)(scene->lights->content[i]);
 		light->dir = normalize(sub(light->center, intsec->pos));
-		init_local_basis(&shadow.basis, light->dir, &scene->consts.world);
+		calc_local_basis(&shadow.basis, light->dir, &scene->consts.world);
 		gen_rand_light_points(light, &shadow.basis, &scene->consts);
 		cast_to_light(light, &shadow, intsec, scene);
 	}

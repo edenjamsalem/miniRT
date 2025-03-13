@@ -91,20 +91,20 @@ typedef struct s_basis
 
 typedef struct s_light
 {
-	t_vec3		center;
-	double	  radius;
-	float		brightness;
-	t_rgb		colour;
-	t_vec3	  dir;
-	double	  visibility;
-	t_vec3		rand_points[128];  // ndc for light source intsec points
+	t_vec3	center;
+	double	radius;
+	float	brightness;
+	t_rgb	colour;
+	t_vec3	dir;
+	double	visibility;
+	t_vec3	rand_points[128];  // ndc for light source intsec points
 } 				t_light;
 
 typedef struct s_camera
 {
 	t_vec3		pos;
 	t_vec3		orientation;
-	t_basis	 basis;
+	t_basis	 	basis;
 	int			fov;
 	double		fov_tan; // to optimise ray trace
 	double		aspect_ratio;
@@ -114,8 +114,8 @@ typedef struct s_consts
 {
 	t_vec2		pixel_offsets[64];
 	int			rpp;		 // num of rays per pixel
-	int		 shadow_rpp;	 // num of shadows rays fired per intsec
-	t_basis	 world;
+	int		 	shadow_rpp;	 // num of shadows rays fired per intsec
+	t_basis	 	world;
 }   t_consts;
 
 typedef struct s_scene
@@ -216,6 +216,7 @@ typedef struct s_parse
 	char	*arg;
 	t_scene	*scene;
 }	t_parse;
+
 //	PARSE
 
 void	get_ambient_light_data(t_parse *parse, t_scene *scene);
@@ -303,6 +304,8 @@ double	get_curved_t(t_ray *ray, t_cy *cylinder);
 
 void	get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec);
 
+void	check_camera_inside_objs(void **objs, t_camera *camera);
+
 t_intsec	find_intersection(t_ray *ray, void **objs);
 
 bool	camera_in_sp(t_sp *sphere, t_camera *camera);
@@ -321,9 +324,7 @@ t_rgb			rgb_sub(t_rgb a, t_rgb b);
 
 t_rgb			rgb_scale(t_rgb a, double t);
 
-t_rgb		   rgb_mult(t_rgb a, t_rgb b);
-
-bool			rgb_equal(t_rgb a, t_rgb b);
+t_rgb		   	rgb_mult(t_rgb a, t_rgb b);
 
 t_rgb			rgb_average(t_rgb *colours, int count);
 
@@ -337,11 +338,11 @@ double			calc_time_diff(struct timeval *start, struct timeval *end);
 
 // INIT
 
-void	init_offset(t_consts *ssaa);
+void	init_pixel_offsets(t_consts *ssaa);
 
 void	init_world_basis(t_basis *world);
 
-void	init_local_basis(t_basis *local, t_vec3 forward, t_basis *world);
+void	calc_local_basis(t_basis *local, t_vec3 forward, t_basis *world);
 
 void	init_mlx_data(t_mlx *mlx);
 
@@ -349,3 +350,4 @@ void	init_img_data(t_img *img, t_mlx *mlx);
 
 void	init_intsec(t_intsec *intersection);
 
+void	init_project(t_mlx *mlx, t_scene *scene);

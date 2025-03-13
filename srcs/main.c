@@ -6,67 +6,11 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:07:34 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:33:12 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
-/*
-void	print_scene(t_scene *scene)
-{
-	printf("ambient light brightness ratio = %f\n", scene->ambient_light.brightness);
-	printf("ambient light rbg = %d,%d,%d\n", scene->ambient_light.colour.r, scene->ambient_light.colour.g, scene->ambient_light.colour.b);
-
-	printf("camera pos = %f,%f,%f\n", scene->camera.pos.x, scene->camera.pos.y, scene->camera.pos.z);
-	printf("camera orientation = %f,%f,%f\n", scene->camera.forward.x, scene->camera.forward.y, scene->camera.forward.z);
-	printf("camera FOV = %d\n", scene->camera.fov);
-	
-	printf("light source pos = %f,%f,%f\n", scene->light.pos.x, scene->light.pos.y, scene->light.pos.z);
-	printf("light brightness ratio %f\n", scene->light.brightness);	
-}
-*/
-
-void	free_mem(t_mlx *mlx)
-{
-	mlx_destroy_image(mlx->ptr, mlx->img.ptr);
-	mlx_destroy_window(mlx->ptr, mlx->win);
-	mlx_destroy_display(mlx->ptr);
-	free_arrlst(mlx->scene.objs, free);
-	free_arrlst(mlx->scene.lights, free);
-	free(mlx->ptr);
-}
-
-void	check_camera_inside_objs(void **objs, t_camera *camera)
-{
-	int			i;
-
-	i = 0;
-	while (objs[i])
-	{
-		if (((t_sp *)objs[i])->shape == SP && camera_in_sp((t_sp *)objs[i], camera))
-			((t_sp *)objs[i])->camera_inside = true;
-		else if (((t_cy *)objs[i])->shape == CY && camera_in_cy((t_cy *)objs[i], camera))
-		 	((t_cy *)objs[i])->camera_inside = true;
-		i++;
-	}
-}
-
-void	init_project(t_mlx *mlx, t_scene *scene)
-{
-	init_mlx_data(mlx);
-	init_img_data(&mlx->img, mlx);
-	init_world_basis(&scene->consts.world);
-	init_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
-	scene->consts.rpp = 1; // max == 64
-	scene->consts.shadow_rpp = 20; // max == 128
-	init_offset(&scene->consts);
-	check_camera_inside_objs(scene->objs->content, &scene->camera);
-}
-
-// 	TODO:
-//	- implement multiray casting only for borders
-//	- make light sources visible
-//	- try to get threads working for efficiency
 
 int main(int argc, char **argv)
 {
