@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:05 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 17:55:36 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 18:04:23 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,19 @@ void	get_pl_data(t_parse *parse, t_scene *scene)
 		assign_default_material(&pl->surf);
 }
 
+void assign_cy_consts(t_parse *parse, t_cy *cy)
+{	
+	cy->diameter = ft_atof(parse->data[3]);
+	cy->radius = cy->diameter / 2.0;
+	cy->rad_sqr = cy->radius * cy->radius;
+	cy->height = ft_atof(parse->data[4]);
+	cy->top_h = cy->height / 2;
+	cy->bottom_h = -cy->height / 2;
+    cy->top_center = add(cy->center, scale(cy->axis, cy->top_h));
+    cy->bottom_center = add(cy->center, scale(cy->axis, cy->bottom_h));
+	cy->camera_inside = false;
+}
+
 void	get_cy_data(t_parse *parse, t_scene *scene)
 {
 	t_cy	*cy;
@@ -98,15 +111,8 @@ void	get_cy_data(t_parse *parse, t_scene *scene)
 		perror_exit(VEC_COUNT, parse, 1);
 	if (!assign_vector(&cy->axis, parse->data[2]))
 		perror_exit(VEC_COUNT, parse, 2);
-	
-	cy->diameter = ft_atof(parse->data[3]);
-	cy->radius = cy->diameter / 2.0;
-	cy->rad_sqr = cy->radius * cy->radius;
-	cy->height = ft_atof(parse->data[4]);
-	cy->top_h = cy->height / 2;
-	cy->bottom_h = -cy->height / 2;
-	cy->camera_inside = false;
 
+	assign_cy_consts(parse, cy);
 	if (!vector_in_range(&cy->axis, -1.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 2);
 	if (!assign_rgb(&cy->colour, parse->data[5]))

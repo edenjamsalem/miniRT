@@ -30,20 +30,18 @@ bool	camera_in_cy(t_cy *cy, t_camera *camera)
 double get_top_t(t_ray *ray, t_cy *cy)
 {
     double  t_pl;
-    t_vec3  top_center_p;
     t_vec3  p_intsec;
     t_vec3  dist_from_center;
     
-    top_center_p = add(cy->center, scale(cy->axis, cy->top_h));
     t_pl = dot(cy->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
-	t_pl = dot(cy->axis, sub(top_center_p , ray->origin)) / t_pl;
+	t_pl = dot(cy->axis, sub(cy->top_center , ray->origin)) / t_pl;
     if (t_pl < 0)
         return (-1);
     
     p_intsec = add(ray->origin, scale(ray->dir, t_pl));
-    dist_from_center = sub(p_intsec, top_center_p);
+    dist_from_center = sub(p_intsec, cy->top_center);
 
     if (dot(dist_from_center, dist_from_center) <= (cy->rad_sqr))
     {
@@ -56,20 +54,18 @@ double get_top_t(t_ray *ray, t_cy *cy)
 double get_bottom_t(t_ray *ray, t_cy *cy)
 {
     double  t_pl;
-    t_vec3  bottom_center_p;
     t_vec3  p_intsec;
     t_vec3  dist_from_center;
     
-    bottom_center_p = add(cy->center, scale(cy->axis, (cy->bottom_h)));
     t_pl = dot(cy->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
-	t_pl = dot(cy->axis, sub(bottom_center_p , ray->origin)) / t_pl;
+	t_pl = dot(cy->axis, sub(cy->bottom_center , ray->origin)) / t_pl;
     if (t_pl < 0)
         return (-1);
     
     p_intsec = add(ray->origin, scale(ray->dir, t_pl));
-    dist_from_center = sub(p_intsec, bottom_center_p);
+    dist_from_center = sub(p_intsec, cy->bottom_center);
 
     if (dot(dist_from_center, dist_from_center) <= cy->rad_sqr)
     {
