@@ -36,7 +36,7 @@ double get_top_t(t_ray *ray, t_cy *cylinder)
     t_vec3  p_intsec;
     t_vec3  dist_from_center;
     
-    top_center_p = add(cylinder->center, scale(cylinder->axis, cylinder->height));
+    top_center_p = add(cylinder->center, scale(cylinder->axis, cylinder->height / 2));
     t_pl = dot(cylinder->axis, ray->direction);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
@@ -55,18 +55,20 @@ double get_top_t(t_ray *ray, t_cy *cylinder)
 double get_bottom_t(t_ray *ray, t_cy *cylinder)
 {
     double  t_pl;
+    t_vec3  bottom_center_p;
     t_vec3  p_intsec;
     t_vec3  dist_from_center;
     
+    bottom_center_p = add(cylinder->center, scale(cylinder->axis, (-cylinder->height / 2)));
     t_pl = dot(cylinder->axis, ray->direction);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
-	t_pl = dot(cylinder->axis, sub(cylinder->center , ray->origin)) / t_pl;
+	t_pl = dot(cylinder->axis, sub(bottom_center_p , ray->origin)) / t_pl;
     if (t_pl < 0)
         return (-1);
     
     p_intsec = add(ray->origin, scale(ray->direction, t_pl));
-    dist_from_center = sub(p_intsec, cylinder->center);
+    dist_from_center = sub(p_intsec, bottom_center_p);
 
     if (dot(dist_from_center, dist_from_center) <= (cylinder->radius * cylinder->radius))
         return (t_pl);
