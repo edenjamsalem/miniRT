@@ -366,4 +366,4 @@ void	init_img_data(t_img *img, t_mlx *mlx);
 
 void	init_intsec(t_intsec *intersection);
 
-void	init_project(t_mlx *mlx, t_scene *scene);
+void	init_project(t_mlx *mlx, t_scene *scene, t_camera *camera);

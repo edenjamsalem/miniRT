@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:44:05 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:19:58 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 	gettimeofday(&start, NULL);
 
 	parse(argv[1], &mlx.scene);
-	init_project(&mlx, &mlx.scene);
+	init_project(&mlx, &mlx.scene, &mlx.scene.camera);
 	render_scene(&mlx);
 
 	gettimeofday(&end, NULL);

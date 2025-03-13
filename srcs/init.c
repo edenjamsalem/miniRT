@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:54 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:37:46 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:19:36 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,12 @@ void	init_pixel_offsets(t_consts *consts)
 	}
 }
 
-void	init_project(t_mlx *mlx, t_scene *scene)
+void	init_project(t_mlx *mlx, t_scene *scene, t_camera *camera)
 {
 	init_mlx_data(mlx);
 	init_img_data(&mlx->img, mlx);
 	init_world_basis(&scene->consts.world);
-	calc_local_basis(&scene->camera.basis, scene->camera.orientation, &scene->consts.world);
+	calc_local_basis(&camera->basis, camera->orientation, &scene->consts.world);
 	scene->consts.rpp = 1; // max == 64
 	scene->consts.shadow_rpp = 20; // max == 128
 	init_pixel_offsets(&scene->consts);
