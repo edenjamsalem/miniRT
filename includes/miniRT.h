@@ -250,6 +250,12 @@ void	get_cylinder_data(t_parse *parse, t_scene *scene);
 
 void	assign_default_material(t_material *properties);
 
+bool	rgb_in_range(int rgb[3]);
+
+bool	check_line(t_parse *parse);
+
+bool invalid_extension(char *file);
+
 // MLX
 
 int	 key_event(int keysym, t_mlx *mlx);

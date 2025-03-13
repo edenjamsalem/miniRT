@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:25 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 16:03:40 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:12:16 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,6 @@ void	extract_data(t_parse *parse, t_scene *scene)
 		get_plane_data(parse, scene);
 	else if (ft_match(parse->data[0], "cy"))
 		get_cylinder_data(parse, scene);
-}
-
-bool	check_line(t_parse *parse)
-{
-	static bool ambient_light;
-	static bool camera;
-
-	if (!parse->data || !(*parse->data))
-		return (0);
-	else if(ft_match(parse->data[0], "A"))
-	{
-		if (ambient_light)
-			perror_exit(DUPLICATE, parse, 0);
-		ambient_light = true;
-	}
-	else if(ft_match(parse->data[0], "C"))
-	{
-		if (camera)
-			perror_exit(DUPLICATE, parse, 0);
-		camera = true;
-	}
-	return (1);
-}
-
-bool invalid_extension(char *file)
-{
-	int i;
-
-	i = ft_strlen(file) - 1;
-	if (file[i] != 't' || file[i - 1] != 'r' || file[i - 2] != '.')
-		return (1);
-	return (0);
 }
 
 void parse(char *file, t_scene *scene)

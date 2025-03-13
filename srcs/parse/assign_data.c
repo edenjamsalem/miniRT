@@ -6,22 +6,11 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:18 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 12:13:48 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:09:38 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
-
-static bool	rgb_in_range(int rgb[3])
-{	
-	if (rgb[0] < 0 || rgb[0] > 255)
-		return (0);	
-	if (rgb[1] < 0 || rgb[1] > 255)
-		return (0);	
-	if (rgb[2] < 0 || rgb[2] > 255)
-		return (0);	
-	return (1);
-}
 
 bool	assign_rgb(t_rgb *colour, char *data)
 {
@@ -49,21 +38,6 @@ bool	assign_rgb(t_rgb *colour, char *data)
 	return (1);
 }
 
-bool	in_range(double value, double lower, double higher)
-{
-	return (value >= lower && value <= higher);
-}
-
-bool	vector_in_range(t_vec3 *vector, double lower, double upper)
-{
-	if (!in_range(vector->x, lower, upper))
-		return(0);
-	if (!in_range(vector->y, lower, upper))
-		return(0);
-	if (!in_range(vector->z, lower, upper))
-		return(0);
-	return (1);
-}
 
 bool	assign_vector(t_vec3 *vector, char *data)
 {
