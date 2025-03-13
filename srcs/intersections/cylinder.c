@@ -97,12 +97,19 @@ double find_smallest(double t_curved, double t_top, double t_bottom)
 
 t_vec3  get_intsec_normal(t_intsec *intsec, double t_top, double t_bottom, t_cy *cy)
 {
+    double  h;
+    t_vec3  radial_center;
+
     if (intsec->t == t_top)
         return (cy->axis);
     else if (intsec->t == t_bottom)
         return(scale(cy->axis, -1));
     else
-        return(get_radial_normal(intsec->pos, cy));
+    {
+        h = dot(sub(intsec->pos, cy->center), cy->axis);
+        radial_center = add(cy->center, scale(cy->axis, h));
+        return (normalize(sub(intsec->pos, radial_center)));
+    }
 }
 
 void get_cy_intsec_data(t_ray *ray, t_cy *cy, t_intsec *intsec)
@@ -114,14 +121,13 @@ void get_cy_intsec_data(t_ray *ray, t_cy *cy, t_intsec *intsec)
     cy->intsec_count = 0;
     t_curved = get_curved_t(ray, cy);
     t_top = -1;
+    t_bottom = -1;
     if (cy->intsec_count < 2)
         t_top = get_top_t(ray, cy);
-    t_bottom = -1;
     if (cy->intsec_count < 2)
         t_bottom = get_bottom_t(ray, cy);
 
     intsec->t = find_smallest(t_curved, t_top, t_bottom);
-
     if (intsec->t >= 0)
     {
         intsec->pos = add(ray->origin, scale(ray->dir, intsec->t));

@@ -6,21 +6,11 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:09:11 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 17:31:27 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:41:27 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
-
-t_vec3  get_radial_normal(t_vec3 p, t_cy *cy)
-{
-    double  h;
-    t_vec3  radial_center;
-
-    h = dot(sub(p, cy->center), cy->axis);
-    radial_center = add(cy->center, scale(cy->axis, h));
-    return (normalize(sub(p, radial_center)));
-}
 
 static double    get_h(double t, t_ray *ray, t_cy *cy)
 {
