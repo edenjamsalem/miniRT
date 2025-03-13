@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:44 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:37:27 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:59:30 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_scene *
 	{
 		light_dir = sub(light->rand_points[i], shadow->ray.origin);
 		light_dist = magnitude(light_dir);
-		shadow->ray.direction = normalize(light_dir);
+		shadow->ray.dir = normalize(light_dir);
 		
 		if (hits_light(&shadow->ray, scene->objs->content, light_dist, intsec->obj))
 		{

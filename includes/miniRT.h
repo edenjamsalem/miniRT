@@ -90,6 +90,15 @@ typedef struct s_basis
 	t_vec3  forward;
 }		   t_basis;
 
+typedef struct s_quadratic
+{
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+}		t_quadratic;
+
+
 typedef struct s_light
 {
 	t_vec3	center;
@@ -143,7 +152,7 @@ typedef struct s_sp
 	double		diameter;
 	double		radius;
 	t_rgb		colour;
-	t_material  properties;
+	t_material  surf;
 	bool		camera_inside;
 }				t_sp;
 
@@ -153,7 +162,7 @@ typedef struct s_pl
 	t_vec3		point;
 	t_vec3		normal;
 	t_rgb		colour;
-	t_material  properties;
+	t_material  surf;
 }				t_pl;
 
 typedef struct s_cy
@@ -165,7 +174,7 @@ typedef struct s_cy
 	double	radius;
 	double	height;
 	t_rgb	colour;
-	t_material  properties;
+	t_material  surf;
 	bool		camera_inside;
 }				t_cy;
 
@@ -177,13 +186,13 @@ typedef struct s_intersection
 	void		*obj;
 	double	  t;
 	bool		in_shadow;
-	t_material  properties;
+	t_material  surf;
 }			  t_intsec;
 
 typedef struct s_ray
 {
-	t_vec3	  origin;
-	t_vec3	  direction;
+	t_vec3		origin;
+	t_vec3		dir;
 	t_intsec	intsec;
 }		   t_ray;
 
@@ -248,7 +257,7 @@ void	get_plane_data(t_parse *parse, t_scene *scene);
 
 void	get_cylinder_data(t_parse *parse, t_scene *scene);
 
-void	assign_default_material(t_material *properties);
+void	assign_default_material(t_material *surf);
 
 bool	rgb_in_range(int rgb[3]);
 

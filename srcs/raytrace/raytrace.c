@@ -6,12 +6,11 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:38:08 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:59:30 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
-
 
 t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 {
@@ -40,14 +39,14 @@ t_pixel	raytrace(int x, int y, t_scene *scene)
 	ray.origin = scene->camera.pos;
 	while (++i < scene->consts.rpp)
 	{
-		ray.direction = calc_ray_dir(&scene->camera, x, y, scene->consts.pixel_offsets[i]);
+		ray.dir = calc_ray_dir(&scene->camera, x, y, scene->consts.pixel_offsets[i]);
 		ray.intsec = find_intersection(&ray, scene->objs->content);
 		if (!ray.intsec.obj)
 			colours[i] = (t_rgb){0, 0, 0};
 		else
 		{
 			cast_shadow_rays(&ray.intsec, scene);
-			colours[i] = blinn_phong(scene, &ray.intsec, scale(ray.direction, -1));
+			colours[i] = blinn_phong(scene, &ray.intsec, scale(ray.dir, -1));
 		}
 	}
 	final_colour = rgb_average(colours, scene->consts.rpp);

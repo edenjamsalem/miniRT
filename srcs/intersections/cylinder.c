@@ -37,14 +37,14 @@ double get_top_t(t_ray *ray, t_cy *cylinder)
     t_vec3  dist_from_center;
     
     top_center_p = add(cylinder->center, scale(cylinder->axis, cylinder->height / 2));
-    t_pl = dot(cylinder->axis, ray->direction);
+    t_pl = dot(cylinder->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
 	t_pl = dot(cylinder->axis, sub(top_center_p , ray->origin)) / t_pl;
     if (t_pl < 0)
         return (-1);
     
-    p_intsec = add(ray->origin, scale(ray->direction, t_pl));
+    p_intsec = add(ray->origin, scale(ray->dir, t_pl));
     dist_from_center = sub(p_intsec, top_center_p);
 
     if (dot(dist_from_center, dist_from_center) <= (cylinder->radius * cylinder->radius))
@@ -60,14 +60,14 @@ double get_bottom_t(t_ray *ray, t_cy *cylinder)
     t_vec3  dist_from_center;
     
     bottom_center_p = add(cylinder->center, scale(cylinder->axis, (-cylinder->height / 2)));
-    t_pl = dot(cylinder->axis, ray->direction);
+    t_pl = dot(cylinder->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
 		return (-1);
 	t_pl = dot(cylinder->axis, sub(bottom_center_p , ray->origin)) / t_pl;
     if (t_pl < 0)
         return (-1);
     
-    p_intsec = add(ray->origin, scale(ray->direction, t_pl));
+    p_intsec = add(ray->origin, scale(ray->dir, t_pl));
     dist_from_center = sub(p_intsec, bottom_center_p);
 
     if (dot(dist_from_center, dist_from_center) <= (cylinder->radius * cylinder->radius))
@@ -103,7 +103,7 @@ void get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec)
 
     if (intsec->t >= 0)
     {
-        intsec->pos = add(ray->origin, scale(ray->direction, intsec->t));
+        intsec->pos = add(ray->origin, scale(ray->dir, intsec->t));
         intsec->colour = cylinder->colour;
         intsec->normal = normalize(sub(intsec->pos, cylinder->center));
 
@@ -117,6 +117,6 @@ void get_cy_intsec_data(t_ray *ray, t_cy *cylinder, t_intsec *intsec)
         if (cylinder->camera_inside)
             intsec->normal = scale(intsec->normal, -1);
         intsec->obj = (void *)cylinder;
-        intsec->properties = cylinder->properties;
+        intsec->surf = cylinder->surf;
     }
 }

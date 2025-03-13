@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:05 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 17:15:28 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:54:31 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	get_sphere_data(t_parse *parse, t_scene *scene)
 	
 	if (!assign_rgb(&sphere->colour, parse->data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
-	if (no_elems == 5 && !assign_material(&sphere->properties, parse->data[4]))
+	if (no_elems == 5 && !assign_material(&sphere->surf, parse->data[4]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 4);
 	else if (no_elems == 4)
-		assign_default_material(&sphere->properties);
+		assign_default_material(&sphere->surf);
 }
 
 void	get_plane_data(t_parse *parse, t_scene *scene)
@@ -73,10 +73,10 @@ void	get_plane_data(t_parse *parse, t_scene *scene)
 	if (!assign_rgb(&plane->colour, parse->data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
 
-	if (no_elems == 5 && !assign_material(&plane->properties, parse->data[4]))
+	if (no_elems == 5 && !assign_material(&plane->surf, parse->data[4]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 4);
 	else if (no_elems == 4)
-		assign_default_material(&plane->properties);
+		assign_default_material(&plane->surf);
 }
 
 void	get_cylinder_data(t_parse *parse, t_scene *scene)
@@ -109,8 +109,8 @@ void	get_cylinder_data(t_parse *parse, t_scene *scene)
 	if (!assign_rgb(&cylinder->colour, parse->data[5]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 5);
 		
-	if (no_elems == 7 && !assign_material(&cylinder->properties, parse->data[6]))
+	if (no_elems == 7 && !assign_material(&cylinder->surf, parse->data[6]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 6);
 	else if (no_elems == 6)
-		assign_default_material(&cylinder->properties);
+		assign_default_material(&cylinder->surf);
 }
