@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:37 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/10 18:15:42 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:41:07 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	
 	ndc_dir.x *= camera->fov_tan;
 	ndc_dir.y *= camera->fov_tan;
-	ndc_dir.z = -1;
+	ndc_dir.z = 1;
 
 	world_dir = transform_local_to_world(&ndc_dir, &camera->basis);
 	return (normalize(world_dir));
