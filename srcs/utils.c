@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+        */
+/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:19 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 15:48:59 by muabdi           ###   ########.fr       */
+/*   Updated: 2025/03/13 15:16:06 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 void	perror_exit(t_err err, t_parse *parse, int i)
 {
 	(void)i;
-	ft_fprintf(2, "Error:");
+	ft_fprintf(2, "Error\n");
 	if (err == LINE_ARG_COUNT)
 		ft_fprintf(2, "Line %d: Incorrect number of args.\n", parse->line_num);
 	else if (err == ARG_OUT_OF_RANGE)
-		ft_fprintf(2, "Line %d: arg has invalid range.\n", parse->line_num);
+		ft_fprintf(2, "Line %d: '%s' has invalid range.\n", parse->line_num, parse->data[i]);
 	else if (err == DUPLICATE)
-		ft_fprintf(2, "Line %d: is duplicate.\n", parse->line_num);
+		ft_fprintf(2, "Line %d: only 1 '%s' permitted.\n", parse->line_num, parse->data[0]);
 	else if (err == VEC_COUNT)
-		ft_fprintf(2, "Line %d: vector has missing value.\n", parse->line_num);
+		ft_fprintf(2, "Line %d: '%s' must be 3D vec.\n", parse->line_num, parse->data[i]);
 	else if (err == MALLOC)
 		ft_fprintf(2, "malloc error\n");
 	else
 		ft_fprintf(2, "undefined error\n");
+		
 	free_arrlst(parse->scene->lights, free);
 	free_arrlst(parse->scene->objs, free);
 	free_2darr((void **)parse->data, ft_2darr_len((void **)parse->data));
