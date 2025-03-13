@@ -44,6 +44,7 @@ typedef enum e_err
 	VEC_COUNT,
 	RGB_COUNT,
 	MALLOC,
+	_FILE,
 }				t_err;
 
 typedef enum e_shape

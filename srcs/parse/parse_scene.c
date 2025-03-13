@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:12 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:06:00 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:53:25 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,27 @@ void	get_light_data(t_parse *parse, t_scene *scene)
 	int			num_elems;
 
 	num_elems = ft_2darr_len((void **)parse->data);
-	if (num_elems < 3 || num_elems > 4)
+	if (num_elems < 3 || num_elems > 5)
 		perror_exit(LINE_ARG_COUNT, parse, 0);
 
 	light = malloc(sizeof(t_light));
 	if (!light)
 		perror_exit(MALLOC, parse, 0);
-		
 	append_arrlst(scene->lights, light);	
+		
 	if (!assign_vector(&light->center, parse->data[1]))
 		perror_exit(VEC_COUNT, parse, 1);
 		
 	light->brightness = ft_atof(parse->data[2]);
-	light->radius = 10; // make dynamic later
-
 	if (!in_range(light->brightness, 0.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 2);	
+	
+	light->radius = 10;
+	if (num_elems == 5)
+		light->radius = ft_atoi(parse->data[4]);
+	if (!in_range(light->radius, 1, 100))
+		perror_exit(ARG_OUT_OF_RANGE, parse, 4);
+	
 	if (num_elems == 4 && !assign_rgb(&light->colour, parse->data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
 	else if (num_elems == 3)

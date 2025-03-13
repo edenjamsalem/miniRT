@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:19 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:32:01 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:04:23 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	perror_exit(t_err err, t_parse *parse, int i)
 		ft_fprintf(2, "Line %d: only 1 '%s' permitted.\n", parse->line_num, parse->data[0]);
 	else if (err == VEC_COUNT)
 		ft_fprintf(2, "Line %d: '%s' must be 3D vec.\n", parse->line_num, parse->data[i]);
+	else if(err == _FILE)
+		ft_fprintf(2, "Invalid file.\n");
 	else if (err == MALLOC)
 		ft_fprintf(2, "Malloc error\n");
 	else

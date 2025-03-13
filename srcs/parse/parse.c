@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:25 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:01:34 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:03:40 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,14 @@ bool	check_line(t_parse *parse)
 	return (1);
 }
 
-bool check_extension(char *file)
+bool invalid_extension(char *file)
 {
 	int i;
 
 	i = ft_strlen(file) - 1;
 	if (file[i] != 't' || file[i - 1] != 'r' || file[i - 2] != '.')
-	{
-		printf("Error\nInvalid file extension\n");
-		exit(EXIT_FAILURE);
-	}
-	return (1);
+		return (1);
+	return (0);
 }
 
 void parse(char *file, t_scene *scene)
@@ -72,13 +69,9 @@ void parse(char *file, t_scene *scene)
 	parse.scene = scene;
 	scene->objs = init_arrlst(4);
 	scene->lights = init_arrlst(4);
-	check_extension(file);
 	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Error\nFailed to open file");
-		exit(EXIT_FAILURE);
-	}
+	if (fd < 0 || invalid_extension(file))
+		perror_exit(_FILE, &parse, 0);
 	parse.line_num = 1;
 	line = get_next_line(fd);
 	while (line)

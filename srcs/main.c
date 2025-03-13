@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:38:09 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:33:12 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:44:05 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int main(int argc, char **argv)
 {
 	t_mlx	mlx;
-	struct timeval	start; // for testing only
+	struct timeval	start;
 	struct timeval	end;
 
 	if (argc != 2)
