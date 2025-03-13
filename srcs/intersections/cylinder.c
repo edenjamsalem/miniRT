@@ -31,7 +31,7 @@ double get_top_t(t_ray *ray, t_cy *cy)
 {
     double  t_pl;
     t_vec3  p_intsec;
-    t_vec3  dist_from_center;
+    t_vec3  center_to_intsec;
     
     t_pl = dot(cy->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
@@ -41,9 +41,9 @@ double get_top_t(t_ray *ray, t_cy *cy)
         return (-1);
     
     p_intsec = add(ray->origin, scale(ray->dir, t_pl));
-    dist_from_center = sub(p_intsec, cy->top_center);
+    center_to_intsec = sub(p_intsec, cy->top_center);
 
-    if (dot(dist_from_center, dist_from_center) <= (cy->rad_sqr))
+    if (dot(center_to_intsec, center_to_intsec) <= (cy->rad_sqr))
     {
         cy->intsec_count += 1;
         return (t_pl);
@@ -55,7 +55,7 @@ double get_bottom_t(t_ray *ray, t_cy *cy)
 {
     double  t_pl;
     t_vec3  p_intsec;
-    t_vec3  dist_from_center;
+    t_vec3  center_to_intsec;
     
     t_pl = dot(cy->axis, ray->dir);
     if (fabs(t_pl) < 0.000001) // checks if parallel
@@ -65,9 +65,9 @@ double get_bottom_t(t_ray *ray, t_cy *cy)
         return (-1);
     
     p_intsec = add(ray->origin, scale(ray->dir, t_pl));
-    dist_from_center = sub(p_intsec, cy->bottom_center);
+    center_to_intsec = sub(p_intsec, cy->bottom_center);
 
-    if (dot(dist_from_center, dist_from_center) <= cy->rad_sqr)
+    if (dot(center_to_intsec, center_to_intsec) <= cy->rad_sqr)
     {
         cy->intsec_count += 1;
         return (t_pl);
@@ -75,19 +75,6 @@ double get_bottom_t(t_ray *ray, t_cy *cy)
     return (-1);
 }
 
-double find_smallest(double t_curved, double t_top, double t_bottom)
-{
-    double t;
-
-    t = -1.0;
-    if (t_curved > 0)
-        t = t_curved;
-    if (t_top > 0 && (t < 0 || t_top < t))
-        t = t_top;
-    if (t_bottom > 0 && (t < 0 || t_bottom < t))
-        t = t_bottom;
-    return (t);
-}
 
 t_vec3  get_intsec_normal(t_intsec *intsec, double t_top, double t_bottom, t_cy *cy)
 {
@@ -106,6 +93,20 @@ t_vec3  get_intsec_normal(t_intsec *intsec, double t_top, double t_bottom, t_cy 
     }
 }
 
+double find_smallest(double t_curved, double t_top, double t_bottom)
+{
+    double t;
+
+    t = -1.0;
+    if (t_curved > 0)
+        t = t_curved;
+    if (t_top > 0 && (t < 0 || t_top < t))
+        t = t_top;
+    if (t_bottom > 0 && (t < 0 || t_bottom < t))
+        t = t_bottom;
+    return (t);
+}
+
 void get_cy_intsec_data(t_ray *ray, t_cy *cy, t_intsec *intsec)
 {
     double  t_curved;
@@ -113,9 +114,9 @@ void get_cy_intsec_data(t_ray *ray, t_cy *cy, t_intsec *intsec)
     double  t_bottom;
     
     cy->intsec_count = 0;
-    t_curved = get_curved_t(ray, cy);
     t_top = -1;
     t_bottom = -1;
+    t_curved = get_curved_t(ray, cy);
     if (cy->intsec_count < 2)
         t_top = get_top_t(ray, cy);
     if (cy->intsec_count < 2)
