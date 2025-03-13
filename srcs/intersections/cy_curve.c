@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:09:11 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/12 17:15:28 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 11:46:56 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ double get_curved_t(t_ray *ray, t_cy *cylinder)
     a = 1 - pow(dot(ray->direction, cylinder->axis), 2);
     b = 2 * (dot(ray->direction, oc) - dot(ray->direction, cylinder->axis) * dot(oc, cylinder->axis));
     c = dot(oc, oc) - pow(dot(oc, cylinder->axis), 2) - pow(cylinder->diameter / 2.0, 2);
-    discriminant = b * b - 4 * a * c;
+    discriminant = (b * b) - (4 * a * c);
     if (discriminant < 0)
         return -1.0;
 

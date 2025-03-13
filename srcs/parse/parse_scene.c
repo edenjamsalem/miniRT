@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 17:37:12 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/11 16:29:51 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/13 11:51:16 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,20 @@ void	get_camera_data(t_parse *parse, t_scene *scene)
 
 	if (!assign_vector(&scene->camera.pos, parse->data[1]))
 		perror_exit(VEC_COUNT, parse, 1);
+
 	if (!assign_vector(&scene->camera.orientation, parse->data[2]))
 		perror_exit(VEC_COUNT, parse, 2);
+	if (!vector_in_range(&scene->camera.orientation, -1.0, 1.0))
+		perror_exit(ARG_OUT_OF_RANGE, parse, 2);
+	scene->camera.orientation = normalize(scene->camera.orientation);
 
 	scene->camera.fov = ft_atoi(parse->data[3]);
+	if (!in_range(scene->camera.fov, 0, 180))
+		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
+
 	scene->camera.fov_tan = tan((scene->camera.fov / 2.0) * (PI / 180));
 	scene->camera.aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
 	
-	if (!vector_in_range(&scene->camera.orientation, -1.0, 1.0))
-		perror_exit(ARG_OUT_OF_RANGE, parse, 2);
-	if (!in_range(scene->camera.fov, 0, 180))
-		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
 }
 
 void	get_light_data(t_parse *parse, t_scene *scene)
