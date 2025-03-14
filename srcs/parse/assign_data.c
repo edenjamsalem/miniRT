@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:10 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:38:53 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:41:40 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	assign_vector(t_vec3 *vector, char *data)
 	return (true);
 }
 
-bool	assign_material(t_material *material, char *data)
+bool	assign_material(t_surf *material, char *data)
 {
 	char	**properties;
 	int		num_elems;

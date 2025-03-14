@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:48 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:16:49 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:56:12 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 	while (objs[++i])
 	{
 		if (objs[i] == intsec_obj)
-			continue;
+			continue ;
 		if (((t_sp *)objs[i])->shape == SP)
 			t = get_sp_t(ray, objs[i]);
 		else if (((t_pl *)objs[i])->shape == PL)
@@ -37,7 +37,7 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_scene *scene)
 {
 	int		i;
-	double  light_dist;
+	double	light_dist;
 	t_vec3	light_dir;
 	
 	i = 0;
@@ -47,7 +47,6 @@ void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_scene *
 		light_dir = sub(light->rand_points[i], shadow->ray.origin);
 		light_dist = magnitude(light_dir);
 		shadow->ray.dir = normalize(light_dir);
-		
 		if (hits_light(&shadow->ray, scene->objs->content, light_dist, intsec->obj))
 		{
 			intsec->in_shadow = false;
@@ -69,7 +68,6 @@ void gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts)
 	{
 		r = light->radius * sqrt(((double)rand() / RAND_MAX));
   		theta = ((double)rand() / RAND_MAX) * 2 * PI;
-
 		light->rand_points[i].x = r * cos(theta);
 		light->rand_points[i].y = r * sin(theta);
 		light->rand_points[i].z = 0;

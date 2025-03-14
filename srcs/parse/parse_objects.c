@@ -6,13 +6,13 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:22 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:34:40 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:41:40 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-void	assign_default_material(t_material *properties)
+void	assign_default_material(t_surf *properties)
 {
 	properties->Ka = 0.2;
 	properties->Kd = 0.7;

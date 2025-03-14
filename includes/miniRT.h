@@ -137,13 +137,13 @@ typedef struct s_scene
 	t_consts	consts;
 }				t_scene;
 
-typedef struct s_material
+typedef struct s_surf
 {
 	double  Ka;
 	double  Kd;
 	double  Ks;
 	double  n;
-}		   t_material;
+}		   t_surf;
 
 typedef struct s_sp
 {
@@ -152,7 +152,7 @@ typedef struct s_sp
 	double		diameter;
 	double		radius;
 	t_rgb		colour;
-	t_material  surf;
+	t_surf  surf;
 	bool		camera_inside;
 }				t_sp;
 
@@ -162,7 +162,7 @@ typedef struct s_pl
 	t_vec3		point;
 	t_vec3		normal;
 	t_rgb		colour;
-	t_material  surf;
+	t_surf  surf;
 }				t_pl;
 
 typedef struct s_cy
@@ -179,20 +179,20 @@ typedef struct s_cy
 	double	bottom_h;
 	double	rad_sqr;
 	t_rgb	colour;
-	t_material  surf;
+	t_surf  surf;
 	bool		camera_inside;
 	int		intsec_count;
 }				t_cy;
 
 typedef struct s_intersection
 {
-	t_vec3	  pos;
-	t_vec3	  normal;
-	t_rgb	   colour;
-	void		*obj;
-	double	  t;
-	bool		in_shadow;
-	t_material  surf;
+	t_vec3	pos;
+	t_vec3	normal;
+	t_rgb	colour;
+	void	*obj;
+	double	t;
+	bool	in_shadow;
+	t_surf	surf;
 }			  t_intsec;
 
 typedef struct s_ray
@@ -249,7 +249,7 @@ void	perror_exit(t_err err, t_parse *parse, int i);
 
 bool	assign_vector(t_vec3 *vector, char *data);
 
-bool	assign_material(t_material *material, char *data);
+bool	assign_material(t_surf *material, char *data);
 
 bool	in_range(double value, double lower, double higher);
 
@@ -263,7 +263,7 @@ void	get_pl_data(t_parse *parse, t_scene *scene);
 
 void	get_cy_data(t_parse *parse, t_scene *scene);
 
-void	assign_default_material(t_material *surf);
+void	assign_default_material(t_surf *surf);
 
 bool	rgb_in_range(int rgb[3]);
 
