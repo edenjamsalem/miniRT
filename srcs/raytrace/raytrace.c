@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:06:34 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:12:49 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:16:23 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,4 @@ void	render_scene(t_mlx *mlx)
 		}
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
-	printf("FINISHED RAYTRACE\n");
 }

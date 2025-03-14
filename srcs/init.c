@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:54 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:43:26 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:13:44 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void	init_pixel_offsets(t_consts *consts)
 	int		k;
 	double	step;
 
-	if (consts->rpp > 64)
-		consts->rpp = 64;
 	i = 0;
 	k = 0;
 	step = sqrt(consts->rpp);
