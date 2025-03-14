@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:10 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:41:40 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:33:42 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ bool	assign_material(t_surf *material, char *data)
 	}
 	((double *)material)[i] = ft_atof(properties[i]);
 	free_2darr((void **)properties, 4);
-	if (!in_range(material->n, 0.0, 300.0))
+	if (!in_range(material->exp, 0.0, 300.0))
 		return (false);
 	return (true);
 }

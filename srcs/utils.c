@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:17:02 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:17:03 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:18:38 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,26 @@
 
 void	perror_exit(t_err err, t_parse *parse, int i)
 {
-	(void)i;
+	int		line_num;
+	char	**data;
+
+	line_num = parse->line_num;
+	data = parse->data;
 	ft_fprintf(2, "Error\n");
 	if (err == LINE_ARG_COUNT)
-		ft_fprintf(2, "Line %d: Incorrect number of args.\n", parse->line_num);
+		ft_fprintf(2, "Line %d: Incorrect number of args.\n", line_num);
 	else if (err == ARG_OUT_OF_RANGE)
-		ft_fprintf(2, "Line %d: '%s' has invalid range.\n", parse->line_num, parse->data[i]);
+		ft_fprintf(2, "Line %d: '%s' has invalid range.\n", line_num, data[i]);
 	else if (err == DUPLICATE)
-		ft_fprintf(2, "Line %d: only 1 '%s' permitted.\n", parse->line_num, parse->data[0]);
+		ft_fprintf(2, "Line %d: only 1 '%s' permitted.\n", line_num, data[0]);
 	else if (err == VEC_COUNT)
-		ft_fprintf(2, "Line %d: '%s' must be 3D vec.\n", parse->line_num, parse->data[i]);
-	else if(err == _FILE)
+		ft_fprintf(2, "Line %d: '%s' must be 3D vec.\n", line_num, data[i]);
+	else if (err == _FILE)
 		ft_fprintf(2, "Invalid file.\n");
 	else if (err == MALLOC)
 		ft_fprintf(2, "Malloc error\n");
 	else
 		ft_fprintf(2, "Undefined error\n");
-		
 	free_arrlst(parse->scene->lights, free);
 	free_arrlst(parse->scene->objs, free);
 	free_2darr((void **)parse->data, ft_2darr_len((void **)parse->data));

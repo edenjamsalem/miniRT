@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:48 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:12:35 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:37:26 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	cast(t_shadow *shadow, t_light *light, t_intsec *intsec, t_scene *scene)
 	}
 }
 
-void	gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts)
+void	gen_rand_offsets(t_light *light, t_basis *shadow, t_consts *consts)
 {
 	int		i;
 	double	theta;
@@ -90,7 +90,7 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene)
 		light = (t_light *)(scene->lights->content[i]);
 		light->dir = normalize(sub(light->center, intsec->pos));
 		calc_local_basis(&shadow.basis, light->dir, &scene->consts.world);
-		gen_rand_light_points(light, &shadow.basis, &scene->consts);
+		gen_rand_offsets(light, &shadow.basis, &scene->consts);
 		cast(&shadow, light, intsec, scene);
 	}
 }

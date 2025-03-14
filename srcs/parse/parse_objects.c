@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:22 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:41:40 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:33:42 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	assign_default_material(t_surf *properties)
 {
-	properties->Ka = 0.2;
-	properties->Kd = 0.7;
-	properties->Ks = 0.3;
-	properties->n = 50;
+	properties->k_ambient = 0.2;
+	properties->k_diffuse = 0.7;
+	properties->k_specular = 0.3;
+	properties->exp = 50;
 }
 
 void	get_sp_data(t_parse *parse, t_scene *scene)

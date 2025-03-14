@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:54 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:13:45 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:15:24 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	init_img_data(t_img *img, t_mlx *mlx)
 	}
 }
 
-void init_intsec(t_intsec *intersection)
+void	init_intsec(t_intsec *intersection)
 {
 	intersection->pos = (t_vec3){INFINITY, INFINITY, INFINITY};
 	intersection->colour = (t_rgb){0, 0, 0};
@@ -53,9 +53,9 @@ void init_intsec(t_intsec *intersection)
 
 void	init_pixel_offsets(t_consts *consts)
 {
-	int	i;
-	int	j;
-	int	k;
+	int		i;
+	int		j;
+	int		k;
 	double	step;
 
 	if (consts->rpp > 64)
@@ -83,10 +83,8 @@ void	init_project(t_mlx *mlx, t_scene *scene, t_camera *camera)
 	init_img_data(&mlx->img, mlx);
 	init_world_basis(&scene->consts.world);
 	calc_local_basis(&camera->basis, camera->orientation, &scene->consts.world);
-	scene->consts.rpp = 1; // max == 64
-	scene->consts.shadow_rpp = 20; // max == 128
+	scene->consts.rpp = 1;
+	scene->consts.shadow_rpp = 20;
 	init_pixel_offsets(&scene->consts);
 	check_camera_inside_objs(scene->objs->content, &scene->camera);
 }
-
-
