@@ -5,12 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 17:30:49 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 17:07:40 by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/14 11:15:45 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/14 11:28:19 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
+
+bool	camera_in_sp(t_sp *sp, t_camera *camera)
+{
+	t_vec3	len;
+
+	len = sub(camera->pos, sp->center);
+	return (dot(len, len) < (sp->radius * sp->radius));
+}
+
+bool	camera_in_cy(t_cy *cy, t_camera *camera)
+{
+	t_vec3	to_camera;
+	double	axis_project;
+	t_vec3	radial_vec;
+
+	to_camera = sub(camera->pos, cy->center);
+	axis_project = dot(to_camera, cy->axis);
+	if (axis_project < (cy->bottom_h) || axis_project > (cy->top_h))
+		return (false);
+	radial_vec = sub(to_camera, scale(cy->axis, axis_project));
+	return (dot(radial_vec, radial_vec) < cy->rad_sqr);
+}
 
 void	check_camera_inside_objs(void **objs, t_camera *camera)
 {
@@ -27,7 +49,7 @@ void	check_camera_inside_objs(void **objs, t_camera *camera)
 		else if (((t_cy *)objs[i])->shape == CY)
 		{
 			if (camera_in_cy((t_cy *)objs[i], camera))
-		 		((t_cy *)objs[i])->camera_inside = true;
+				((t_cy *)objs[i])->camera_inside = true;
 		}
 		i++;
 	}

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 17:37:18 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 18:22:04 by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/14 11:16:10 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/14 11:38:53 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	assign_rgb(t_rgb *colour, char *data)
 	char	**rgb_str;
 	int		rgb_int[3];
 	int		num_elems;
-	
+
 	rgb_str = ft_split(data, ',');
 	num_elems = ft_2darr_len((void **)rgb_str);
 	if (num_elems != 3)
@@ -29,7 +29,6 @@ bool	assign_rgb(t_rgb *colour, char *data)
 	rgb_int[1] = ft_atoi(rgb_str[1]);
 	rgb_int[2] = ft_atoi(rgb_str[2]);
 	free_2darr((void **)rgb_str, 3);
-	
 	if (!rgb_in_range(rgb_int))
 		return (0);
 	colour->r = (unsigned char)rgb_int[0];
@@ -37,7 +36,6 @@ bool	assign_rgb(t_rgb *colour, char *data)
 	colour->b = (unsigned char)rgb_int[2];
 	return (1);
 }
-
 
 bool	assign_vector(t_vec3 *vector, char *data)
 {
@@ -67,19 +65,13 @@ bool	assign_material(t_material *material, char *data)
 	properties = ft_split(data, ',');
 	num_elems = ft_2darr_len((void **)properties);
 	if (num_elems != 4)
-	{
-		free_2darr((void **)properties, num_elems);
-		return (false);
-	}
+		return (free_2darr((void **)properties, 4), false);
 	i = -1;
 	while (++i < 3)
 	{
 		((double *)material)[i] = ft_atof(properties[i]);
 		if (!in_range(((double *)material)[i], 0.0, 1.0))
-		{
-			free_2darr((void **)properties, 4);
-			return (false);
-		}
+			return (free_2darr((void **)properties, 4), false);
 	}
 	((double *)material)[i] = ft_atof(properties[i]);
 	free_2darr((void **)properties, 4);

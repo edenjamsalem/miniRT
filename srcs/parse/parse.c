@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 17:37:25 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 17:06:18 by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/14 11:16:31 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/14 11:34:56 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	extract_data(t_parse *parse, t_scene *scene)
 		get_cy_data(parse, scene);
 }
 
-void parse(char *file, t_scene *scene)
+void	parse(char *file, t_scene *scene)
 {
 	int		fd;
 	char	*line;

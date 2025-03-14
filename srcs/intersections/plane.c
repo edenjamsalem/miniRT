@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pl.c                                            :+:      :+:    :+:   */
+/*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/28 18:47:17 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 16:59:30 by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/14 11:15:49 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/14 11:17:55 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 double	get_pl_t(t_ray *ray, t_pl *pl)
 {
-	double		t;
+	double	t;
 
 	t = dot(pl->normal, ray->dir);
-	if (fabs(t) < 0.000001) // checks if parallel
+	if (fabs(t) < 0.000001)
 		return (-1);
 	t = dot(pl->normal, sub(pl->point, ray->origin)) / t;
 	return (t);
@@ -33,5 +33,5 @@ void	get_pl_intsec_data(t_ray *ray, t_pl *pl, t_intsec *intsec)
 		intsec->normal = pl->normal;
 		intsec->obj = (void *)pl;
 		intsec->surf = pl->surf;
-	}	
+	}
 }

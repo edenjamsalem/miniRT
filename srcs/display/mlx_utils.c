@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 15:19:34 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/13 15:20:10 by eamsalem         ###   ########.fr       */
+/*   Created: 2025/03/14 11:15:07 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/14 11:15:08 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	put_pixel(t_pixel *pixel, t_img *img)
 
 	if (!within_screen(pixel->x, pixel->y))
 		return ;
-
 	dst = find_offset(pixel->x, pixel->y, img);
 	*((unsigned int *)dst) = rgb_to_int(pixel->colour);
 }
