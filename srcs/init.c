@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:54 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:16:55 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:13:45 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	init_pixel_offsets(t_consts *consts)
 		j = 0;
 		while (j < step)
 		{
-			consts->pixel_offsets[k].x = (1.0 / step) * j;
-			consts->pixel_offsets[k].y = (1.0 / step) * i;
+			consts->px_offset[k].x = (1.0 / step) * j;
+			consts->px_offset[k].y = (1.0 / step) * i;
 			k++;
 			j++;
 		}

@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:26 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:35:58 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:09:18 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	get_camera_data(t_parse *parse, t_scene *scene)
 	if (!in_range(scene->camera.fov, 0, 180))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
 	scene->camera.fov_tan = tan((scene->camera.fov / 2.0) * (PI / 180));
-	scene->camera.aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
+	scene->camera.aspect_r = (double)WIN_WIDTH / (double)WIN_HEIGHT;
 }
 
 void	get_light_data(t_parse *parse, t_scene *scene)

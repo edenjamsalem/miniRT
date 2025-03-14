@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 15:36:48 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:32:30 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:02:09 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	calc_local_basis(t_basis *local, t_vec3 fwd, t_basis *world)
 	local->up = normalize(cross(local->fwd, local->right));
 }
 
-t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local)
+t_vec3	transform_basis(t_vec3 *ndc, t_basis *local)
 {
 	return ((t_vec3){
 		ndc->x * local->right.x + ndc->y * local->up.x + ndc->z * local->fwd.x,

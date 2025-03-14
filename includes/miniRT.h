@@ -117,12 +117,12 @@ typedef struct s_camera
 	t_basis	 	basis;
 	int			fov;
 	double		fov_tan; // to optimise ray trace
-	double		aspect_ratio;
+	double		aspect_r;
 } 				t_camera;
 
 typedef struct s_consts
 {
-	t_vec2		pixel_offsets[64];
+	t_vec2		px_offset[64];
 	int			rpp;		 // num of rays per pixel
 	int		 	shadow_rpp;	 // num of shadows rays fired per intsec
 	t_basis	 	world;
@@ -299,7 +299,7 @@ t_vec3	normalize(t_vec3 a);
 
 void	print_vector(t_vec3 a);
 
-t_vec3	transform_local_to_world(t_vec3 *ndc, t_basis *local);
+t_vec3	transform_basis(t_vec3 *ndc, t_basis *local);
 
 // RAY TRACE
 

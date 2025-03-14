@@ -1,20 +1,28 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raytrace.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/14 12:06:34 by eamsalem          #+#    #+#             */
+/*   Updated: 2025/03/14 12:12:49 by eamsalem         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-t_vec3	calc_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
+t_vec3	get_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 {
 	t_vec3	ndc_dir;
 	t_vec3	world_dir;
 
-	ndc_dir.x = ((2.0 * ((x + offset.x) / WIN_WIDTH)) - 1) * camera->aspect_ratio;
-	ndc_dir.y = 1 -  (2.0 * ((y + offset.y) / WIN_HEIGHT));
-	
+	ndc_dir.x = ((2.0 * ((x + offset.x) / WIN_WIDTH)) - 1) * camera->aspect_r;
+	ndc_dir.y = 1 - (2.0 * ((y + offset.y) / WIN_HEIGHT));
 	ndc_dir.x *= camera->fov_tan;
 	ndc_dir.y *= camera->fov_tan;
 	ndc_dir.z = 1;
-
-	world_dir = transform_local_to_world(&ndc_dir, &camera->basis);
+	world_dir = transform_basis(&ndc_dir, &camera->basis);
 	return (normalize(world_dir));
 }
 
@@ -29,7 +37,7 @@ t_pixel	raytrace(int x, int y, t_scene *scene)
 	ray.origin = scene->camera.pos;
 	while (++i < scene->consts.rpp)
 	{
-		ray.dir = calc_ray_dir(&scene->camera, x, y, scene->consts.pixel_offsets[i]);
+		ray.dir = get_ray_dir(&scene->camera, x, y, scene->consts.px_offset[i]);
 		ray.intsec = find_intersection(&ray, scene->objs->content);
 		if (!ray.intsec.obj)
 			colours[i] = (t_rgb){0, 0, 0};
@@ -54,7 +62,7 @@ void	render_scene(t_mlx *mlx)
 	{
 		j = -1;
 		while (++j < WIN_WIDTH - 1)
-		{ 
+		{
 			pixel = raytrace(j, i, &mlx->scene);
 			put_pixel(&pixel, &mlx->img);
 		}

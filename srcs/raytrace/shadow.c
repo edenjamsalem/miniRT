@@ -6,13 +6,13 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:48 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:56:12 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:12:35 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/miniRT.h"
 
-bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
+bool	is_lit_up(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 {
 	int		i;
 	double	t;
@@ -34,20 +34,20 @@ bool	hits_light(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 	return (true);
 }
 
-void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_scene *scene)
+void	cast(t_shadow *shadow, t_light *light, t_intsec *intsec, t_scene *scene)
 {
 	int		i;
-	double	light_dist;
+	double	light_d;
 	t_vec3	light_dir;
-	
+
 	i = 0;
 	light->visibility = 0.0;
 	while (i < scene->consts.shadow_rpp)
 	{
 		light_dir = sub(light->rand_points[i], shadow->ray.origin);
-		light_dist = magnitude(light_dir);
+		light_d = magnitude(light_dir);
 		shadow->ray.dir = normalize(light_dir);
-		if (hits_light(&shadow->ray, scene->objs->content, light_dist, intsec->obj))
+		if (is_lit_up(&shadow->ray, scene->objs->content, light_d, intsec->obj))
 		{
 			intsec->in_shadow = false;
 			light->visibility += 1.0 / scene->consts.shadow_rpp;
@@ -56,22 +56,22 @@ void	cast_to_light(t_light *light, t_shadow *shadow, t_intsec *intsec, t_scene *
 	}
 }
 
-void gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts)
+void	gen_rand_light_points(t_light *light, t_basis *shadow, t_consts *consts)
 {
 	int		i;
 	double	theta;
 	double	r;
-	
+
 	i = 0;
 	theta = 0;
 	while (i < consts->shadow_rpp)
 	{
 		r = light->radius * sqrt(((double)rand() / RAND_MAX));
-  		theta = ((double)rand() / RAND_MAX) * 2 * PI;
+		theta = ((double)rand() / RAND_MAX) * 2 * PI;
 		light->rand_points[i].x = r * cos(theta);
 		light->rand_points[i].y = r * sin(theta);
 		light->rand_points[i].z = 0;
-		light->rand_points[i] = transform_local_to_world(&light->rand_points[i], shadow);
+		light->rand_points[i] = transform_basis(&light->rand_points[i], shadow);
 		light->rand_points[i] = add(light->rand_points[i], light->center);
 		i++;
 	}
@@ -91,6 +91,6 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene)
 		light->dir = normalize(sub(light->center, intsec->pos));
 		calc_local_basis(&shadow.basis, light->dir, &scene->consts.world);
 		gen_rand_light_points(light, &shadow.basis, &scene->consts);
-		cast_to_light(light, &shadow, intsec, scene);
+		cast(&shadow, light, intsec, scene);
 	}
 }
