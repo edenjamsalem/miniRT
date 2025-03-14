@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:58 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 14:16:14 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:19:29 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	main(int argc, char **argv)
 	parse(argv[1], &mlx.scene);
 	init_project(&mlx, &mlx.scene, &mlx.scene.camera);
 	if (argc > 2)
-		mlx.scene.consts.rpp = min(ft_atoi(argv[2]), 64);
+		mlx.scene.consts.rpp = min(abs(ft_atoi(argv[2])), 64);
 	if (argc > 3)
-		mlx.scene.consts.shadow_rpp = min(ft_atoi(argv[3]), 128);
+		mlx.scene.consts.shadow_rpp = min(abs(ft_atoi(argv[3])), 128);
 	render_scene(&mlx);
 	gettimeofday(&end, NULL);
 	printf("time to render = %f\n", calc_time_diff(&start, &end) / 1000);
