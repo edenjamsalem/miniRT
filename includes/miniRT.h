@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:22:27 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:37:26 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:00:26 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_quadratic
 typedef struct s_light
 {
 	t_vec3	center;
-	double	radius;
+	double		radius;
 	float	brightness;
 	t_rgb	colour;
 	t_vec3	dir;

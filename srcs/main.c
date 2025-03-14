@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:58 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:19:38 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:44:16 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 	struct timeval	start;
 	struct timeval	end;
 
-	if (argc != 2)
+	if (argc < 2 || argc > 4)
 	{
 		printf("Error\nInvalid number of arguments\n");
 		return (EXIT_FAILURE);
@@ -26,6 +26,10 @@ int	main(int argc, char **argv)
 	gettimeofday(&start, NULL);
 	parse(argv[1], &mlx.scene);
 	init_project(&mlx, &mlx.scene, &mlx.scene.camera);
+	if (argc > 2)
+		mlx.scene.consts.rpp = ft_atoi(argv[2]);
+	if (argc > 3)
+		mlx.scene.consts.shadow_rpp = ft_atoi(argv[3]);
 	render_scene(&mlx);
 	gettimeofday(&end, NULL);
 	printf("time = %f\n", calc_time_diff(&start, &end) / 1000);

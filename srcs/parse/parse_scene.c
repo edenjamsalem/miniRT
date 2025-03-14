@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:26 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:09:18 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:48:28by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	get_light_data(t_parse *parse, t_scene *scene)
 	int			num_elems;
 
 	num_elems = ft_2darr_len((void **)parse->data);
-	if (num_elems < 3 || num_elems > 5)
+	if (num_elems < 3 || num_elems > 4)
 		perror_exit(LINE_ARG_COUNT, parse, 0);
 	light = malloc(sizeof(t_light));
 	if (!light)
@@ -59,10 +59,6 @@ void	get_light_data(t_parse *parse, t_scene *scene)
 	if (!in_range(light->brightness, 0.0, 1.0))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 2);
 	light->radius = 10;
-	if (num_elems == 5)
-		light->radius = ft_atoi(parse->data[4]);
-	if (!in_range(light->radius, 1, 100))
-		perror_exit(ARG_OUT_OF_RANGE, parse, 4);
 	if (num_elems == 4 && !assign_rgb(&light->colour, parse->data[3]))
 		perror_exit(ARG_OUT_OF_RANGE, parse, 3);
 	else if (num_elems == 3)
