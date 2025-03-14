@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:31 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 11:34:56 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:53:12 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,13 @@ void	parse(char *file, t_scene *scene)
 	t_parse	parse;
 
 	parse.scene = scene;
+	parse.line_num = 1;
+	parse.data = NULL;
 	scene->objs = init_arrlst(4);
 	scene->lights = init_arrlst(4);
 	fd = open(file, O_RDONLY);
 	if (fd < 0 || invalid_extension(file))
 		perror_exit(_FILE, &parse, 0);
-	parse.line_num = 1;
 	line = get_next_line(fd);
 	while (line)
 	{

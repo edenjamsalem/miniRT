@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:17:02 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:18:38 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:51:06 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	perror_exit(t_err err, t_parse *parse, int i)
 		ft_fprintf(2, "Undefined error\n");
 	free_arrlst(parse->scene->lights, free);
 	free_arrlst(parse->scene->objs, free);
-	free_2darr((void **)parse->data, ft_2darr_len((void **)parse->data));
+	if (parse->data)
+		free_2darr((void **)parse->data, ft_2darr_len((void **)parse->data));
 	exit(EXIT_FAILURE);
 }
 
