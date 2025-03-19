@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:31 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 15:53:12 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:29:55 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	extract_data(t_parse *parse, t_scene *scene)
 		get_pl_data(parse, scene);
 	else if (ft_match(parse->data[0], "cy"))
 		get_cy_data(parse, scene);
+	else
+		perror_exit(_FILE, parse, 0);
 }
 
 void	parse(char *file, t_scene *scene)
@@ -45,6 +47,8 @@ void	parse(char *file, t_scene *scene)
 	if (fd < 0 || invalid_extension(file))
 		perror_exit(_FILE, &parse, 0);
 	line = get_next_line(fd);
+	if (!line)
+		perror_exit(_FILE, &parse, 0);
 	while (line)
 	{
 		parse.data = ft_split_set(line, " \t\n");
