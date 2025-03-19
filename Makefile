@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+         #
+#    By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 14:04:43 by eamsalem          #+#    #+#              #
-#    Updated: 2025/03/14 13:25:06 by eamsalem         ###   ########.fr        #
+#    Updated: 2025/03/19 16:36:21 by muabdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,32 @@ GREEN = \033[0;32m
 YELLOW = \033[0;33m
 NC = \033[0m
 
-SRCS = $(shell find $(SRC_DIR) -name '*.c') #! Remember to explicity define src
+SRCS = \
+    $(SRC_DIR)/main.c \
+    $(SRC_DIR)/init.c \
+    $(SRC_DIR)/utils.c \
+    $(SRC_DIR)/display/events.c \
+    $(SRC_DIR)/display/mlx_utils.c \
+    $(SRC_DIR)/display/rgb_utils.c \
+    $(SRC_DIR)/display/rgb_utils2.c \
+	$(SRC_DIR)/intersections/cy_curve.c \
+	$(SRC_DIR)/intersections/cylinder.c \
+	$(SRC_DIR)/intersections/intersections.c \
+	$(SRC_DIR)/intersections/plane.c \
+	$(SRC_DIR)/intersections/sphere.c \
+    $(SRC_DIR)/math/misc.c \
+    $(SRC_DIR)/math/basis.c \
+    $(SRC_DIR)/math/vec_utils.c \
+    $(SRC_DIR)/math/vec_utils2.c \
+    $(SRC_DIR)/parse/assign_data.c \
+    $(SRC_DIR)/parse/check_data.c \
+    $(SRC_DIR)/parse/parse_objects.c \
+    $(SRC_DIR)/parse/parse_scene.c \
+    $(SRC_DIR)/parse/parse.c \
+	$(SRC_DIR)/raytrace/blinn_phong.c \
+    $(SRC_DIR)/raytrace/raytrace.c \
+	$(SRC_DIR)/raytrace/shadow.c
+
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME) $(OBJ_DIR)
