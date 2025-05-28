@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:22:27 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 13:59:50 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/05/28 08:42:35 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ typedef struct s_light
 	t_rgb	colour;
 	t_vec3	dir;
 	double	visibility;
-	t_vec3	rand_points[128];
+	t_vec3	rand_positions[128];
 }			t_light;
 
 typedef struct s_camera

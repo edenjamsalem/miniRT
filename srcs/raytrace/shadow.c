@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:16:48 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 12:57:10 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/05/28 08:42:54 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,28 @@ bool	is_lit_up(t_ray *ray, void **objs, double light_dist, void *intsec_obj)
 	return (true);
 }
 
-void	cast(t_shadow *shadow, t_light *light, t_intsec *intsec, t_scene *scene)
+double	cast_shadow(t_shadow *shadow, t_vec3 *light_positions, t_intsec *intsec, t_scene *scene)
 {
 	int		i;
 	double	light_d;
 	t_vec3	light_dir;
+	double	visibility;
 
 	i = 0;
-	light->visibility = 0.0;
+	visibility = 0.0;
 	while (i < scene->consts.shadow_rpp)
 	{
-		light_dir = sub(light->rand_points[i], shadow->ray.origin);
+		light_dir = sub(light_positions[i], shadow->ray.origin);
 		light_d = magnitude(light_dir);
 		shadow->ray.dir = normalize(light_dir);
 		if (is_lit_up(&shadow->ray, scene->objs->content, light_d, intsec->obj))
 		{
 			intsec->in_shadow = false;
-			light->visibility += 1.0 / scene->consts.shadow_rpp;
+			visibility += 1.0 / scene->consts.shadow_rpp;
 		}
 		i++;
 	}
+	return (visibility);
 }
 
 void	gen_rand_offsets(t_light *light, t_basis *shadow, t_consts *consts)
@@ -68,11 +70,11 @@ void	gen_rand_offsets(t_light *light, t_basis *shadow, t_consts *consts)
 	{
 		r = light->radius * sqrt(((double)rand() / RAND_MAX));
 		theta = ((double)rand() / RAND_MAX) * 2 * PI;
-		light->rand_points[i].x = r * cos(theta);
-		light->rand_points[i].y = r * sin(theta);
-		light->rand_points[i].z = 0;
-		light->rand_points[i] = transform_basis(&light->rand_points[i], shadow);
-		light->rand_points[i] = add(light->rand_points[i], light->center);
+		light->rand_positions[i].x = r * cos(theta);
+		light->rand_positions[i].y = r * sin(theta);
+		light->rand_positions[i].z = 0;
+		light->rand_positions[i] = transform_basis(&light->rand_positions[i], shadow);
+		light->rand_positions[i] = add(light->rand_positions[i], light->center);
 		i++;
 	}
 }
@@ -88,9 +90,10 @@ void	cast_shadow_rays(t_intsec *intsec, t_scene *scene)
 	while (scene->lights->content[++i])
 	{
 		light = (t_light *)(scene->lights->content[i]);
+		light->visibility = 0.0;
 		light->dir = normalize(sub(light->center, intsec->pos));
 		calc_local_basis(&shadow.basis, light->dir, &scene->consts.world);
 		gen_rand_offsets(light, &shadow.basis, &scene->consts);
-		cast(&shadow, light, intsec, scene);
+		light->visibility = cast_shadow(&shadow, light->rand_positions, intsec, scene);
 	}
 }
