@@ -1,26 +1,37 @@
-# Minishell 🐚
-A lightweight implementation of a Bash-like shell
+# MiniRT 
+A simple, CPU-based ray tracer built on the minilibx graphical library (42's X11 API)
 
 ## 🗣️ About
 
-> _This project is a simple, CPU-based ray tracer built on the minilibx graphical library (42's X11 API)_ 
+> _This project implements a simple ray tracer, capable of rendering static scenes with varying numbers of light sources and shapes, including planes, spheres and cylinders_ 
 
 For more detailed information, look at the [**subject of this project.**](https://github.com/edenjamsalem/miniRT/blob/master/subject.pdf)
 
 
 ## How to use it
 
+### For LINUX
 ```
 make libs
-make linux (or make mac)
+make linux
+./miniRT ./scenes/FILENAME X Y
+```
+
+### For MAC
+```
+make libs
+make mac
 ./miniRT ./scenes/FILENAME X Y
 ```
 
 Choose a ``FILENAME`` from the ./scenes folder, or make your own !
 
 **Optional arguments:**
+
 ``X`` = Number of rays per pixel
+
 ``Y`` = Number of shadow rays per pixel
+
 _(defaults are used if none specified)_
 
 
