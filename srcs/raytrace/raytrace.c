@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:06:34 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 14:24:12 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/05/28 08:53:08 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ t_vec3	get_ray_dir(t_camera *camera, int x, int y, t_vec2 offset)
 	return (normalize(world_dir));
 }
 
-t_pixel	raytrace(int x, int y, t_scene *scene)
+void	render_pixel(int x, int y, t_scene *scene, t_img *img)
 {
 	t_ray	ray;
 	t_rgb	colours[64];
 	t_rgb	final_colour;
+	// bool	pixel_in_shadow;
 	int		i;
 
 	i = -1;
@@ -43,19 +44,23 @@ t_pixel	raytrace(int x, int y, t_scene *scene)
 			colours[i] = (t_rgb){0, 0, 0};
 		else
 		{
+			// pixel_in_shadow = false;
 			cast_shadow_rays(&ray.intsec, scene);
 			colours[i] = blinn_phong(scene, &ray.intsec, scale(ray.dir, -1));
 		}
 	}
+	// if (!pixel_in_shadow)
+	// {
+	// 	cast_shadow_rays(&ray.intsec, scene);
+	// }
 	final_colour = rgb_average(colours, scene->consts.rpp);
-	return ((t_pixel){x, y, final_colour});
+	put_pixel(&(t_pixel){x, y, final_colour}, img);
 }
 
 void	render_scene(t_mlx *mlx)
 {
 	int		i;
 	int		j;
-	t_pixel	pixel;
 
 	i = -1;
 	while (++i < WIN_HEIGHT - 1)
@@ -63,8 +68,7 @@ void	render_scene(t_mlx *mlx)
 		j = -1;
 		while (++j < WIN_WIDTH - 1)
 		{
-			pixel = raytrace(j, i, &mlx->scene);
-			put_pixel(&pixel, &mlx->img);
+			render_pixel(j, i, &mlx->scene, &mlx->img);
 		}
 	}
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img.ptr, 0, 0);
