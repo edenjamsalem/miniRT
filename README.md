@@ -11,8 +11,12 @@ For more detailed information, look at the [**subject of this project.**](https:
 ## How to use
 
 ### For LINUX
+Install dependencies:
 ```
 $ sudo apt-get install -y libxext-dev && sudo apt-get install -y libxrandr-dev && sudo apt-get install -y libx11-dev && sudo apt-get install -y libbsd-dev && sudo apt-get install -y libssl-dev
+```
+Run:
+```
 make libs
 make linux
 ./miniRT ./scenes/FILENAME X Y
@@ -53,4 +57,4 @@ Choose a ``FILENAME`` from the ./scenes folder, or make your own !
 
 Currently the mac version is compiling but not running on my Mac M1. I need to troubleshoot this !!
 
-Given more time, I would have implemented bitmaps to add textures to the objects 
+Given more time, I would really like to implement bitmaps to add textures to the objects
