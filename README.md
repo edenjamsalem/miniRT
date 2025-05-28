@@ -1,5 +1,5 @@
 # MiniRT 
-A simple, CPU-based ray tracer built on the minilibx graphical library (42's X11 API)
+A simple, CPU-based ray tracer built in C using the minilibx graphical library (42's X11 API)
 
 ## 🗣️ About
 
@@ -37,7 +37,6 @@ Choose a ``FILENAME`` from the ./scenes folder, or make your own !
 ``X`` = Number of rays per pixel
 
 ``Y`` = Number of shadow rays per pixel
-
 
 
 ## Capabilities
