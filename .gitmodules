@@ -4,3 +4,6 @@
 [submodule "libs/Libft"]
 	path = libs/Libft
 	url = https://github.com/edenjamsalem/libft.git
+[submodule "libs/minilibx-macos"]
+	path = libs/minilibx-macos
+	url = https://github.com/dannywillems/minilibx-mac-osx

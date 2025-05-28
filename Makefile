@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: muabdi <muabdi@student.42london.com>       +#+  +:+       +#+         #
+#    By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 14:04:43 by eamsalem          #+#    #+#              #
-#    Updated: 2025/03/19 16:36:21 by muabdi           ###   ########.fr        #
+#    Updated: 2025/05/28 05:42:15 by eamsalem         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,17 @@ OBJ_DIR = ./bin
 LIBS = ./libs
 
 LIBFT = $(LIBS)/Libft
-MLX = $(LIBS)/minilibx-linux
+INCLUDEFLAGS = -I$(INCLUDES) -I$(LIBFT)/includes
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3 
+CFLAGS = -Wall -Werror -Wextra
 
-INCLUDEFLAGS = -I$(INCLUDES) -I$(MLX) -I$(LIBFT)/includes
-LINKFLAGS = -lmlx -lXext -lX11 -lm -lft
+# Platform-specific settings
+MLX_LINUX = $(LIBS)/minilibx-linux
+MLX_MAC = $(LIBS)/minilibx-macos
+
+LINKFLAGS_LINUX = -lmlx -lXext -lX11 -lm -lft
+LINKFLAGS_MAC = -lmlx -framework OpenGL -framework AppKit -lm -lft
 
 RED = \033[0;31m
 GREEN = \033[0;32m
@@ -59,8 +63,25 @@ SRCS = \
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-all: $(NAME) $(OBJ_DIR)
+#Main Targets
+all: linux
 
+linux: MLX_DIR = $(MLX_LINUX)
+linux: LINKFLAGS = $(LINKFLAGS_LINUX)
+linux: INCLUDEFLAGS += -I$(MLX_LINUX)
+linux: build
+
+mac: MLX_DIR = $(MLX_MAC)
+mac: LINKFLAGS = $(LINKFLAGS_MAC)
+mac: INCLUDEFLAGS += -I$(MLX_MAC)
+mac: build
+
+build: $(OBJ_DIR) $(OBJS)
+	@make -C $(MLX_DIR)
+	@make -C $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT) -L$(MLX_DIR) $(LINKFLAGS) -o $(NAME)
+	@echo "${GREEN} $(NAME) created.${NC}"
+	
 $(OBJ_DIR):
 	@echo "${YELLOW}Creating object directory $(OBJ_DIR)...${NC}"
 	@mkdir -p $(OBJ_DIR)
@@ -77,14 +98,13 @@ ${NAME}: $(OBJS)
 	@echo "${GREEN}$(NAME) created.${NC}"
 
 clean:
-	@make clean -C $(MLX)
+	@make clean -C $(MLX_LINUX) || true
+	@make clean -C $(MLX_MAC) || true
 	@make clean -C $(LIBFT)
 	@rm -rf $(OBJ_DIR)
 
-fclean:
-	@make clean -C $(MLX)
+fclean: clean
 	@make fclean -C $(LIBFT)
-	@rm -rf $(OBJ_DIR)
 	@rm -f $(NAME)
 	@echo "${GREEN}$(NAME) cleaned.${NC}"
 
