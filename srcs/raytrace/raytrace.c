@@ -6,7 +6,7 @@
 /*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:06:34 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/05/28 08:53:08 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/05/28 09:29:11 by eamsalem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	render_pixel(int x, int y, t_scene *scene, t_img *img)
 	t_ray	ray;
 	t_rgb	colours[64];
 	t_rgb	final_colour;
-	// bool	pixel_in_shadow;
 	int		i;
 
 	i = -1;
@@ -40,19 +39,13 @@ void	render_pixel(int x, int y, t_scene *scene, t_img *img)
 	{
 		ray.dir = get_ray_dir(&scene->camera, x, y, scene->consts.px_offset[i]);
 		ray.intsec = find_intersection(&ray, scene->objs->content);
-		if (!ray.intsec.obj)
+		if (!ray.intsec.obj) {
 			colours[i] = (t_rgb){0, 0, 0};
-		else
-		{
-			// pixel_in_shadow = false;
-			cast_shadow_rays(&ray.intsec, scene);
-			colours[i] = blinn_phong(scene, &ray.intsec, scale(ray.dir, -1));
+			continue ;
 		}
+		cast_shadow_rays(&ray.intsec, scene);
+		colours[i] = blinn_phong(scene, &ray.intsec, scale(ray.dir, -1));
 	}
-	// if (!pixel_in_shadow)
-	// {
-	// 	cast_shadow_rays(&ray.intsec, scene);
-	// }
 	final_colour = rgb_average(colours, scene->consts.rpp);
 	put_pixel(&(t_pixel){x, y, final_colour}, img);
 }
