@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eamsalem <eamsalem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:17:02 by eamsalem          #+#    #+#             */
-/*   Updated: 2025/03/14 15:51:06 by eamsalem         ###   ########.fr       */
+/*   Updated: 2025/05/28 06:03:49 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ void	free_mem(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->ptr, mlx->img.ptr);
 	mlx_destroy_window(mlx->ptr, mlx->win);
-	mlx_destroy_display(mlx->ptr);
+	#ifdef __LINUX__
+		mlx_destroy_display(mlx->ptr);
+	#endif
 	free_arrlst(mlx->scene.objs, free);
 	free_arrlst(mlx->scene.lights, free);
 	free(mlx->ptr);

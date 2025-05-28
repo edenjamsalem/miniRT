@@ -6,7 +6,7 @@
 #    By: user <user@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 14:04:43 by eamsalem          #+#    #+#              #
-#    Updated: 2025/05/28 05:53:17 by user             ###   ########.fr        #
+#    Updated: 2025/05/28 06:12:43 by user             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBFT = $(LIBS)/Libft
 INCLUDEFLAGS = -I$(INCLUDES) -I$(LIBFT)/includes
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra 
 
 # Platform-specific settings
 MLX_LINUX = $(LIBS)/minilibx-linux
@@ -69,11 +69,13 @@ all: linux
 linux: MLX_DIR = $(MLX_LINUX)
 linux: LINKFLAGS = $(LINKFLAGS_LINUX)
 linux: INCLUDEFLAGS += -I$(MLX_LINUX)
+linux: CFLAGS += -D__LINUX__
 linux: build
 
 mac: MLX_DIR = $(MLX_MAC)
 mac: LINKFLAGS = $(LINKFLAGS_MAC)
 mac: INCLUDEFLAGS += -I$(MLX_MAC)
+mac: CFLAGS += -DGL_SILENCE_DEPRECATION
 mac: build
 
 build: $(OBJ_DIR) $(OBJS)
