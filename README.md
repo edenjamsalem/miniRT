@@ -12,6 +12,7 @@ For more detailed information, look at the [**subject of this project.**](https:
 
 ### For LINUX
 ```
+$ sudo apt-get install -y libxext-dev && sudo apt-get install -y libxrandr-dev && sudo apt-get install -y libx11-dev && sudo apt-get install -y libbsd-dev && sudo apt-get install -y libssl-dev
 make libs
 make linux
 ./miniRT ./scenes/FILENAME X Y
